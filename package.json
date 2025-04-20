@@ -1,0 +1,30 @@
+{
+  "name": "verbup-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --detectOpenHandles",
+    "test-d": "TEST_COMMAND=\"npm run test\" docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit",
+    "test-d-list": "TEST_COMMAND=\"npm run test list-movies.test.ts\" docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit",
+    "prestart": "npm run build",
+    "build": "rm -rf dist && npx tsc",
+    "start": "node dist/index.js",
+    "preserve": "npm run build",
+    "serve": "concurrently \"npx tsc -w\" \"nodemon dist/index.js\"",
+    "build-iamge": "docker build -t giver0/verbup-be .",
+    "image-push": "npm run build-iamge && docker image push giver0/verbup-be"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1",
+    "concurrently": "^9.1.2",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
