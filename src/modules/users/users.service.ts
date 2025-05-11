@@ -1,18 +1,16 @@
-import { ValidationErrorItem } from "sequelize"
-import { User } from "../../models/users.model"
-import { generateToken } from "../../utils/jwt"
 import { UsersRequestCreate } from "./users.request"
 import { UsersRepository } from "./users.repository"
 
 
 export class UsersService {
-  static async create(dto: UsersRequestCreate): Promise<User> {
-    const user = await UsersRepository.create(dto)
+  static async create(payload: any): Promise<{}> {
+    // const user = await UsersRepository.create()
+    const user = {}
     return user
   }
 
-  public static generateTokenForUser(user: User) {
-    const token = generateToken(user.toJSON())
-    return token
-  }
+  // public static generateTokenForUser(user: User) {
+  //   const token = generateToken(user.toJSON())
+  //   return token
+  // }
 }
