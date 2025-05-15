@@ -27,6 +27,7 @@
     "nodemon": "^3.1.9",
     "supertest": "^7.1.0",
     "ts-node": "^10.9.2",
+    "typeorm": "^0.3.24",
     "typescript": "^5.8.3"
   }
 }
