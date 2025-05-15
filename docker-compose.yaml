@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_DB: countrydb
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret_password
     ports:
@@ -15,11 +15,11 @@ services:
   app:
     build: .
     ports:
-      - '3000:3000'
+      - '5001:5001'
     depends_on:
       - postgres
     env_file:
-      - .env
+      - .env.development.local
     volumes:
       - .:/app
     command: npm run serve
