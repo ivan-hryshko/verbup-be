@@ -1,16 +1,30 @@
-import { UsersRequestCreate } from "./users.request"
-import { UsersRepository } from "./users.repository"
-
+import appDataSource from '../../config/app-data-source'
+import { UserEntity } from './users.entity'
 
 export class UsersService {
-  static async create(payload: any): Promise<{}> {
-    // const user = await UsersRepository.create()
-    const user = {}
-    return user
+  static async create(data: Partial<UserEntity>): Promise<UserEntity> {
+    const userRepository = appDataSource.getRepository(UserEntity)
+    const existingUser = await userRepository.findOne({
+      where: { email: data.email },
+    })
+    if (existingUser) {
+      throw new Error('User already exists')
+    }
+    const newUser = userRepository.create(data)
+    return await userRepository.save(newUser)
   }
 
-  // public static generateTokenForUser(user: User) {
-  //   const token = generateToken(user.toJSON())
-  //   return token
-  // }
+  static async getAll(): Promise<UserEntity[]> {
+    const userRepository = appDataSource.getRepository(UserEntity)
+    return await userRepository.find()
+  }
+
+  static async getById(id: number): Promise<UserEntity | null> {
+    const userRepository = appDataSource.getRepository(UserEntity)
+    const user = userRepository.findOne({ where: { id } })
+    if (!user) {
+      throw new Error('User not found')
+    }
+    return user
+  }
 }
