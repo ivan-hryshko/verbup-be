@@ -19,7 +19,7 @@ export class UserEntity {
   @Column({ length: 30 })
   username: string
 
-  @Column({ length: 50 })
+  @Column({ select: false })
   password: string
 
   @Column({ length: 40 })
