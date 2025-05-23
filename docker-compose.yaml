@@ -15,7 +15,7 @@ services:
   app:
     build: .
     ports:
-      - '5001:5001'
+      - '8050:8050'
     depends_on:
       - postgres
     env_file:

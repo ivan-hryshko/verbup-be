@@ -21,4 +21,16 @@ export class UsersController {
     const user = await UsersService.getById(Number(id))
     res.status(200).json(user)
   }
+
+  static async update(req: Request, res: Response) {
+    const { id } = req.params
+    const user = await UsersService.update(Number(id), req.body)
+    res.status(200).json(user)
+  }
+
+  static async delete(req: Request, res: Response) {
+    const { id } = req.params
+    await UsersService.delete(Number(id))
+    res.status(204).send()
+  }
 }
