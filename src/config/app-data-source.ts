@@ -3,8 +3,6 @@ import ENVS from './envs'
 import { IrrWordEntity } from '../modules/irr-words-en/irr-words.entity'
 import { UserEntity } from '../modules/users/users.entity'
 
-console.log('ENVS :>> ', ENVS)
-
 const entities = [IrrWordEntity, UserEntity]
 
 const appDataSource = new DataSource({

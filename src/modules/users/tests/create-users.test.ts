@@ -2,11 +2,11 @@
 // import app from '../../../app'
 // import { testHelper } from '../../../utils/testHelper'
 
-// describe('POST /api/v1/users', () => {
+describe('POST /api/v1/users', () => {
 //   beforeAll(async () => {
 //     await testHelper.prepare()
 //   })
-//   it('should create a user successfully', async () => {
+  it('should create a user successfully', async () => {
 //     const userData = {
 //       "email": "test@gmail.com",
 //       "name": "Ivan",
@@ -19,7 +19,7 @@
 //     expect(response.status).toBe(200)
 //     expect(response.body.status).toBe(1)
 //     expect(response.body.token).toBeDefined()
-//   })
+  })
 //   it('should not create a user with existing email', async () => {
 //     const userData = {
 //       "email": "test@gmail.com",
@@ -105,4 +105,4 @@
 //     expect(response.body.errors.length).toBeGreaterThan(0)
 //     expect(response.body.token).not.toBeDefined()
 //   })
-// })
+})
