@@ -6,7 +6,7 @@ export class UsersController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<any> {
     const user = await UsersService.create(req.body)
     res.status(201).json(user)
   }
