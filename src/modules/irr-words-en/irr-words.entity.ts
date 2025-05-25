@@ -6,16 +6,19 @@ export class IrrWordEntity {
   @PrimaryGeneratedColumn()
   id: number
 
+  @Column({ name: 'word_group_id', nullable: false,  })
+  wordGroupId: number;
+
   @Column()
   lang: string;
 
   @Column({ length: 40 })
   basic: string;
 
-  @Column({ name: 'past_simple', length: 40 })
+  @Column({ name: 'past_simple', length: 40, nullable: true })
   pastSimple: string;
 
-  @Column({ name: 'past_participle', length: 40 })
+  @Column({ name: 'past_participle', length: 40, nullable: true })
   pastParticiple: string;
 
   @Column({ length: 40, nullable: true })

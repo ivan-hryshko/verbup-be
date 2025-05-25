@@ -17,4 +17,8 @@ const appDataSource = new DataSource({
   synchronize: true,
 })
 
+export async function createTypeOrmConn() {
+  return appDataSource.initialize()
+}
+
 export default appDataSource

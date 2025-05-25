@@ -820,22 +820,10 @@
       "uk": "губити"
     },
     {
-      "base_form": "make",
-      "past_simple": "made",
-      "past_participle": "made",
-      "uk": "робити"
-    },
-    {
       "base_form": "mean",
       "past_simple": "meant",
       "past_participle": "meant",
       "uk": "означати"
-    },
-    {
-      "base_form": "meet",
-      "past_simple": "met",
-      "past_participle": "met",
-      "uk": "зустрічати"
     },
     {
       "base_form": "mow",
@@ -850,34 +838,10 @@
       "uk": "обганяти"
     },
     {
-      "base_form": "pay",
-      "past_simple": "paid",
-      "past_participle": "paid",
-      "uk": "платити"
-    },
-    {
-      "base_form": "put",
-      "past_simple": "put",
-      "past_participle": "put",
-      "uk": "класти"
-    },
-    {
-      "base_form": "read",
-      "past_simple": "read",
-      "past_participle": "read",
-      "uk": "читати"
-    },
-    {
       "base_form": "ride",
       "past_simple": "rode",
       "past_participle": "ridden",
       "uk": "їхати верхи"
-    },
-    {
-      "base_form": "ring",
-      "past_simple": "rang",
-      "past_participle": "rung",
-      "uk": "дзвонити"
     },
     {
       "base_form": "rise",
@@ -886,22 +850,10 @@
       "uk": "підніматися"
     },
     {
-      "base_form": "run",
-      "past_simple": "ran",
-      "past_participle": "run",
-      "uk": "бігати"
-    },
-    {
       "base_form": "saw",
       "past_simple": "sawed",
       "past_participle": "sawn",
       "uk": "пиляти"
-    },
-    {
-      "base_form": "say",
-      "past_simple": "said",
-      "past_participle": "said",
-      "uk": "казати"
     },
     {
       "base_form": "see",
@@ -1249,18 +1201,6 @@
       "uk": "купувати"
     },
     {
-      "base_form": "make",
-      "past_simple": "made",
-      "past_participle": "made",
-      "uk": "робити"
-    },
-    {
-      "base_form": "read",
-      "past_simple": "read",
-      "past_participle": "read",
-      "uk": "читати"
-    },
-    {
       "base_form": "set",
       "past_simple": "set",
       "past_participle": "set",
@@ -1339,12 +1279,6 @@
       "uk": "продавати"
     },
     {
-      "base_form": "pay",
-      "past_simple": "paid",
-      "past_participle": "paid",
-      "uk": "платити"
-    },
-    {
       "base_form": "light",
       "past_simple": "lit",
       "past_participle": "lit",
@@ -1369,18 +1303,6 @@
       "uk": "тримати"
     },
     {
-      "base_form": "run",
-      "past_simple": "ran",
-      "past_participle": "run",
-      "uk": "бігати"
-    },
-    {
-      "base_form": "put",
-      "past_simple": "put",
-      "past_participle": "put",
-      "uk": "класти"
-    },
-    {
       "base_form": "tell",
       "past_simple": "told",
       "past_participle": "told",
@@ -1391,12 +1313,6 @@
       "past_simple": "drove",
       "past_participle": "driven",
       "uk": "водити"
-    },
-    {
-      "base_form": "meet",
-      "past_simple": "met",
-      "past_participle": "met",
-      "uk": "зустрічати"
     },
     {
       "base_form": "feel",
@@ -1505,12 +1421,6 @@
       "past_simple": "brought",
       "past_participle": "brought",
       "uk": "приносити"
-    },
-    {
-      "base_form": "ring",
-      "past_simple": "rang",
-      "past_participle": "rung",
-      "uk": "дзвонити"
     },
     {
       "base_form": "hit",
