@@ -17,7 +17,3 @@ export async function verifyPassword(
   const derivedKey = (await scrypt(password, salt, 64)) as Buffer
   return derivedKey.toString('hex') === key
 }
-
-// const hashed = await hashPassword('mysecret');
-// const isMatch = await verifyPassword('mysecret', hashed);
-// console.log('Password match:', isMatch); // true
