@@ -1,8 +1,7 @@
-
 export type UserCreteParams = {
-  email: string,
-  name: string,
-  password: string,
+  email: string
+  name: string
+  password: string
 }
 
 export class UsersRepository {
