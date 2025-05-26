@@ -208,7 +208,7 @@
       "base_form": "make",
       "past_simple": "made",
       "past_participle": "made",
-      "uk": "робити"
+      "uk": "робити (створювати)"
     },
     {
       "base_form": "meet",
@@ -385,7 +385,6 @@
       "uk": "писати"
     }
   ],
-
   "medium": [
     {
       "base_form": "arise",
@@ -416,18 +415,6 @@
       "past_simple": "beat",
       "past_participle": "beaten",
       "uk": "бити"
-    },
-    {
-      "base_form": "become",
-      "past_simple": "became",
-      "past_participle": "become",
-      "uk": "ставати"
-    },
-    {
-      "base_form": "begin",
-      "past_simple": "began",
-      "past_participle": "begun",
-      "uk": "починати"
     },
     {
       "base_form": "bend",
@@ -466,34 +453,16 @@
       "uk": "дути"
     },
     {
-      "base_form": "break",
-      "past_simple": "broke",
-      "past_participle": "broken",
-      "uk": "ламати"
-    },
-    {
       "base_form": "breed",
       "past_simple": "bred",
       "past_participle": "bred",
       "uk": "розводити"
     },
     {
-      "base_form": "bring",
-      "past_simple": "brought",
-      "past_participle": "brought",
-      "uk": "приносити"
-    },
-    {
       "base_form": "broadcast",
       "past_simple": "broadcast",
       "past_participle": "broadcast",
       "uk": "транслювати"
-    },
-    {
-      "base_form": "build",
-      "past_simple": "built",
-      "past_participle": "built",
-      "uk": "будувати"
     },
     {
       "base_form": "burn",
@@ -508,28 +477,10 @@
       "uk": "вибухати"
     },
     {
-      "base_form": "buy",
-      "past_simple": "bought",
-      "past_participle": "bought",
-      "uk": "купувати"
-    },
-    {
       "base_form": "can",
       "past_simple": "could",
       "past_participle": "been able",
       "uk": "могти"
-    },
-    {
-      "base_form": "catch",
-      "past_simple": "caught",
-      "past_participle": "caught",
-      "uk": "ловити"
-    },
-    {
-      "base_form": "choose",
-      "past_simple": "chose",
-      "past_participle": "chosen",
-      "uk": "вибирати"
     },
     {
       "base_form": "cling",
@@ -538,28 +489,10 @@
       "uk": "чіплятися"
     },
     {
-      "base_form": "come",
-      "past_simple": "came",
-      "past_participle": "come",
-      "uk": "приходити"
-    },
-    {
-      "base_form": "cost",
-      "past_simple": "cost",
-      "past_participle": "cost",
-      "uk": "коштувати"
-    },
-    {
       "base_form": "creep",
       "past_simple": "crept",
       "past_participle": "crept",
       "uk": "повзти"
-    },
-    {
-      "base_form": "cut",
-      "past_simple": "cut",
-      "past_participle": "cut",
-      "uk": "різати"
     },
     {
       "base_form": "deal",
@@ -574,12 +507,6 @@
       "uk": "копати"
     },
     {
-      "base_form": "do",
-      "past_simple": "did",
-      "past_participle": "done",
-      "uk": "робити"
-    },
-    {
       "base_form": "draw",
       "past_simple": "drew",
       "past_participle": "drawn",
@@ -592,40 +519,10 @@
       "uk": "мріяти"
     },
     {
-      "base_form": "drink",
-      "past_simple": "drank",
-      "past_participle": "drunk",
-      "uk": "пити"
-    },
-    {
-      "base_form": "drive",
-      "past_simple": "drove",
-      "past_participle": "driven",
-      "uk": "водити"
-    },
-    {
-      "base_form": "eat",
-      "past_simple": "ate",
-      "past_participle": "eaten",
-      "uk": "їсти"
-    },
-    {
-      "base_form": "fall",
-      "past_simple": "fell",
-      "past_participle": "fallen",
-      "uk": "падати"
-    },
-    {
       "base_form": "feed",
       "past_simple": "fed",
       "past_participle": "fed",
       "uk": "годувати"
-    },
-    {
-      "base_form": "feel",
-      "past_simple": "felt",
-      "past_participle": "felt",
-      "uk": "відчувати"
     },
     {
       "base_form": "fight",
@@ -634,28 +531,10 @@
       "uk": "боротися"
     },
     {
-      "base_form": "find",
-      "past_simple": "found",
-      "past_participle": "found",
-      "uk": "знаходити"
-    },
-    {
-      "base_form": "fly",
-      "past_simple": "flew",
-      "past_participle": "flown",
-      "uk": "літати"
-    },
-    {
       "base_form": "forbid",
       "past_simple": "forbade",
       "past_participle": "forbidden",
       "uk": "забороняти"
-    },
-    {
-      "base_form": "forget",
-      "past_simple": "forgot",
-      "past_participle": "forgotten",
-      "uk": "забувати"
     },
     {
       "base_form": "forgive",
@@ -670,34 +549,10 @@
       "uk": "замерзати"
     },
     {
-      "base_form": "get",
-      "past_simple": "got",
-      "past_participle": "got",
-      "uk": "отримувати"
-    },
-    {
-      "base_form": "give",
-      "past_simple": "gave",
-      "past_participle": "given",
-      "uk": "давати"
-    },
-    {
-      "base_form": "go",
-      "past_simple": "went",
-      "past_participle": "gone",
-      "uk": "іти"
-    },
-    {
       "base_form": "grind",
       "past_simple": "ground",
       "past_participle": "ground",
       "uk": "молоти"
-    },
-    {
-      "base_form": "grow",
-      "past_simple": "grew",
-      "past_participle": "grown",
-      "uk": "рости"
     },
     {
       "base_form": "hang",
@@ -706,28 +561,10 @@
       "uk": "вішати"
     },
     {
-      "base_form": "have",
-      "past_simple": "had",
-      "past_participle": "had",
-      "uk": "мати"
-    },
-    {
-      "base_form": "hear",
-      "past_simple": "heard",
-      "past_participle": "heard",
-      "uk": "чути"
-    },
-    {
       "base_form": "hide",
       "past_simple": "hid",
       "past_participle": "hidden",
       "uk": "ховати"
-    },
-    {
-      "base_form": "hit",
-      "past_simple": "hit",
-      "past_participle": "hit",
-      "uk": "вдаряти"
     },
     {
       "base_form": "hold",
@@ -742,22 +579,10 @@
       "uk": "боліти, завдавати болю"
     },
     {
-      "base_form": "keep",
-      "past_simple": "kept",
-      "past_participle": "kept",
-      "uk": "тримати"
-    },
-    {
       "base_form": "kneel",
       "past_simple": "knelt",
       "past_participle": "knelt",
       "uk": "стати на коліна"
-    },
-    {
-      "base_form": "know",
-      "past_simple": "knew",
-      "past_participle": "known",
-      "uk": "знати"
     },
     {
       "base_form": "lay",
@@ -776,18 +601,6 @@
       "past_simple": "leant",
       "past_participle": "leant",
       "uk": "нахилятися"
-    },
-    {
-      "base_form": "learn",
-      "past_simple": "learnt",
-      "past_participle": "learnt",
-      "uk": "вчитися"
-    },
-    {
-      "base_form": "leave",
-      "past_simple": "left",
-      "past_participle": "left",
-      "uk": "залишати"
     },
     {
       "base_form": "lent",
@@ -812,12 +625,6 @@
       "past_simple": "lit",
       "past_participle": "lit",
       "uk": "запалювати"
-    },
-    {
-      "base_form": "lose",
-      "past_simple": "lost",
-      "past_participle": "lost",
-      "uk": "губити"
     },
     {
       "base_form": "mean",
@@ -904,34 +711,10 @@
       "uk": "зменшуватися"
     },
     {
-      "base_form": "shut",
-      "past_simple": "shut",
-      "past_participle": "shut",
-      "uk": "зачиняти"
-    },
-    {
-      "base_form": "sing",
-      "past_simple": "sang",
-      "past_participle": "sung",
-      "uk": "співати"
-    },
-    {
       "base_form": "sink",
       "past_simple": "sank",
       "past_participle": "sunk",
       "uk": "тонути"
-    },
-    {
-      "base_form": "sit",
-      "past_simple": "sat",
-      "past_participle": "sat",
-      "uk": "сидіти"
-    },
-    {
-      "base_form": "sleep",
-      "past_simple": "slept",
-      "past_participle": "slept",
-      "uk": "спати"
     },
     {
       "base_form": "slide",
@@ -952,22 +735,10 @@
       "uk": "сіяти"
     },
     {
-      "base_form": "speak",
-      "past_simple": "spoke",
-      "past_participle": "spoken",
-      "uk": "говорити"
-    },
-    {
       "base_form": "spell",
       "past_simple": "spelt",
       "past_participle": "spelt",
       "uk": "вимовляти по літерах"
-    },
-    {
-      "base_form": "spend",
-      "past_simple": "spent",
-      "past_participle": "spent",
-      "uk": "витрачати"
     },
     {
       "base_form": "spill",
@@ -986,18 +757,6 @@
       "past_simple": "spread",
       "past_participle": "spread",
       "uk": "поширювати"
-    },
-    {
-      "base_form": "stand",
-      "past_simple": "stood",
-      "past_participle": "stood",
-      "uk": "стояти"
-    },
-    {
-      "base_form": "steal",
-      "past_simple": "stole",
-      "past_participle": "stolen",
-      "uk": "красти"
     },
     {
       "base_form": "stick",
@@ -1042,28 +801,10 @@
       "uk": "набухати"
     },
     {
-      "base_form": "swim",
-      "past_simple": "swam",
-      "past_participle": "swum",
-      "uk": "плавати"
-    },
-    {
       "base_form": "swing",
       "past_simple": "swung",
       "past_participle": "swung",
       "uk": "гойдатися"
-    },
-    {
-      "base_form": "take",
-      "past_simple": "took",
-      "past_participle": "taken",
-      "uk": "брати"
-    },
-    {
-      "base_form": "teach",
-      "past_simple": "taught",
-      "past_participle": "taught",
-      "uk": "викладати"
     },
     {
       "base_form": "tear",
@@ -1072,247 +813,24 @@
       "uk": "рвати"
     },
     {
-      "base_form": "tell",
-      "past_simple": "told",
-      "past_participle": "told",
-      "uk": "розповідати"
-    },
-    {
-      "base_form": "think",
-      "past_simple": "thought",
-      "past_participle": "thought",
-      "uk": "думати"
-    },
-    {
-      "base_form": "throw",
-      "past_simple": "threw",
-      "past_participle": "thrown",
-      "uk": "кидати"
-    },
-    {
-      "base_form": "understand",
-      "past_simple": "understood",
-      "past_participle": "understood",
-      "uk": "розуміти"
-    },
-    {
-      "base_form": "wake",
-      "past_simple": "woke",
-      "past_participle": "woken",
-      "uk": "прокидатися"
-    },
-    {
-      "base_form": "wear",
-      "past_simple": "wore",
-      "past_participle": "worn",
-      "uk": "носити"
-    },
-    {
       "base_form": "weep",
       "past_simple": "wept",
       "past_participle": "wept",
       "uk": "плакати"
     },
     {
-      "base_form": "win",
-      "past_simple": "won",
-      "past_participle": "won",
-      "uk": "вигравати"
-    },
-    {
       "base_form": "wind",
       "past_simple": "wound",
       "past_participle": "wound",
       "uk": "намотувати"
-    },
-    {
-      "base_form": "write",
-      "past_simple": "wrote",
-      "past_participle": "written",
-      "uk": "писати"
     }
   ],
-
   "hard": [
-    {
-      "base_form": "be",
-      "past_simple": "was/were",
-      "past_participle": "been",
-      "uk": "бути"
-    },
-    {
-      "base_form": "have",
-      "past_simple": "had",
-      "past_participle": "had",
-      "uk": "мати"
-    },
-    {
-      "base_form": "do",
-      "past_simple": "did",
-      "past_participle": "done",
-      "uk": "робити"
-    },
-    {
-      "base_form": "get",
-      "past_simple": "got",
-      "past_participle": "got",
-      "uk": "отримувати"
-    },
-    {
-      "base_form": "find",
-      "past_simple": "found",
-      "past_participle": "found",
-      "uk": "знаходити"
-    },
-    {
-      "base_form": "go",
-      "past_simple": "went",
-      "past_participle": "gone",
-      "uk": "іти"
-    },
-    {
-      "base_form": "buy",
-      "past_simple": "bought",
-      "past_participle": "bought",
-      "uk": "купувати"
-    },
-    {
-      "base_form": "set",
-      "past_simple": "set",
-      "past_participle": "set",
-      "uk": "встановлювати"
-    },
-    {
-      "base_form": "know",
-      "past_simple": "knew",
-      "past_participle": "known",
-      "uk": "знати"
-    },
-    {
-      "base_form": "send",
-      "past_simple": "sent",
-      "past_participle": "sent",
-      "uk": "відправляти"
-    },
-    {
-      "base_form": "take",
-      "past_simple": "took",
-      "past_participle": "taken",
-      "uk": "брати"
-    },
-    {
-      "base_form": "show",
-      "past_simple": "showed",
-      "past_participle": "shown",
-      "uk": "показувати"
-    },
-    {
-      "base_form": "think",
-      "past_simple": "thought",
-      "past_participle": "thought",
-      "uk": "думати"
-    },
-    {
-      "base_form": "learn",
-      "past_simple": "learnt",
-      "past_participle": "learnt",
-      "uk": "вчитися"
-    },
-    {
-      "base_form": "cost",
-      "past_simple": "cost",
-      "past_participle": "cost",
-      "uk": "коштувати"
-    },
-    {
-      "base_form": "come",
-      "past_simple": "came",
-      "past_participle": "come",
-      "uk": "приходити"
-    },
-    {
-      "base_form": "let",
-      "past_simple": "let",
-      "past_participle": "let",
-      "uk": "дозволяти"
-    },
-    {
-      "base_form": "give",
-      "past_simple": "gave",
-      "past_participle": "given",
-      "uk": "давати"
-    },
-    {
-      "base_form": "light",
-      "past_simple": "lit",
-      "past_participle": "lit",
-      "uk": "запалювати"
-    },
-    {
-      "base_form": "write",
-      "past_simple": "wrote",
-      "past_participle": "written",
-      "uk": "писати"
-    },
-    {
-      "base_form": "become",
-      "past_simple": "became",
-      "past_participle": "become",
-      "uk": "ставати"
-    },
-    {
-      "base_form": "keep",
-      "past_simple": "kept",
-      "past_participle": "kept",
-      "uk": "тримати"
-    },
-    {
-      "base_form": "tell",
-      "past_simple": "told",
-      "past_participle": "told",
-      "uk": "розповідати"
-    },
-    {
-      "base_form": "drive",
-      "past_simple": "drove",
-      "past_participle": "driven",
-      "uk": "водити"
-    },
-    {
-      "base_form": "feel",
-      "past_simple": "felt",
-      "past_participle": "felt",
-      "uk": "відчувати"
-    },
-    {
-      "base_form": "choose",
-      "past_simple": "chose",
-      "past_participle": "chosen",
-      "uk": "вибирати"
-    },
     {
       "base_form": "speed",
       "past_simple": "sped",
       "past_participle": "sped",
       "uk": "прискорюватися"
-    },
-    {
-      "base_form": "mean",
-      "past_simple": "meant",
-      "past_participle": "meant",
-      "uk": "означати"
-    },
-    {
-      "base_form": "build",
-      "past_simple": "built",
-      "past_participle": "built",
-      "uk": "будувати"
-    },
-    {
-      "base_form": "leave",
-      "past_simple": "left",
-      "past_participle": "left",
-      "uk": "залишати"
     },
     {
       "base_form": "bid",
@@ -1321,28 +839,10 @@
       "uk": "пропонувати ціну"
     },
     {
-      "base_form": "lead",
-      "past_simple": "led",
-      "past_participle": "led",
-      "uk": "вести"
-    },
-    {
       "base_form": "wed",
       "past_simple": "wed",
       "past_participle": "wed",
       "uk": "одружитися"
-    },
-    {
-      "base_form": "fall",
-      "past_simple": "fell",
-      "past_participle": "fallen",
-      "uk": "падати"
-    },
-    {
-      "base_form": "win",
-      "past_simple": "won",
-      "past_participle": "won",
-      "uk": "вигравати"
     },
     {
       "base_form": "spring",
@@ -1351,88 +851,10 @@
       "uk": "стрибати"
     },
     {
-      "base_form": "deal",
-      "past_simple": "dealt",
-      "past_participle": "dealt",
-      "uk": "мати справу"
-    },
-    {
-      "base_form": "hold",
-      "past_simple": "held",
-      "past_participle": "held",
-      "uk": "тримати"
-    },
-    {
-      "base_form": "feed",
-      "past_simple": "fed",
-      "past_participle": "fed",
-      "uk": "годувати"
-    },
-    {
-      "base_form": "understand",
-      "past_simple": "understood",
-      "past_participle": "understood",
-      "uk": "розуміти"
-    },
-    {
-      "base_form": "cut",
-      "past_simple": "cut",
-      "past_participle": "cut",
-      "uk": "різати"
-    },
-    {
-      "base_form": "bring",
-      "past_simple": "brought",
-      "past_participle": "brought",
-      "uk": "приносити"
-    },
-    {
-      "base_form": "hit",
-      "past_simple": "hit",
-      "past_participle": "hit",
-      "uk": "вдаряти"
-    },
-    {
       "base_form": "string",
       "past_simple": "strung",
       "past_participle": "strung",
       "uk": "натягувати"
-    },
-    {
-      "base_form": "break",
-      "past_simple": "broke",
-      "past_participle": "broken",
-      "uk": "ламати"
-    },
-    {
-      "base_form": "saw",
-      "past_simple": "sawed",
-      "past_participle": "sawn",
-      "uk": "пиляти"
-    },
-    {
-      "base_form": "hear",
-      "past_simple": "heard",
-      "past_participle": "heard",
-      "uk": "чути"
-    },
-    {
-      "base_form": "stand",
-      "past_simple": "stood",
-      "past_participle": "stood",
-      "uk": "стояти"
-    },
-    {
-      "base_form": "begin",
-      "past_simple": "began",
-      "past_participle": "begun",
-      "uk": "починати"
-    },
-    {
-      "base_form": "wind",
-      "past_simple": "wound",
-      "past_participle": "wound",
-      "uk": "намотувати"
     },
     {
       "base_form": "fit",
@@ -1441,124 +863,10 @@
       "uk": "підходити"
     },
     {
-      "base_form": "dream",
-      "past_simple": "dreamt",
-      "past_participle": "dreamt",
-      "uk": "мріяти"
-    },
-    {
       "base_form": "cast",
       "past_simple": "cast",
       "past_participle": "cast",
       "uk": "кидати"
-    },
-    {
-      "base_form": "bear",
-      "past_simple": "bore",
-      "past_participle": "borne",
-      "uk": "нести"
-    },
-    {
-      "base_form": "blow",
-      "past_simple": "blew",
-      "past_participle": "blown",
-      "uk": "дути"
-    },
-    {
-      "base_form": "speak",
-      "past_simple": "spoke",
-      "past_participle": "spoken",
-      "uk": "говорити"
-    },
-    {
-      "base_form": "fight",
-      "past_simple": "fought",
-      "past_participle": "fought",
-      "uk": "боротися"
-    },
-    {
-      "base_form": "wear",
-      "past_simple": "wore",
-      "past_participle": "worn",
-      "uk": "носити"
-    },
-    {
-      "base_form": "rise",
-      "past_simple": "rose",
-      "past_participle": "risen",
-      "uk": "підніматися"
-    },
-    {
-      "base_form": "sleep",
-      "past_simple": "slept",
-      "past_participle": "slept",
-      "uk": "спати"
-    },
-    {
-      "base_form": "drink",
-      "past_simple": "drank",
-      "past_participle": "drunk",
-      "uk": "пити"
-    },
-    {
-      "base_form": "eat",
-      "past_simple": "ate",
-      "past_participle": "eaten",
-      "uk": "їсти"
-    },
-    {
-      "base_form": "fly",
-      "past_simple": "flew",
-      "past_participle": "flown",
-      "uk": "літати"
-    },
-    {
-      "base_form": "beat",
-      "past_simple": "beat",
-      "past_participle": "beaten",
-      "uk": "бити"
-    },
-    {
-      "base_form": "hide",
-      "past_simple": "hid",
-      "past_participle": "hidden",
-      "uk": "ховати"
-    },
-    {
-      "base_form": "spend",
-      "past_simple": "spent",
-      "past_participle": "spent",
-      "uk": "витрачати"
-    },
-    {
-      "base_form": "grow",
-      "past_simple": "grew",
-      "past_participle": "grown",
-      "uk": "рости"
-    },
-    {
-      "base_form": "ride",
-      "past_simple": "rode",
-      "past_participle": "ridden",
-      "uk": "їхати верхи"
-    },
-    {
-      "base_form": "forget",
-      "past_simple": "forgot",
-      "past_participle": "forgotten",
-      "uk": "забувати"
-    },
-    {
-      "base_form": "spread",
-      "past_simple": "spread",
-      "past_participle": "spread",
-      "uk": "поширювати"
-    },
-    {
-      "base_form": "lose",
-      "past_simple": "lost",
-      "past_participle": "lost",
-      "uk": "губити"
     },
     {
       "base_form": "seek",
@@ -1573,46 +881,10 @@
       "uk": "мочити"
     },
     {
-      "base_form": "draw",
-      "past_simple": "drew",
-      "past_participle": "drawn",
-      "uk": "малювати"
-    },
-    {
-      "base_form": "stick",
-      "past_simple": "stuck",
-      "past_participle": "stuck",
-      "uk": "клеїти"
-    },
-    {
-      "base_form": "slide",
-      "past_simple": "slid",
-      "past_participle": "slid",
-      "uk": "ковзати"
-    },
-    {
-      "base_form": "catch",
-      "past_simple": "caught",
-      "past_participle": "caught",
-      "uk": "ловити"
-    },
-    {
       "base_form": "split",
       "past_simple": "split",
       "past_participle": "split",
       "uk": "розколювати"
-    },
-    {
-      "base_form": "sit",
-      "past_simple": "sat",
-      "past_participle": "sat",
-      "uk": "сидіти"
-    },
-    {
-      "base_form": "teach",
-      "past_simple": "taught",
-      "past_participle": "taught",
-      "uk": "викладати"
     },
     {
       "base_form": "strip",
@@ -1621,22 +893,10 @@
       "uk": "роздягати"
     },
     {
-      "base_form": "strike",
-      "past_simple": "struck",
-      "past_participle": "struck",
-      "uk": "вдаряти"
-    },
-    {
       "base_form": "shoe",
       "past_simple": "shod",
       "past_participle": "shod",
       "uk": "взувати"
-    },
-    {
-      "base_form": "lay",
-      "past_simple": "laid",
-      "past_participle": "laid",
-      "uk": "класти"
     },
     {
       "base_form": "prove",
@@ -1645,82 +905,16 @@
       "uk": "доводити"
     },
     {
-      "base_form": "bet",
-      "past_simple": "bet",
-      "past_participle": "bet",
-      "uk": "ставити (парі)"
-    },
-    {
-      "base_form": "throw",
-      "past_simple": "threw",
-      "past_participle": "thrown",
-      "uk": "кидати"
-    },
-    {
-      "base_form": "wake",
-      "past_simple": "woke",
-      "past_participle": "woken",
-      "uk": "прокидатися"
-    },
-    {
-      "base_form": "burn",
-      "past_simple": "burnt",
-      "past_participle": "burnt",
-      "uk": "горіти"
-    },
-    {
-      "base_form": "lie (in bed)",
-      "past_simple": "lay",
-      "past_participle": "lain",
-      "uk": "лежати (в ліжку)"
-    },
-    {
       "base_form": "lie (not truth)",
       "past_simple": "lied",
       "past_participle": "lied",
       "uk": "брехати"
     },
     {
-      "base_form": "hurt",
-      "past_simple": "hurt",
-      "past_participle": "hurt",
-      "uk": "боліти, завдавати болю"
-    },
-    {
-      "base_form": "swing",
-      "past_simple": "swung",
-      "past_participle": "swung",
-      "uk": "гойдатися"
-    },
-    {
-      "base_form": "shoot",
-      "past_simple": "shot",
-      "past_participle": "shot",
-      "uk": "стріляти"
-    },
-    {
       "base_form": "spin",
       "past_simple": "span",
       "past_participle": "spun",
       "uk": "крутити"
-    },
-    {
-      "base_form": "shut",
-      "past_simple": "shut",
-      "past_participle": "shut",
-      "uk": "зачиняти"
-    },
-    {
-      "base_form": "sing",
-      "past_simple": "sang",
-      "past_participle": "sung",
-      "uk": "співати"
-    },
-    {
-      "base_form": "hang",
-      "past_simple": "hung",
-      "past_participle": "hung",
-      "uk": "вішати"
     },
     {
       "base_form": "mistake",
@@ -1735,106 +929,16 @@
       "uk": "кидати"
     },
     {
-      "base_form": "bend",
-      "past_simple": "bent",
-      "past_participle": "bent",
-      "uk": "гнути"
-    },
-    {
-      "base_form": "swim",
-      "past_simple": "swam",
-      "past_participle": "swum",
-      "uk": "плавати"
-    },
-    {
-      "base_form": "spell",
-      "past_simple": "spelt",
-      "past_participle": "spelt",
-      "uk": "вимовляти по літерах"
-    },
-    {
-      "base_form": "arise",
-      "past_simple": "arose",
-      "past_participle": "arisen",
-      "uk": "виникати"
-    },
-    {
       "base_form": "dive",
       "past_simple": "dived",
       "past_participle": "dived",
       "uk": "пірнати"
     },
     {
-      "base_form": "sink",
-      "past_simple": "sank",
-      "past_participle": "sunk",
-      "uk": "тонути"
-    },
-    {
       "base_form": "rid",
       "past_simple": "rid",
       "past_participle": "rid",
       "uk": "позбавлятися"
-    },
-    {
-      "base_form": "breed",
-      "past_simple": "bred",
-      "past_participle": "bred",
-      "uk": "розводити"
-    },
-    {
-      "base_form": "dig",
-      "past_simple": "dug",
-      "past_participle": "dug",
-      "uk": "копати"
-    },
-    {
-      "base_form": "shake",
-      "past_simple": "shook",
-      "past_participle": "shaken",
-      "uk": "трясти"
-    },
-    {
-      "base_form": "shed",
-      "past_simple": "shed",
-      "past_participle": "shed",
-      "uk": "скидати"
-    },
-    {
-      "base_form": "bind",
-      "past_simple": "bound",
-      "past_participle": "bound",
-      "uk": "зв'язувати"
-    },
-    {
-      "base_form": "smell",
-      "past_simple": "smelt",
-      "past_participle": "smelt",
-      "uk": "нюхати"
-    },
-    {
-      "base_form": "lean",
-      "past_simple": "leant",
-      "past_participle": "leant",
-      "uk": "нахилятися"
-    },
-    {
-      "base_form": "steal",
-      "past_simple": "stole",
-      "past_participle": "stolen",
-      "uk": "красти"
-    },
-    {
-      "base_form": "bite",
-      "past_simple": "bit",
-      "past_participle": "bitten",
-      "uk": "кусати"
-    },
-    {
-      "base_form": "shine",
-      "past_simple": "shone",
-      "past_participle": "shone",
-      "uk": "сяяти"
     },
     {
       "base_form": "zinc",
@@ -1849,28 +953,10 @@
       "uk": "братися (за щось)"
     },
     {
-      "base_form": "tear",
-      "past_simple": "tore",
-      "past_participle": "torn",
-      "uk": "рвати"
-    },
-    {
       "base_form": "upset",
       "past_simple": "upset",
       "past_participle": "upset",
       "uk": "засмучувати"
-    },
-    {
-      "base_form": "freeze",
-      "past_simple": "froze",
-      "past_participle": "frozen",
-      "uk": "замерзати"
-    },
-    {
-      "base_form": "burst",
-      "past_simple": "burst",
-      "past_participle": "burst",
-      "uk": "вибухати"
     },
     {
       "base_form": "knit",
@@ -1909,22 +995,10 @@
       "uk": "прагнути"
     },
     {
-      "base_form": "spill",
-      "past_simple": "spilt",
-      "past_participle": "spilt",
-      "uk": "розливати"
-    },
-    {
       "base_form": "abide",
       "past_simple": "abided",
       "past_participle": "abided",
       "uk": "дотримуватися"
-    },
-    {
-      "base_form": "sweep",
-      "past_simple": "swept",
-      "past_participle": "swept",
-      "uk": "підмітати"
     },
     {
       "base_form": "thrust",
@@ -1933,40 +1007,10 @@
       "uk": "штовхати"
     },
     {
-      "base_form": "forgive",
-      "past_simple": "forgave",
-      "past_participle": "forgiven",
-      "uk": "прощати"
-    },
-    {
-      "base_form": "shrink",
-      "past_simple": "shrank",
-      "past_participle": "shrunk",
-      "uk": "зменшуватися"
-    },
-    {
-      "base_form": "awake",
-      "past_simple": "awoke",
-      "past_participle": "awoken",
-      "uk": "прокидатися"
-    },
-    {
       "base_form": "melt",
       "past_simple": "melted",
       "past_participle": "molten",
       "uk": "танути"
-    },
-    {
-      "base_form": "swear",
-      "past_simple": "swore",
-      "past_participle": "sworn",
-      "uk": "присягати"
-    },
-    {
-      "base_form": "lend",
-      "past_simple": "lent",
-      "past_participle": "lent",
-      "uk": "позичати"
     },
     {
       "base_form": "shear",
@@ -1981,12 +1025,6 @@
       "uk": "споглядати"
     },
     {
-      "base_form": "sting",
-      "past_simple": "stung",
-      "past_participle": "stung",
-      "uk": "жалити"
-    },
-    {
       "base_form": "undergo",
       "past_simple": "underwent",
       "past_participle": "undergone",
@@ -1999,40 +1037,16 @@
       "uk": "голити"
     },
     {
-      "base_form": "grind",
-      "past_simple": "ground",
-      "past_participle": "ground",
-      "uk": "молоти"
-    },
-    {
       "base_form": "sneak",
       "past_simple": "snuck",
       "past_participle": "snuck",
       "uk": "крастися"
     },
     {
-      "base_form": "swell",
-      "past_simple": "swelled",
-      "past_participle": "swollen",
-      "uk": "набухати"
-    },
-    {
-      "base_form": "spit",
-      "past_simple": "spat",
-      "past_participle": "spat",
-      "uk": "плювати"
-    },
-    {
       "base_form": "dwell",
       "past_simple": "dwelt",
       "past_participle": "dwelt",
       "uk": "проживати"
-    },
-    {
-      "base_form": "bleed",
-      "past_simple": "bled",
-      "past_participle": "bled",
-      "uk": "кровоточити"
     },
     {
       "base_form": "weave",
@@ -2045,18 +1059,6 @@
       "past_simple": "throve",
       "past_participle": "thriven",
       "uk": "процвітати"
-    },
-    {
-      "base_form": "creep",
-      "past_simple": "crept",
-      "past_participle": "crept",
-      "uk": "повзти"
-    },
-    {
-      "base_form": "sew",
-      "past_simple": "sewed",
-      "past_participle": "sewn",
-      "uk": "шити"
     },
     {
       "base_form": "withstand",
@@ -2107,46 +1109,16 @@
       "uk": "псувати"
     },
     {
-      "base_form": "sow",
-      "past_simple": "sowed",
-      "past_participle": "sown",
-      "uk": "сіяти"
-    },
-    {
       "base_form": "withhold",
       "past_simple": "withheld",
       "past_participle": "withheld",
       "uk": "утримувати"
     },
     {
-      "base_form": "forbid",
-      "past_simple": "forbade",
-      "past_participle": "forbidden",
-      "uk": "забороняти"
-    },
-    {
-      "base_form": "weep",
-      "past_simple": "wept",
-      "past_participle": "wept",
-      "uk": "плакати"
-    },
-    {
       "base_form": "inlay",
       "past_simple": "inlaid",
       "past_participle": "inlaid",
       "uk": "інкрустувати"
-    },
-    {
-      "base_form": "cling",
-      "past_simple": "clung",
-      "past_participle": "clung",
-      "uk": "чіплятися"
-    },
-    {
-      "base_form": "stink",
-      "past_simple": "stank",
-      "past_participle": "stunk",
-      "uk": "смердіти"
     },
     {
       "base_form": "slay",
@@ -2173,18 +1145,6 @@
       "uk": "передбачати"
     },
     {
-      "base_form": "mow",
-      "past_simple": "mowed",
-      "past_participle": "mown",
-      "uk": "косити"
-    },
-    {
-      "base_form": "overtake",
-      "past_simple": "overtook",
-      "past_participle": "overtaken",
-      "uk": "обганяти"
-    },
-    {
       "base_form": "sunburn",
       "past_simple": "sunburnt",
       "past_participle": "sunburnt",
@@ -2195,12 +1155,6 @@
       "past_simple": "sublet",
       "past_participle": "sublet",
       "uk": "здавати в суборенду"
-    },
-    {
-      "base_form": "kneel",
-      "past_simple": "knelt",
-      "past_participle": "knelt",
-      "uk": "стати на коліна"
     },
     {
       "base_form": "rive",

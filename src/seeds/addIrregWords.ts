@@ -21,9 +21,10 @@ async function addIrregWords() {
   console.log('irrWords :>> ', irrWords);
   // chech if table empty
 
-  const data: { [key: string]: IrrWordJSON[] } = JSON.parse(fs.readFileSync('src/json-data/irr-verbs.json', 'utf-8'));
+  const data: { [key: string]: IrrWordJSON[] } = JSON.parse(fs.readFileSync('src/json-data/irr-verbs.filtered.json', 'utf-8'));
   // console.log('data :>> ', data);
   let index = 1
+  let verbsToSave = []
   for (const [level, words] of Object.entries(data)) {
     for (const word of words) {
       const preparedWordEng = {
@@ -34,19 +35,21 @@ async function addIrregWords() {
         level,
         lang: 'en',
       }
-      const entryUk = irrWordsRepository.create(preparedWordEng);
+      const entryEng = irrWordsRepository.create(preparedWordEng);
+      verbsToSave.push(entryEng)
       const preparedWordUk = {
         wordGroupId: index,
         basic: word.uk,
         level,
         lang: 'uk',
       }
-      const entryEng = irrWordsRepository.create(preparedWordUk);
+      const entryUk = irrWordsRepository.create(preparedWordUk);
+      verbsToSave.push(entryUk)
       // await irrWordsRepository.save(entryEng);
-      // await irrWordsRepository.save(entryUk);
       index += 1
     }
   }
+  await irrWordsRepository.save(verbsToSave);
 
   console.log('Seeding completed.');
   // await AppDataSource.destroy();

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, OneToOne, Unique, Column } from 'typeorm'
 
 @Entity({ name: 'irr_words' })
-@Unique(['lang', 'basic']) // this enforces uniqueness; creates index automatically
+@Unique(['wordGroupId', 'basic']) // this enforces uniqueness; creates index automatically
 export class IrrWordEntity {
   @PrimaryGeneratedColumn()
   id: number
