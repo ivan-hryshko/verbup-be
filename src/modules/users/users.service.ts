@@ -1,18 +1,24 @@
 import appDataSource from '../../config/app-data-source'
+import { hashPassword } from '../../utils/hash'
 import { UserEntity } from './users.entity'
 
 const userRepository = appDataSource.getRepository(UserEntity)
 
 export class UsersService {
-  static async create(data: Partial<UserEntity>): Promise<UserEntity> {
+  static async create(
+    data: Partial<UserEntity>
+  ): Promise<Omit<UserEntity, 'password'>> {
     const existingUser = await userRepository.findOne({
       where: { email: data.email },
     })
     if (existingUser) {
       throw new Error('User already exists')
     }
-    const newUser = userRepository.create(data)
-    return await userRepository.save(newUser)
+    const hashedPassword = await hashPassword(data.password!)
+    const newUser = userRepository.create({ ...data, password: hashedPassword })
+    const savedUser = await userRepository.save(newUser)
+    const { password, ...userWithoutPassword } = savedUser
+    return userWithoutPassword
   }
 
   static async getAll(): Promise<UserEntity[]> {
@@ -39,11 +45,11 @@ export class UsersService {
     return await userRepository.save(user)
   }
 
-  static async delete(id: number): Promise<void> {
+  static async delete(id: number): Promise<any> {
     const user = await userRepository.findOne({ where: { id } })
     if (!user) {
       throw new Error('User not found')
     }
-    await userRepository.remove(user)
+    return await userRepository.remove(user)
   }
 }
