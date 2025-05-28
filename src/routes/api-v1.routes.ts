@@ -7,6 +7,6 @@ const routes = Router()
 
 routes.use('/irr-words/:lang', irrWordsEnRoutes)
 routes.use('/users', usersRoutes)
-routes.use('auth', authRoutes)
+routes.use('/auth', authRoutes)
 
 export default routes
