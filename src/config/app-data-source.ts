@@ -14,7 +14,7 @@ const appDataSource = new DataSource({
   database: ENVS.PG_DATABASE,
   entities,
   logging: true,
-  synchronize: true,
+  synchronize: false,
 })
 
 export async function createTypeOrmConn() {

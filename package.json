@@ -15,7 +15,10 @@
     "seed": "PG_HOST=localhost  node dist/seeds/index.js",
     "serve": "concurrently \"npx tsc -w\" \"nodemon dist/index.js\"",
     "build-iamge": "docker build -t giver0/verbup-be .",
-    "image-push": "npm run build-iamge && docker image push giver0/verbup-be"
+    "image-push": "npm run build-iamge && docker image push giver0/verbup-be",
+    "migration-gen": "npm run build && npx typeorm-ts-node-esm migration:generate -d dist/config/app-data-source.js",
+    "migration-up": "npm run build && npx typeorm-ts-node-esm migration:run -d dist/config/app-data-source.js",
+    "migration-down": "npm run build && npx typeorm-ts-node-esm migration:revert -d dist/config/app-data-source.js"
   },
   "keywords": [],
   "author": "",
