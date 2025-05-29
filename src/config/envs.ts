@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv'
 import { TsNavigator } from '../utils/ts-navigator'
 
@@ -12,7 +11,7 @@ if (APP_ENV === 'test') {
   dotenv.config({ path: TsNavigator.fromRoot('.env.development.local') })
 }
 
-const APP_PORT = process.env.APP_PORT || 8050
+const APP_PORT = process.env.APP_PORT || 8000
 if (!APP_PORT) {
   console.error('APP_PORT is not defined in the environment variables')
 }

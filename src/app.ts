@@ -1,5 +1,6 @@
 import express from 'express'
 import apiV1routes from './routes/api-v1.routes'
+import cookieParser from 'cookie-parser'
 // import postgresSource from './config/app-data-source'
 
 const app = express()
@@ -12,6 +13,7 @@ const app = express()
 //   .catch((err) => {
 //       console.error("Error during Data Source initialization:", err)
 //   })
+app.use(cookieParser())
 app.use(express.json())
 
 app.get('/', (req, res) => {

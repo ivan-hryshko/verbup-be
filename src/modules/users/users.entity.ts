@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm'
+import { SessionEntity } from '../sessions/session.entity'
 
 @Entity({ name: 'users' })
 @Unique(['email'])
@@ -27,6 +29,9 @@ export class UserEntity {
 
   @Column({ length: 200, nullable: true })
   avatar: string
+
+  @OneToMany(() => SessionEntity, (session) => session.user)
+  sessions: SessionEntity[]
 
   //   @Column()
   //   isAdmin: boolean
