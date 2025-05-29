@@ -1,1 +1,0 @@
-npm run migration-gen src/migrations/AddUsersAddIrrWords
