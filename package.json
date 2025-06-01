@@ -10,12 +10,16 @@
     "prestart": "npm run build",
     "build": "rm -rf dist && npx tsc",
     "start": "node dist/index.js",
-    "start:full": "npm run seed && node dist/index.js",
+    "start:full": "npm run migration:up && npm run seed && node dist/index.js",
     "preserve": "npm run build",
-    "seed": "PG_HOST=localhost  node dist/seeds/index.js",
-    "serve": "concurrently \"npx tsc -w\" \"nodemon dist/index.js\"",
+    "seed": "node dist/seeds/index.js",
+    "serve": "nodemon",
+    "serve:full": "npm run migration:up && npm run seed && npm run serve",
     "build-iamge": "docker build -t giver0/verbup-be .",
-    "image-push": "npm run build-iamge && docker image push giver0/verbup-be"
+    "image-push": "npm run build-iamge && docker image push giver0/verbup-be",
+    "migration:gen": "npm run build && npx typeorm-ts-node-esm migration:generate -d dist/config/app-data-source.js",
+    "migration:up": "npm run build && npx typeorm-ts-node-esm migration:run -d dist/config/app-data-source.js",
+    "migration:down": "npm run build && npx typeorm-ts-node-esm migration:revert -d dist/config/app-data-source.js"
   },
   "keywords": [],
   "author": "",
@@ -39,9 +43,7 @@
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
-  },
-  "devDependencies": {
+    "typescript": "^5.8.3",
     "@types/cookie-parser": "^1.4.8",
     "@types/jsonwebtoken": "^9.0.9"
   }

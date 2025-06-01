@@ -4,7 +4,11 @@ import { IrrWordEntity } from '../modules/irr-words-en/irr-words.entity'
 import { UserEntity } from '../modules/users/users.entity'
 import { SessionEntity } from '../modules/sessions/session.entity'
 
-const entities = [IrrWordEntity, UserEntity, SessionEntity]
+const entities = [
+  UserEntity,
+  SessionEntity,
+  IrrWordEntity,
+]
 
 const appDataSource = new DataSource({
   type: 'postgres',
@@ -15,7 +19,8 @@ const appDataSource = new DataSource({
   database: ENVS.PG_DATABASE,
   entities,
   logging: true,
-  synchronize: true,
+  synchronize: false,
+  migrations: ['dist/migrations/*.js'],
 })
 
 export async function createTypeOrmConn() {

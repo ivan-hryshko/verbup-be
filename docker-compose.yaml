@@ -20,7 +20,7 @@ services:
       - .env.development.local
     volumes:
       - .:/app
-    command: npm run serve
+    command: npm run serve:full
 
 volumes:
   pgdata:
