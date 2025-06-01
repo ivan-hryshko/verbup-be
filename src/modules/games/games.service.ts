@@ -1,10 +1,39 @@
 // import { UsersRequestCreate } from "./users.request"
 // import { UsersRepository } from "./users.repository"
 
+import { IrrWordEntity } from "../irr-words-en/irr-words.entity";
+import { IrrWordRepository } from "../irr-words-en/irr-words.repository";
+import { IrrWordLang, IrrWordLevel } from "../irr-words-en/irr-words.types";
+
+interface GetWordsParams {
+  level?: string;
+  count?: string | number;
+  lang?: string;
+}
 
 export class GamesService {
-  static async getWords(payload: any): Promise<[]> {
-    const words: any = []
-    return words
-  }
+   private irrWordRepo = new IrrWordRepository();
+
+  async getWords(params: GetWordsParams) {
+    const { level, count, lang } = params;
+
+    // Validation
+    if (!level || !['easy', 'medium', 'hard'].includes(level)) {
+      throw new Error('Invalid or missing "level" param');
+    }
+    const typedLevel = level as IrrWordLevel;
+
+    const wordCount = Number(count);
+    if (!wordCount || isNaN(wordCount) || wordCount <= 0) {
+      throw new Error('Invalid or missing "count" param');
+    }
+
+    if (!lang || !['en', 'uk'].includes(lang)) {
+      throw new Error('Invalid or missing "lang" param');
+    }
+
+    const words = await this.irrWordRepo.getRandomWordsByLevel(typedLevel, wordCount);
+
+      return words
+    }
 }
