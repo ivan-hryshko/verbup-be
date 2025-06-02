@@ -17,7 +17,7 @@
     "serve:full": "npm run migration:up && npm run seed && npm run serve",
     "build-iamge": "docker build -t giver0/verbup-be .",
     "image-push": "npm run build-iamge && docker image push giver0/verbup-be",
-    "migration:gen": "npm run build && npx typeorm-ts-node-esm migration:generate -d dist/config/app-data-source.js",
+    "migration:gen": "npm run build && APP_ENV=migration npx typeorm-ts-node-esm migration:generate -d dist/config/app-data-source.js",
     "migration:up": "npm run build && npx typeorm-ts-node-esm migration:run -d dist/config/app-data-source.js",
     "migration:down": "npm run build && npx typeorm-ts-node-esm migration:revert -d dist/config/app-data-source.js"
   },

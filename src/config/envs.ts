@@ -7,6 +7,8 @@ if (!APP_ENV) {
 }
 if (APP_ENV === 'test') {
   dotenv.config({ path: TsNavigator.fromRoot('.env.test.local') })
+} else if (APP_ENV === 'migration') {
+  dotenv.config({ path: TsNavigator.fromRoot('.env.development.migration') })
 } else {
   dotenv.config({ path: TsNavigator.fromRoot('.env.development.local') })
 }
