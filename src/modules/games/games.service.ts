@@ -12,16 +12,13 @@ interface GetWordsParams {
 }
 
 export class GamesService {
-   private irrWordRepo = new IrrWordRepository();
+  private irrWordRepo = new IrrWordRepository();
 
-  async getWords(params: GetWordsParams) {
+  static validateGetWords(params: GetWordsParams) {
     const { level, count, lang } = params;
-
-    // Validation
     if (!level || !['easy', 'medium', 'hard'].includes(level)) {
       throw new Error('Invalid or missing "level" param');
     }
-    const typedLevel = level as IrrWordLevel;
 
     const wordCount = Number(count);
     if (!wordCount || isNaN(wordCount) || wordCount <= 0) {
@@ -32,8 +29,18 @@ export class GamesService {
       throw new Error('Invalid or missing "lang" param');
     }
 
-    const words = await this.irrWordRepo.getRandomWordsByLevel(typedLevel, wordCount);
-
-      return words
+    return {
+      level: level as IrrWordLevel,
+      count: wordCount,
+      lang: lang as IrrWordLang,
     }
+  }
+
+  async getWords(params: GetWordsParams) {
+    const { level, count, lang } = GamesService.validateGetWords(params);
+
+    const words = await this.irrWordRepo.getRandomWordsByLevel(level, count, lang);
+
+    return words
+  }
 }

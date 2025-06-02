@@ -2,7 +2,7 @@
 import { Repository } from 'typeorm';
 import AppDataSource from '../../config/app-data-source';
 import { IrrWordEntity } from './irr-words.entity';
-import { IrrWordLevel } from './irr-words.types';
+import { IrrWordLang, IrrWordLevel } from './irr-words.types';
 
 export class IrrWordRepository {
   private repo: Repository<IrrWordEntity>;
@@ -19,10 +19,11 @@ export class IrrWordRepository {
     return this.repo.findOneBy({ basic: base_form });
   }
 
-  async getRandomWordsByLevel(level: IrrWordLevel, count: number): Promise<IrrWordEntity[]> {
+  async getRandomWordsByLevel(level: IrrWordLevel, count: number, lang: IrrWordLang): Promise<IrrWordEntity[]> {
     return this.repo
       .createQueryBuilder('word')
       .where('word.level = :level', { level })
+      .where('word.lang = :lang', { lang })
       .orderBy('RANDOM()') // PostgreSQL syntax
       .limit(count)
       .getMany();
