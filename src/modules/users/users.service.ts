@@ -10,17 +10,17 @@ export interface IUsersService {
   delete(id: number): Promise<any>
 }
 export class UsersService implements IUsersService {
-  private readonly repo = new UsersRepository()
+  private readonly usersRepository = new UsersRepository()
 
   async create(
     data: Partial<UserEntity>
   ): Promise<Omit<UserEntity, 'password'>> {
-    const existingUser = await this.repo.findByEmail(data.email!)
+    const existingUser = await this.usersRepository.findByEmail(data.email!)
     if (existingUser) {
       throw new Error('User already exists')
     }
     const hashedPassword = await hashPassword(data.password!)
-    const newUser = await this.repo.create({
+    const newUser = await this.usersRepository.create({
       ...data,
       password: hashedPassword,
     })
@@ -29,11 +29,11 @@ export class UsersService implements IUsersService {
   }
 
   async getAll(): Promise<UserEntity[]> {
-    return this.repo.findAll()
+    return this.usersRepository.findAll()
   }
 
   async getById(id: number): Promise<UserEntity | null> {
-    const user = await this.repo.findById(id)
+    const user = await this.usersRepository.findById(id)
     if (!user) {
       throw new Error('User not found')
     }
@@ -41,19 +41,19 @@ export class UsersService implements IUsersService {
   }
 
   async update(id: number, data: Partial<UserEntity>): Promise<UserEntity> {
-    const user = await this.repo.findById(id)
+    const user = await this.usersRepository.findById(id)
     if (!user) {
       throw new Error('User not found')
     }
     Object.assign(user, data)
-    return this.repo.update(user)
+    return this.usersRepository.update(user)
   }
 
   async delete(id: number): Promise<any> {
-    const user = await this.repo.findById(id)
+    const user = await this.usersRepository.findById(id)
     if (!user) {
       throw new Error('User not found')
     }
-    return this.repo.delete(user)
+    return this.usersRepository.delete(user)
   }
 }
