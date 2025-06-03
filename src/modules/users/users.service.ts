@@ -20,12 +20,10 @@ export class UsersService implements IUsersService {
       throw new Error('User already exists')
     }
     const hashedPassword = await hashPassword(data.password!)
-    const newUser = await this.usersRepository.create({
+    return this.usersRepository.create({
       ...data,
       password: hashedPassword,
     })
-    const { password, ...userWithoutPassword } = newUser
-    return userWithoutPassword
   }
 
   async getAll(): Promise<UserEntity[]> {

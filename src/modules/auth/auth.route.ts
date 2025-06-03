@@ -3,9 +3,10 @@ import { ctrlWrapper } from '../../utils/ctrlWrapper'
 import { AuthController } from './auth.controller'
 
 const router = Router()
+const authController = new AuthController()
 
-router.post('/register', ctrlWrapper(AuthController.register))
-router.post('/login', ctrlWrapper(AuthController.login))
-router.post('/refresh', ctrlWrapper(AuthController.refresh))
+router.post('/register', ctrlWrapper(authController.register))
+router.post('/login', ctrlWrapper(authController.login))
+router.post('/refresh', ctrlWrapper(authController.refresh))
 
 export default router

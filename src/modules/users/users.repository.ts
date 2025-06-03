@@ -9,36 +9,44 @@ export interface IUserRepository {
   create(user: Partial<UserEntity>): Promise<UserEntity>
   update(user: UserEntity): Promise<UserEntity>
   delete(user: UserEntity): Promise<any>
+  findByEmailWithPassword(email: string): Promise<UserEntity | null>
 }
 export class UsersRepository implements IUserRepository {
-  private readonly repo: Repository<UserEntity>
+  private readonly userRepo: Repository<UserEntity>
 
   constructor() {
-    this.repo = appDataSource.getRepository(UserEntity)
+    this.userRepo = appDataSource.getRepository(UserEntity)
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
-    return this.repo.findOne({ where: { email } })
+    return this.userRepo.findOne({ where: { email } })
   }
 
   async findById(id: number): Promise<UserEntity | null> {
-    return this.repo.findOne({ where: { id } })
+    return this.userRepo.findOne({ where: { id } })
   }
 
   async findAll(): Promise<UserEntity[]> {
-    return this.repo.find()
+    return this.userRepo.find()
   }
 
   async create(user: Partial<UserEntity>): Promise<UserEntity> {
-    const newUser = this.repo.create(user)
-    return this.repo.save(newUser)
+    const newUser = this.userRepo.create(user)
+    return this.userRepo.save(newUser)
   }
 
   async update(user: UserEntity): Promise<UserEntity> {
-    return this.repo.save(user)
+    return this.userRepo.save(user)
   }
 
   async delete(user: UserEntity): Promise<any> {
-    return this.repo.remove(user)
+    return this.userRepo.remove(user)
+  }
+
+  async findByEmailWithPassword(email: string): Promise<UserEntity | null> {
+    return this.userRepo.findOne({
+      where: { email },
+      select: ['id', 'email', 'password'],
+    })
   }
 }

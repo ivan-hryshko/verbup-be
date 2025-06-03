@@ -6,44 +6,48 @@ import {
   THREE_DAYS,
 } from './constants'
 import { UserEntity } from '../users/users.entity'
+import { SessionRepository } from './session.repository'
 // import { LessThan } from 'typeorm'
 
-const sessionRepository = appDataSource.getRepository(SessionEntity)
+export interface ISessionService {
+  create(userId: number, currentRefreshToken?: string): Promise<SessionEntity>
+  refresh(
+    refreshToken: string
+  ): Promise<{ accessToken: string; refreshToken: string }>
+  // cleanExpiredSessions(): Promise<any>
+}
 
-export class SessionService {
-  static async create(
+export class SessionService implements ISessionService {
+  private readonly sessionRepo = new SessionRepository()
+
+  async create(
     userId: number,
     currentRefreshToken?: string
   ): Promise<SessionEntity> {
     if (currentRefreshToken) {
-      const existingSession = await sessionRepository.findOne({
-        where: { refreshToken: currentRefreshToken },
-      })
+      const existingSession = await this.sessionRepo.findByRefreshToken(
+        currentRefreshToken
+      )
       if (existingSession) {
         existingSession.refreshToken = generateRefreshToken(userId)
         existingSession.expiresAt = new Date(Date.now() + THREE_DAYS)
-        console.log('Updating existing session for user:', userId)
-        return await sessionRepository.save(existingSession)
+        return await this.sessionRepo.save(existingSession)
       }
     }
     const refreshToken = generateRefreshToken(userId)
     const expiresAt = new Date(Date.now() + THREE_DAYS)
-    const session = sessionRepository.create({
+    const session = await this.sessionRepo.create({
       refreshToken,
       expiresAt: expiresAt,
       user: { id: userId } as UserEntity,
     })
-    console.log('Creating new session for user:', userId)
-    return await sessionRepository.save(session)
+    return await this.sessionRepo.save(session)
   }
 
-  static async refresh(
+  async refresh(
     refreshToken: string
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    const session = await sessionRepository.findOne({
-      where: { refreshToken },
-      relations: ['user'],
-    })
+    const session = await this.sessionRepo.findByRefreshToken(refreshToken)
     if (!session) {
       throw new Error('Session not found')
     }
@@ -55,16 +59,15 @@ export class SessionService {
     const newRefreshToken = generateRefreshToken(session.user.id)
     session.refreshToken = newRefreshToken
     session.expiresAt = new Date(Date.now() + THREE_DAYS)
-    await sessionRepository.save(session)
-    console.log('Refreshing session for refreshToken:', refreshToken)
+    await this.sessionRepo.save(session)
     return {
       accessToken: newAccessToken,
       refreshToken: newRefreshToken,
     }
   }
 
-  // static async cleanExpiredSessions(): Promise<any> {
-  //   await sessionRepository.delete({
+  //  async cleanExpiredSessions(): Promise<any> {
+  //   await this.sessionRepo.delete({
   //     expiresAt: LessThan(new Date()),
   //   })
   // }
