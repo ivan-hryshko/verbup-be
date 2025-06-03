@@ -25,14 +25,12 @@ export class ProgressPsRepository implements IProgressPsRepository {
   }
 
   async getProgressByUserId(userId: number): Promise<ProgressPsEntity[]> {
-    return await this.repo.find({ where: { user: {id: userId}}})
-      // return this.repo
-      // .createQueryBuilder('word')
-      // .where('word.level = :level', { level })
-      // .where('word.lang = :lang', { lang })
-      // .orderBy('RANDOM()') // PostgreSQL syntax
-      // .limit(count)
-      // .getMany();
+    return this.repo
+      .createQueryBuilder('progressPs')
+      .where('progressPs.userId = :userId', { userId })
+      .innerJoin('progressPs.word', 'word')
+      .addSelect(['word.id', 'word.basic'])
+      .getMany();
   }
 
   async savePsProgress(params: SavePsParams): Promise<ProgressPsEntity> {
