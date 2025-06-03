@@ -1,55 +1,59 @@
-import appDataSource from '../../config/app-data-source'
 import { hashPassword } from '../../utils/hash'
 import { UserEntity } from './users.entity'
+import { UsersRepository } from './users.repository'
 
-const userRepository = appDataSource.getRepository(UserEntity)
+export interface IUsersService {
+  create(data: Partial<UserEntity>): Promise<Omit<UserEntity, 'password'>>
+  getAll(): Promise<UserEntity[]>
+  getById(id: number): Promise<UserEntity | null>
+  update(id: number, data: Partial<UserEntity>): Promise<UserEntity>
+  delete(id: number): Promise<any>
+}
+export class UsersService implements IUsersService {
+  private readonly repo = new UsersRepository()
 
-export class UsersService {
-  static async create(
+  async create(
     data: Partial<UserEntity>
   ): Promise<Omit<UserEntity, 'password'>> {
-    const existingUser = await userRepository.findOne({
-      where: { email: data.email },
-    })
+    const existingUser = await this.repo.findByEmail(data.email!)
     if (existingUser) {
       throw new Error('User already exists')
     }
     const hashedPassword = await hashPassword(data.password!)
-    const newUser = userRepository.create({ ...data, password: hashedPassword })
-    const savedUser = await userRepository.save(newUser)
-    const { password, ...userWithoutPassword } = savedUser
+    const newUser = await this.repo.create({
+      ...data,
+      password: hashedPassword,
+    })
+    const { password, ...userWithoutPassword } = newUser
     return userWithoutPassword
   }
 
-  static async getAll(): Promise<UserEntity[]> {
-    return await userRepository.find()
+  async getAll(): Promise<UserEntity[]> {
+    return this.repo.findAll()
   }
 
-  static async getById(id: number): Promise<UserEntity | null> {
-    const user = userRepository.findOne({ where: { id } })
+  async getById(id: number): Promise<UserEntity | null> {
+    const user = await this.repo.findById(id)
     if (!user) {
       throw new Error('User not found')
     }
     return user
   }
 
-  static async update(
-    id: number,
-    data: Partial<UserEntity>
-  ): Promise<UserEntity> {
-    const user = await userRepository.findOne({ where: { id } })
+  async update(id: number, data: Partial<UserEntity>): Promise<UserEntity> {
+    const user = await this.repo.findById(id)
     if (!user) {
       throw new Error('User not found')
     }
     Object.assign(user, data)
-    return await userRepository.save(user)
+    return this.repo.update(user)
   }
 
-  static async delete(id: number): Promise<any> {
-    const user = await userRepository.findOne({ where: { id } })
+  async delete(id: number): Promise<any> {
+    const user = await this.repo.findById(id)
     if (!user) {
       throw new Error('User not found')
     }
-    return await userRepository.remove(user)
+    return this.repo.delete(user)
   }
 }
