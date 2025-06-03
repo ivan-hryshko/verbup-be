@@ -16,4 +16,14 @@ export class ProgressService {
     // check pp
     return [progressPs]
   }
+
+  static async list(data: any): Promise<any> {
+    const { userId } = data
+    // check user
+
+    // check ps
+    const progressPs = await progressPsRepository.getProgressByUserId(userId)
+    // check pp
+    return [progressPs]
+  }
 }
