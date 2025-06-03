@@ -6,10 +6,11 @@ import { SessionService } from '../sessions/session.service'
 import { generateAccessToken } from '../sessions/constants'
 
 const userRepository = appDataSource.getRepository(UserEntity)
+const usersService = new UsersService()
 
 export class AuthService {
   static async register(data: Partial<UserEntity>) {
-    await UsersService.create(data)
+    await usersService.create(data)
     const { accessToken, refreshToken } = await this.login(
       data.email!,
       data.password!
