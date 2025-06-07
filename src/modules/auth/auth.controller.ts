@@ -30,11 +30,6 @@ export class AuthController {
 
   login = async (req: Request, res: Response) => {
     const { email, password } = req.body
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: 'Email and password are required' })
-    }
     const currentRefreshToken = req.cookies?.refreshToken
     const { accessToken, refreshToken } = await this.authService.login(
       email,
@@ -56,10 +51,6 @@ export class AuthController {
     next: NextFunction
   ): Promise<any> => {
     const refreshToken = req.cookies?.refreshToken
-    if (!refreshToken) {
-      res.status(401).json({ message: 'No refresh token provided' })
-      return
-    }
     const { accessToken, refreshToken: newRefreshToken } =
       await this.sessionService.refresh(refreshToken)
     res.cookie('refreshToken', newRefreshToken, {

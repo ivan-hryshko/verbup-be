@@ -1,6 +1,7 @@
 import { hashPassword } from '../../utils/hash'
 import { UserEntity } from './users.entity'
 import { UsersRepository } from './users.repository'
+import createHttpError from 'http-errors'
 
 export interface IUsersService {
   create(data: Partial<UserEntity>): Promise<Omit<UserEntity, 'password'>>
@@ -16,14 +17,16 @@ export class UsersService implements IUsersService {
     data: Partial<UserEntity>
   ): Promise<Omit<UserEntity, 'password'>> {
     const existingUser = await this.usersRepository.findByEmail(data.email!)
-    if (existingUser) {
-      throw new Error('User already exists')
-    }
+    if (existingUser) throw createHttpError(409, 'User already exists')
+
     const hashedPassword = await hashPassword(data.password!)
-    return this.usersRepository.create({
+    const user = await this.usersRepository.create({
       ...data,
       password: hashedPassword,
     })
+    const { password, ...userWithoutPassword } = user
+
+    return userWithoutPassword
   }
 
   async getAll(): Promise<UserEntity[]> {
@@ -32,26 +35,23 @@ export class UsersService implements IUsersService {
 
   async getById(id: number): Promise<UserEntity | null> {
     const user = await this.usersRepository.findById(id)
-    if (!user) {
-      throw new Error('User not found')
-    }
+    if (!user) throw createHttpError(404, 'User not found')
+
     return user
   }
 
   async update(id: number, data: Partial<UserEntity>): Promise<UserEntity> {
     const user = await this.usersRepository.findById(id)
-    if (!user) {
-      throw new Error('User not found')
-    }
+    if (!user) throw createHttpError(404, 'User not found')
+
     Object.assign(user, data)
     return this.usersRepository.update(user)
   }
 
   async delete(id: number): Promise<any> {
     const user = await this.usersRepository.findById(id)
-    if (!user) {
-      throw new Error('User not found')
-    }
+    if (!user) throw createHttpError(404, 'User not found')
+
     return this.usersRepository.delete(user)
   }
 }

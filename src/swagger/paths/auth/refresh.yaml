@@ -1,0 +1,36 @@
+tags:
+  - Auth
+summary: Refresh access token
+description: >
+  Refresh the access token using the refresh token stored in an HttpOnly cookie.  
+  The new access token is returned in the response body, and the refresh token is updated in the cookie.
+parameters:
+  - name: Get Cookie
+    in: header
+    required: true
+    description: HttpOnly cookie containing the Refresh Token
+    schema:
+      type: string
+      example: Refresh Token - eyJhbGciJIUzI1NiIsInR5iOi...
+responses:
+  '200':
+    headers:
+      Set Cookie:
+        description: HttpOnly cookie containing the Refresh Token
+        schema:
+          type: string
+          example: Refresh Token - eyJhbGciJIUzI1NiIsInR5iOi...
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            accessToken:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...
+  '401':
+    description: Session expired
+    $ref: ../../components/responses/401.yaml
+  '404':
+    description: Not found - Session not found
+    $ref: ../../components/responses/404.yaml

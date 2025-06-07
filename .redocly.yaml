@@ -1,0 +1,7 @@
+apis:
+  main:
+    root: ./src/swagger/index.yaml
+
+rules:
+  no-unresolved-refs: warn
+  operation-description: off

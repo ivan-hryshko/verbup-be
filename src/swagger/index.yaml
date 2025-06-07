@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: Verbup API
+  version: 1.0.0
+  description: API documentation for Verbup
+
+tags:
+  - name: Auth
+    description: Authentication & authorization endpoints
+  - name: Users
+    description: User management endpoints
+
+servers:
+  - url: http://localhost:8000/api/v1
+
+paths:
+  /auth/register:
+    post:
+      $ref: './paths/auth/register.yaml'
+  /auth/login:
+    post:
+      $ref: './paths/auth/login.yaml'
+  /auth/refresh:
+    post:
+      $ref: './paths/auth/refresh.yaml'
+  /users:
+    post:
+      $ref: './paths/users/create.yaml'
+    get:
+      $ref: './paths/users/getAll.yaml'
+  /users/{id}:
+    get:
+      $ref: './paths/users/{id}/get.yaml'
+    patch:
+      $ref: './paths/users/{id}/patch.yaml'
+    delete:
+      $ref: './paths/users/{id}/delete.yaml'
+
+components:
+  schemas:
+    User:
+      $ref: './components/schemas/User.yaml'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -7,6 +7,7 @@ import {
 } from './constants'
 import { UserEntity } from '../users/users.entity'
 import { SessionRepository } from './session.repository'
+import createHttpError from 'http-errors'
 // import { LessThan } from 'typeorm'
 
 export interface ISessionService {
@@ -48,13 +49,9 @@ export class SessionService implements ISessionService {
     refreshToken: string
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const session = await this.sessionRepo.findByRefreshToken(refreshToken)
-    if (!session) {
-      throw new Error('Session not found')
-    }
+    if (!session) throw createHttpError(404, 'Session not found')
     const now = new Date()
-    if (session.expiresAt < now) {
-      throw new Error('Session expired')
-    }
+    if (session.expiresAt < now) throw createHttpError(401, 'Session expired')
     const newAccessToken = generateAccessToken(session.user.id)
     const newRefreshToken = generateRefreshToken(session.user.id)
     session.refreshToken = newRefreshToken

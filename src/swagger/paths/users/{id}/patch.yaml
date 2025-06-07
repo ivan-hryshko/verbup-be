@@ -1,0 +1,35 @@
+tags:
+  - Users
+summary: Update user
+security:
+  - BearerAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+      example: 10
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          username:
+            type: string
+            example: Eugene
+          avatar:
+            type: string
+            example: https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
+responses:
+  '200':
+    description: User updated successfully
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/schemas/User.yaml
+  '404':
+    description: Not found - User not found
+    $ref: ../../../components/responses/404.yaml
