@@ -1,0 +1,21 @@
+type: object
+properties:
+  id:
+    type: string
+    example: 10
+  username:
+    type: string
+    example: Eugene
+  email:
+    type: string
+    example: test@gmail.com
+  avatar:
+    type: string
+    nullable: true
+    example: https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
+  created_at:
+    type: string
+    example: '2025-06-06T18:50:11.640Z'
+  updated_at:
+    type: string
+    example: '2025-06-06T18:50:11.640Z'

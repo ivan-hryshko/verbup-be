@@ -1,6 +1,9 @@
 import express from 'express'
 import apiV1routes from './routes/api-v1.routes'
 import cookieParser from 'cookie-parser'
+import { swaggerDocs } from './utils/swagger'
+import { errorHandler } from './utils/errorHandler'
+
 // import postgresSource from './config/app-data-source'
 
 const app = express()
@@ -15,11 +18,13 @@ const app = express()
 //   })
 app.use(cookieParser())
 app.use(express.json())
+app.use('/api/v1/docs', swaggerDocs())
 
 app.get('/', (req, res) => {
   res.send('Hello verbup')
 })
 
 app.use('/api/v1', apiV1routes)
+app.use(errorHandler)
 
 export default app

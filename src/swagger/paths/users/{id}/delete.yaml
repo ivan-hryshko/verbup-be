@@ -1,0 +1,18 @@
+tags:
+  - Users
+summary: Delete user
+security:
+  - BearerAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+      example: 10
+responses:
+  '204':
+    description: User deleted successfully
+  '404':
+    description: Not found - User not found
+    $ref: ../../../components/responses/404.yaml
