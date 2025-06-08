@@ -2,7 +2,8 @@
 import { Repository } from 'typeorm';
 import AppDataSource from '../../config/app-data-source';
 import { IrrWordEntity } from './irr-words.entity';
-import { IrrWordLang, IrrWordLevel } from './irr-words.types';
+import { IrrWordLang, IrrWordLevel, IrrWordType } from './irr-words.types';
+import { GameWord } from '../games/games.type';
 
 export type GetRandomWordsByLevelParams = {
   level: IrrWordLevel
@@ -27,18 +28,65 @@ export class IrrWordRepository {
   }
 
   async getRandomWordsByLevel(params: GetRandomWordsByLevelParams): Promise<IrrWordEntity[]> {
-return this.repo
-    .createQueryBuilder('word')
-    .leftJoin('word.progressPs', 'progressPs', 'progressPs.userId = :userId AND progressPs.status = :studied', { userId: params.userId, studied: 'studied' })
-    .leftJoin('word.progressPp', 'progressPp', 'progressPp.userId = :userId AND progressPp.status = :studied', { userId: params.userId, studied: 'studied' })
-    .where('word.level = :level', { level: params.level })
-    .andWhere('word.lang = :lang', { lang: params.lang })
-    .andWhere('progressPs.id IS NULL')
-    .andWhere('progressPp.id IS NULL')
-    .orderBy('RANDOM()') // PostgreSQL syntax
-    .limit(params.count)
-    .getMany();
+    return this.repo
+      .createQueryBuilder('word')
+      .leftJoin('word.progressPs', 'progressPs', 'progressPs.userId = :userId AND progressPs.status = :studied', { userId: params.userId, studied: 'studied' })
+      .leftJoin('word.progressPp', 'progressPp', 'progressPp.userId = :userId AND progressPp.status = :studied', { userId: params.userId, studied: 'studied' })
+      .where('word.level = :level', { level: params.level })
+      .andWhere('word.lang = :lang', { lang: params.lang })
+      .andWhere('progressPs.id IS NULL')
+      .andWhere('progressPp.id IS NULL')
+      .orderBy('RANDOM()') // PostgreSQL syntax
+      .limit(params.count)
+      .getMany();
   }
+
+  async getAvailableWordsByType(
+    type: IrrWordType,
+    level: string,
+    lang: string,
+    userId: number
+  ): Promise<GameWord[]> {
+    const qb = this.repo.createQueryBuilder('word');
+
+    if (type === 'ps') {
+      qb.leftJoin(
+        'word.progressPs',
+        'progressPs',
+        'progressPs.userId = :userId AND progressPs.status = :studied',
+        { userId, studied: 'studied' }
+      )
+        .andWhere('progressPs.id IS NULL')
+        .addSelect(['word.pastSimple', 'word.psSound']);
+    } else {
+      qb.leftJoin(
+        'word.progressPp',
+        'progressPp',
+        'progressPp.userId = :userId AND progressPp.status = :studied',
+        { userId, studied: 'studied' }
+      )
+        .andWhere('progressPp.id IS NULL')
+        .addSelect(['word.pastParticiple', 'word.ppSound']);
+    }
+
+    return qb
+      .where('word.level = :level', { level })
+      .andWhere('word.lang = :lang', { lang })
+      .select([
+        'word.id',
+        'word.basic',
+        'word.basicSound',
+        'word.image'
+      ])
+      .getMany()
+      .then(words =>
+        words.map(word => ({
+          ...word,
+          type,
+        }))
+      );
+  }
+
 
   async save(word: Partial<IrrWordEntity>): Promise<IrrWordEntity> {
     const newWord = this.repo.create(word);

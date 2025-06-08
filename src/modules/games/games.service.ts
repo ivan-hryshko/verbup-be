@@ -4,7 +4,8 @@
 import createHttpError from "http-errors";
 import { IrrWordEntity } from "../irr-words-en/irr-words.entity";
 import { GetRandomWordsByLevelParams, IrrWordRepository } from "../irr-words-en/irr-words.repository";
-import { IrrWordLang, IrrWordLevel } from "../irr-words-en/irr-words.types";
+import { IrrWordLang, IrrWordLevel, IrrWordType } from "../irr-words-en/irr-words.types";
+import { GameWord } from "./games.type";
 
 interface GetWordsDto {
   level?: string;
@@ -48,18 +49,41 @@ export class GamesService {
     }
   }
 
-  async getWords(params: GetWordsDto) {
+  async getWords(params: GetWordsDto): Promise<GameWord[]> {
     const { level, count, lang, userId } = GamesService.validateGetWords(params);
 
-    const getParams: GetRandomWordsByLevelParams = {
-      level,
-      count,
-      lang,
-      userId,
-    }
+    const psWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PS, level, lang, userId);
+    const ppWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PP, level, lang, userId);
 
-    const words = await this.irrWordRepo.getRandomWordsByLevel(getParams);
+    const allWords = [...psWords, ...ppWords];
 
-    return words
+    // Random shuffle and limit
+    const shuffled = allWords.sort(() => Math.random() - 0.5).slice(0, count);
+
+    // Clean up word types
+    return shuffled.map(word => {
+      const base = {
+        id: word.id,
+        basic: word.basic,
+        basicSound: word.basicSound,
+        image: word.image,
+        type: word.type,
+      };
+
+      if (word.type === 'ps') {
+        return {
+          ...base,
+          pastSimple: word.pastSimple,
+          psSound: word.psSound,
+        };
+      } else {
+        return {
+          ...base,
+          pastParticiple: word.pastParticiple,
+          ppSound: word.ppSound,
+        };
+      }
+    });
   }
+
 }
