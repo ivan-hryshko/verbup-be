@@ -2,24 +2,10 @@
 import { Repository } from 'typeorm';
 import AppDataSource from '../../../config/app-data-source';
 import { ProgressPsEntity } from './progress-ps.entity';
-import { ProgressStatus } from '../progress.types';
+import { ProgressSaveParams, ProgressStatus } from '../progress.types';
+import { IProgressRepository } from '../progress.interface';
 
-type SavePsParams = {
-  userId: number
-  words: {
-    wordId: number
-    status: ProgressStatus,
-  }[]
-}
-
-export interface IProgressPsRepository{
-  getProgressByUserId(userId: number): Promise<ProgressPsEntity[]>
-  saveProgress(params: SavePsParams): void
-}
-
-
-
-export class ProgressPsRepository implements IProgressPsRepository {
+export class ProgressPsRepository implements IProgressRepository<ProgressPsEntity> {
   private repo: Repository<ProgressPsEntity>;
 
   constructor() {
@@ -35,7 +21,7 @@ export class ProgressPsRepository implements IProgressPsRepository {
       .getMany();
   }
 
-  async saveProgress(params: SavePsParams): Promise<ProgressPsEntity[]> {
+  async saveProgress(params: ProgressSaveParams): Promise<ProgressPsEntity[]> {
     const preparedWords =  params.words.map(param => {
       return {
         user: { id: params.userId },

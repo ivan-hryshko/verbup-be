@@ -23,4 +23,5 @@ export const errorHandler = (
     message: 'Something went wrong',
     data: err,
   })
+  Logger.error('Uncought error', err)
 }

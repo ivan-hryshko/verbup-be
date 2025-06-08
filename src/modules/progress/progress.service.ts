@@ -1,11 +1,11 @@
 import appDataSource from '../../config/app-data-source'
 import { enumValues } from '../../utils/enumsHelp';
 import { IrrWordType } from '../irr-words-en/irr-words.types';
+import { ProgressPpRepository } from './progress-pp/progress-pp.repository';
 import { ProgressPsRepository } from './progress-ps/progress-ps.repository';
 import { ProgressStatus } from './progress.types';
 
 
-const progressPsRepository = new ProgressPsRepository();
 type SaveReqArgs = {
   userId: number
   words: [{
@@ -25,7 +25,15 @@ type SaveProgressInput = {
   words: WordInput[];
 };
 export class ProgressService {
-  static validateSaveProgressInput(data: any) {
+  private readonly progressPsRepository: ProgressPsRepository
+  private readonly progressPpRepository: ProgressPpRepository
+
+  constructor() {
+    this.progressPsRepository = new ProgressPsRepository();
+    this.progressPpRepository = new ProgressPpRepository();
+  }
+
+  validateSaveProgressInput(data: any) {
     const validTypes = enumValues(IrrWordType);
     const validStatuses = enumValues(ProgressStatus);
 
@@ -43,7 +51,7 @@ export class ProgressService {
     }
   }
 
-  static async save(data: SaveReqArgs): Promise<any> {
+  async save(data: SaveReqArgs): Promise<any> {
     // check user
     // check word
     // check status
@@ -58,7 +66,7 @@ export class ProgressService {
 
     // check ps
     // const progressPs = await progressPsRepository.saveProgress(psWords)
-  const progressPs = await progressPsRepository.saveProgress({
+  const progressPs = await this.progressPsRepository.saveProgress({
     userId: Number(data.userId),
     words: psWords,
   });
@@ -68,13 +76,17 @@ export class ProgressService {
     return [progressPs]
   }
 
-  static async list(data: any): Promise<any> {
+  async list(data: any): Promise<any> {
     const { userId } = data
     // check user
 
     // check ps
-    const progressPs = await progressPsRepository.getProgressByUserId(userId)
+    const progressPs = await this.progressPsRepository.getProgressByUserId(userId)
+    const progressPp = await this.progressPpRepository.getProgressByUserId(userId)
     // check pp
-    return [progressPs]
+    return {
+      progressPs,
+      progressPp,
+    }
   }
 }
