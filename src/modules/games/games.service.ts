@@ -1,6 +1,7 @@
 // import { UsersRequestCreate } from "./users.request"
 // import { UsersRepository } from "./users.repository"
 
+import createHttpError from "http-errors";
 import { IrrWordEntity } from "../irr-words-en/irr-words.entity";
 import { GetRandomWordsByLevelParams, IrrWordRepository } from "../irr-words-en/irr-words.repository";
 import { IrrWordLang, IrrWordLevel } from "../irr-words-en/irr-words.types";
@@ -13,12 +14,16 @@ interface GetWordsDto {
 }
 
 export class GamesService {
-  private irrWordRepo = new IrrWordRepository();
+  private irrWordRepo: IrrWordRepository
+
+  constructor() {
+    this.irrWordRepo = new IrrWordRepository()
+  }
 
   static validateGetWords(dto: GetWordsDto) {
-    const { level, count, lang } = dto;
-    if (!level || !['easy', 'medium', 'hard'].includes(level)) {
-      throw new Error('Invalid or missing "level" param');
+    const {count, lang } = dto;
+    if (!dto?.level || !['easy', 'medium', 'hard'].includes(dto?.level)) {
+      throw createHttpError(400, 'Invalid or missing "level" param')
     }
 
     const wordCount = Number(count);
@@ -36,7 +41,7 @@ export class GamesService {
     }
 
     return {
-      level: level as IrrWordLevel,
+      level: dto.level as IrrWordLevel,
       count: wordCount,
       lang: lang as IrrWordLang,
       userId,
