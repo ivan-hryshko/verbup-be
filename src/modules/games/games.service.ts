@@ -70,7 +70,7 @@ export class GamesService {
         type: word.type,
       };
 
-      if (word.type === 'ps') {
+      if (word.type === IrrWordType.PS) {
         return {
           ...base,
           pastSimple: word.pastSimple,

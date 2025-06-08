@@ -72,12 +72,6 @@ export class IrrWordRepository {
     return qb
       .where('word.level = :level', { level })
       .andWhere('word.lang = :lang', { lang })
-      .select([
-        'word.id',
-        'word.basic',
-        'word.basicSound',
-        'word.image'
-      ])
       .getMany()
       .then(words =>
         words.map(word => ({
