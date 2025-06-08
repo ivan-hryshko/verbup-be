@@ -5,14 +5,16 @@ import { ProgressPsEntity } from './progress-ps.entity';
 import { ProgressStatus } from '../progress.types';
 
 type SavePsParams = {
-  wordId: number
   userId: number
-  status: ProgressStatus
+  words: {
+    wordId: number
+    status: ProgressStatus,
+  }[]
 }
 
 export interface IProgressPsRepository{
   getProgressByUserId(userId: number): Promise<ProgressPsEntity[]>
-  savePsProgress(params: SavePsParams): void
+  saveProgress(params: SavePsParams): void
 }
 
 
@@ -33,13 +35,16 @@ export class ProgressPsRepository implements IProgressPsRepository {
       .getMany();
   }
 
-  async savePsProgress(params: SavePsParams): Promise<ProgressPsEntity> {
-    const prepared = {
-      user: { id: params.userId },
-      word: { id: params.wordId },
-      status: params.status,
-    }
-    const newWord = this.repo.create(prepared);
-    return this.repo.save(newWord);
+  async saveProgress(params: SavePsParams): Promise<ProgressPsEntity[]> {
+    const preparedWords =  params.words.map(param => {
+      return {
+        user: { id: params.userId },
+        word: { id: param.wordId },
+        status: param.status,
+      }
+
+    })
+    const progress = this.repo.create(preparedWords);
+    return this.repo.save(progress);
   }
 }
