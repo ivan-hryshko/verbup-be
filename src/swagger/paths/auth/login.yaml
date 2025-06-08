@@ -1,0 +1,54 @@
+tags:
+  - Auth
+summary: Login user
+description: Access Token return in JSON, Refresh Token saves in HttpOnly Cookie
+parameters:
+  - name: Get Cookie
+    in: header
+    required: false
+    description: HttpOnly cookie containing the Refresh Token
+    schema:
+      type: string
+      example: Refresh Token - eyJhbGciJIUzI1NiIsInR5iOi...
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            example: test@gmail.com
+          password:
+            type: string
+            example: password123
+responses:
+  '200':
+    description: Successful login
+    headers:
+      Set Cookie:
+        description: HttpOnly cookie containing the Refresh Token
+        schema:
+          type: string
+          example: Refresh Token - eyJhbGciJIUzI1NiIsInR5iOi...
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Login successful
+            accessToken:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...
+  '401':
+    description: Unauthorized (Invalid password || Session expired)
+    $ref: ../../components/responses/401.yaml
+  '404':
+    description: Not found - User not found || Session not found
+    $ref: ../../components/responses/404.yaml

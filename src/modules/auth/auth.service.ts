@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service'
 import { SessionService } from '../sessions/session.service'
 import { generateAccessToken } from '../sessions/constants'
 import { UsersRepository } from '../users/users.repository'
+import createHttpError from 'http-errors'
 
 export interface IAuthService {
   register(
@@ -34,12 +35,11 @@ export class AuthService implements IAuthService {
 
   async login(email: string, password: string, currentRefreshToken?: string) {
     const user = await this.usersRepository.findByEmailWithPassword(email)
-    if (!user) {
-      throw new Error('User not found')
-    }
+    if (!user) throw createHttpError(404, 'User not found')
+
     const isPasswordValid = await verifyPassword(password, user.password)
     if (!isPasswordValid) {
-      throw new Error('Invalid password')
+      throw createHttpError(401, 'Invalid password')
     }
     const session = await this.sessionService.create(
       user.id,
