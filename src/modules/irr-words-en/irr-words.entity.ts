@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, Unique, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, OneToOne, Unique, Column, OneToMany } from 'typeorm'
+import { ProgressPsEntity } from '../progress/progress-ps/progress-ps.entity';
+import { ProgressPpEntity } from '../progress/progress-pp/progress-pp.entity';
 
 @Entity({ name: 'irr_words' })
 @Unique(['wordGroupId', 'basic']) // this enforces uniqueness; creates index automatically
@@ -35,4 +37,10 @@ export class IrrWordEntity {
 
   @Column({ name: 'pp_sound', length: 200, nullable: true })
   ppSound: string;
+
+  @OneToMany(() => ProgressPsEntity, ps => ps.user)
+  progressPs: ProgressPsEntity[];
+
+  @OneToMany(() => ProgressPpEntity, pp => pp.user)
+  progressPp: ProgressPpEntity[];
 }

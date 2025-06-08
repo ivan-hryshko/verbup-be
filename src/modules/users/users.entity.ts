@@ -8,6 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import { SessionEntity } from '../sessions/session.entity'
+import { ProgressPsEntity } from '../progress/progress-ps/progress-ps.entity'
+import { ProgressPpEntity } from '../progress/progress-pp/progress-pp.entity'
 
 @Entity({ name: 'users' })
 @Unique(['email'])
@@ -35,6 +37,12 @@ export class UserEntity {
 
   //   @Column()
   //   isAdmin: boolean
+
+  @OneToMany(() => ProgressPsEntity, ps => ps.user)
+  progressPs: ProgressPsEntity[];
+
+  @OneToMany(() => ProgressPpEntity, pp => pp.user)
+  progressPp: ProgressPpEntity[];
 
   @CreateDateColumn()
   created_at: Date

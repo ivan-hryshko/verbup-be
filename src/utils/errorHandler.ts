@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { HttpError } from 'http-errors'
+import { Logger } from './logger';
 
 export const errorHandler = (
   err: HttpError | Error,
@@ -13,6 +14,8 @@ export const errorHandler = (
       message: err.name,
       data: err,
     })
+    Logger.error('HttpError', err)
+
     return
   }
   res.status(500).json({
@@ -20,4 +23,5 @@ export const errorHandler = (
     message: 'Something went wrong',
     data: err,
   })
+  Logger.error('Uncought error', err)
 }
