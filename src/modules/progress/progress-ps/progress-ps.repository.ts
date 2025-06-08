@@ -17,7 +17,7 @@ export class ProgressPsRepository implements IProgressRepository<ProgressPsEntit
       .createQueryBuilder('progressPs')
       .where('progressPs.userId = :userId', { userId })
       .innerJoin('progressPs.word', 'word')
-      .addSelect(['word.id', 'word.basic'])
+      .addSelect(['word.basic'])
       .getMany();
   }
 
