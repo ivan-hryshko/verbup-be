@@ -1,11 +1,8 @@
-// import { UsersRequestCreate } from "./users.request"
-// import { UsersRepository } from "./users.repository"
-
 import createHttpError from "http-errors";
-import { IrrWordEntity } from "../irr-words-en/irr-words.entity";
-import { GetRandomWordsByLevelParams, IrrWordRepository } from "../irr-words-en/irr-words.repository";
+import { IrrWordRepository } from "../irr-words-en/irr-words.repository";
 import { IrrWordLang, IrrWordLevel, IrrWordType } from "../irr-words-en/irr-words.types";
 import { GameWord } from "./games.type";
+import { UsersRepository } from "../users/users.repository";
 
 interface GetWordsDto {
   level?: string;
@@ -16,12 +13,13 @@ interface GetWordsDto {
 
 export class GamesService {
   private irrWordRepo: IrrWordRepository
+  private readonly usersRepository = new UsersRepository()
 
   constructor() {
     this.irrWordRepo = new IrrWordRepository()
   }
 
-  static validateGetWords(dto: GetWordsDto) {
+  async validateGetWords(dto: GetWordsDto) {
     const {count, lang } = dto;
     if (!dto?.level || !['easy', 'medium', 'hard'].includes(dto?.level)) {
       throw createHttpError(400, 'Invalid or missing "level" param')
@@ -29,17 +27,19 @@ export class GamesService {
 
     const wordCount = Number(count);
     if (!wordCount || isNaN(wordCount) || wordCount <= 0) {
-      throw new Error('Invalid or missing "count" param');
+      throw createHttpError(400, 'Invalid or missing "count" param')
     }
 
     if (!lang || !['en', 'uk'].includes(lang)) {
-      throw new Error('Invalid or missing "lang" param');
+      throw createHttpError(400, 'Invalid or missing "lang" param')
     }
 
     const userId = Number(dto.userId);
     if (!userId || isNaN(userId) || userId <= 0) {
-      throw new Error('Invalid or missing "count" param');
+      throw createHttpError(400, 'Invalid or missing "userId" param')
     }
+    const user = await this.usersRepository.findById(userId)
+    if (!user) throw createHttpError(404, `User with id: ${dto.userId} not found`)
 
     return {
       level: dto.level as IrrWordLevel,
@@ -49,8 +49,8 @@ export class GamesService {
     }
   }
 
-  async getWords(params: GetWordsDto): Promise<GameWord[]> {
-    const { level, count, lang, userId } = GamesService.validateGetWords(params);
+  async getWords(dto: GetWordsDto): Promise<GameWord[]> {
+    const { level, count, lang, userId } = await this.validateGetWords(dto);
 
     const psWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PS, level, lang, userId);
     const ppWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PP, level, lang, userId);
