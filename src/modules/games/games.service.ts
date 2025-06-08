@@ -2,20 +2,21 @@
 // import { UsersRepository } from "./users.repository"
 
 import { IrrWordEntity } from "../irr-words-en/irr-words.entity";
-import { IrrWordRepository } from "../irr-words-en/irr-words.repository";
+import { GetRandomWordsByLevelParams, IrrWordRepository } from "../irr-words-en/irr-words.repository";
 import { IrrWordLang, IrrWordLevel } from "../irr-words-en/irr-words.types";
 
-interface GetWordsParams {
+interface GetWordsDto {
   level?: string;
   count?: string | number;
   lang?: string;
+  userId?: number
 }
 
 export class GamesService {
   private irrWordRepo = new IrrWordRepository();
 
-  static validateGetWords(params: GetWordsParams) {
-    const { level, count, lang } = params;
+  static validateGetWords(dto: GetWordsDto) {
+    const { level, count, lang } = dto;
     if (!level || !['easy', 'medium', 'hard'].includes(level)) {
       throw new Error('Invalid or missing "level" param');
     }
@@ -29,17 +30,30 @@ export class GamesService {
       throw new Error('Invalid or missing "lang" param');
     }
 
+    const userId = Number(dto.userId);
+    if (!userId || isNaN(userId) || userId <= 0) {
+      throw new Error('Invalid or missing "count" param');
+    }
+
     return {
       level: level as IrrWordLevel,
       count: wordCount,
       lang: lang as IrrWordLang,
+      userId,
     }
   }
 
-  async getWords(params: GetWordsParams) {
-    const { level, count, lang } = GamesService.validateGetWords(params);
+  async getWords(params: GetWordsDto) {
+    const { level, count, lang, userId } = GamesService.validateGetWords(params);
 
-    const words = await this.irrWordRepo.getRandomWordsByLevel(level, count, lang);
+    const getParams: GetRandomWordsByLevelParams = {
+      level,
+      count,
+      lang,
+      userId,
+    }
+
+    const words = await this.irrWordRepo.getRandomWordsByLevel(getParams);
 
     return words
   }

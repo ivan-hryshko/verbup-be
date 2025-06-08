@@ -4,6 +4,13 @@ import AppDataSource from '../../config/app-data-source';
 import { IrrWordEntity } from './irr-words.entity';
 import { IrrWordLang, IrrWordLevel } from './irr-words.types';
 
+export type GetRandomWordsByLevelParams = {
+  level: IrrWordLevel
+  count: number
+  lang: IrrWordLang
+  userId: number
+}
+
 export class IrrWordRepository {
   private repo: Repository<IrrWordEntity>;
 
@@ -19,15 +26,18 @@ export class IrrWordRepository {
     return this.repo.findOneBy({ basic: base_form });
   }
 
-  async getRandomWordsByLevel(level: IrrWordLevel, count: number, lang: IrrWordLang): Promise<IrrWordEntity[]> {
-    return this.repo
-      .createQueryBuilder('word')
-      .where('word.level = :level', { level })
-      .where('word.lang = :lang', { lang })
-      .orderBy('RANDOM()') // PostgreSQL syntax
-      // TODO: check is worrds not in progress
-      .limit(count)
-      .getMany();
+  async getRandomWordsByLevel(params: GetRandomWordsByLevelParams): Promise<IrrWordEntity[]> {
+return this.repo
+    .createQueryBuilder('word')
+    .leftJoin('word.progressPs', 'progressPs', 'progressPs.userId = :userId AND progressPs.status = :studied', { userId: params.userId, studied: 'studied' })
+    .leftJoin('word.progressPp', 'progressPp', 'progressPp.userId = :userId AND progressPp.status = :studied', { userId: params.userId, studied: 'studied' })
+    .where('word.level = :level', { level: params.level })
+    .andWhere('word.lang = :lang', { lang: params.lang })
+    .andWhere('progressPs.id IS NULL')
+    .andWhere('progressPp.id IS NULL')
+    .orderBy('RANDOM()') // PostgreSQL syntax
+    .limit(params.count)
+    .getMany();
   }
 
   async save(word: Partial<IrrWordEntity>): Promise<IrrWordEntity> {
