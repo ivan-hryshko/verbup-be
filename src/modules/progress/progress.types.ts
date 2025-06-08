@@ -1,1 +1,4 @@
-export type ProgressStatus = 'studied' | 'mistake';
+export enum ProgressStatus {
+  MISTAKE = 'mistake',
+  STUDIED = 'studied',
+}
