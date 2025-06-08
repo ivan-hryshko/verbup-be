@@ -25,6 +25,7 @@ export class IrrWordRepository {
       .where('word.level = :level', { level })
       .where('word.lang = :lang', { lang })
       .orderBy('RANDOM()') // PostgreSQL syntax
+      // TODO: check is worrds not in progress
       .limit(count)
       .getMany();
   }
