@@ -1,0 +1,29 @@
+tags:
+  - Users
+summary: Create new user
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            example: test@gmail.com
+          password:
+            type: string
+            example: password123
+responses:
+  '201':
+    description: Successful created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            user:
+              $ref: ../../components/schemas/User.yaml

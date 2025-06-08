@@ -1,12 +1,52 @@
-export type UserCreteParams = {
-  email: string
-  name: string
-  password: string
-}
+import { Repository } from 'typeorm'
+import { UserEntity } from './users.entity'
+import appDataSource from '../../config/app-data-source'
 
-export class UsersRepository {
-  static async create(params: UserCreteParams) {
-    const user = {}
-    return user
+export interface IUserRepository {
+  findByEmail(email: string): Promise<UserEntity | null>
+  findById(id: number): Promise<UserEntity | null>
+  findAll(): Promise<UserEntity[]>
+  create(user: Partial<UserEntity>): Promise<UserEntity>
+  update(user: UserEntity): Promise<UserEntity>
+  delete(user: UserEntity): Promise<any>
+  findByEmailWithPassword(email: string): Promise<UserEntity | null>
+}
+export class UsersRepository implements IUserRepository {
+  private readonly userRepo: Repository<UserEntity>
+
+  constructor() {
+    this.userRepo = appDataSource.getRepository(UserEntity)
+  }
+
+  async findByEmail(email: string): Promise<UserEntity | null> {
+    return this.userRepo.findOne({ where: { email } })
+  }
+
+  async findById(id: number): Promise<UserEntity | null> {
+    return this.userRepo.findOne({ where: { id } })
+  }
+
+  async findAll(): Promise<UserEntity[]> {
+    return this.userRepo.find()
+  }
+
+  async create(user: Partial<UserEntity>): Promise<UserEntity> {
+    const newUser = this.userRepo.create(user)
+    return this.userRepo.save(newUser)
+  }
+
+  async update(user: UserEntity): Promise<UserEntity> {
+    return this.userRepo.save(user)
+  }
+
+  async delete(user: UserEntity): Promise<any> {
+    return this.userRepo.remove(user)
+  }
+
+  async findByEmailWithPassword(email: string): Promise<UserEntity | null> {
+    return this.userRepo.findOne({
+      where: { email },
+      select: ['id', 'email', 'password'],
+    })
   }
 }
