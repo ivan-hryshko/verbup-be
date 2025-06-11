@@ -3,13 +3,6 @@ tags:
 summary: Delete user
 security:
   - BearerAuth: []
-parameters:
-  - name: id
-    in: path
-    required: true
-    schema:
-      type: number
-      example: 10
 responses:
   '204':
     description: User deleted successfully
