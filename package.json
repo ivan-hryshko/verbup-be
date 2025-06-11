@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
     "test": "jest --detectOpenHandles",
     "test-d": "TEST_COMMAND=\"npm run test\" docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit",
     "test-d-list": "TEST_COMMAND=\"npm run test list-movies.test.ts\" docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit",
@@ -56,6 +58,13 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/swagger-ui-express": "^4.1.8",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.3",
+    "eslint-plugin-prettier": "^5.4.0",
+    "typescript-eslint": "^8.32.0",
+    "prettier": "^3.5.3"
   }
 }
