@@ -3,13 +3,6 @@ tags:
 summary: Update user
 security:
   - BearerAuth: []
-parameters:
-  - name: id
-    in: path
-    required: true
-    schema:
-      type: number
-      example: 10
 requestBody:
   required: true
   content:
@@ -29,7 +22,10 @@ responses:
     content:
       application/json:
         schema:
-          $ref: ../../../components/schemas/User.yaml
+          $ref: ../../components/schemas/User.yaml
   '404':
     description: Not found - User not found
-    $ref: ../../../components/responses/404.yaml
+    $ref: ../../components/responses/404.yaml
+  '401':
+    description: Unauthorized - Invalid or missing Bearer token
+    $ref: ../../components/responses/401.yaml

@@ -24,6 +24,9 @@ export class AuthService implements IAuthService {
 
   async register(data: Partial<UserEntity>) {
     const plainPassword = data.password!
+    if (!data.email || !data.password)
+      throw createHttpError(400, 'Email and password are required')
+
     await this.usersService.create(data)
     const { accessToken, refreshToken } = await this.login(
       data.email!,
@@ -36,7 +39,8 @@ export class AuthService implements IAuthService {
   async login(email: string, password: string, currentRefreshToken?: string) {
     const user = await this.usersRepository.findByEmailWithPassword(email)
     if (!user) throw createHttpError(404, 'User not found')
-
+    if (!email || !password)
+      throw createHttpError(400, 'Email and password are required')
     const isPasswordValid = await verifyPassword(password, user.password)
     if (!isPasswordValid) {
       throw createHttpError(401, 'Invalid password')

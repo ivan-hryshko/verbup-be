@@ -77,6 +77,10 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request - Invalid input data",
+            "$ref": "#/components/responses/400"
+          },
           "409": {
             "description": "Conflict - User already exists",
             "$ref": "#/components/responses/409"
@@ -157,12 +161,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request - Email and password are required",
+            "$ref": "#/components/responses/400"
+          },
           "401": {
-            "description": "Unauthorized (Invalid password || Session expired)",
+            "description": "Unauthorized (Invalid password)",
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Not found - User not found || Session not found",
+            "description": "Not found - User not found",
             "$ref": "#/components/responses/404"
           }
         }
@@ -224,95 +232,15 @@
       }
     },
     "/users": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Create new user",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "test@gmail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "password123"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Successful created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "user": {
-                      "$ref": "#/components/schemas/User"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Get all users",
-        "responses": {
-          "200": {
-            "description": "A list of users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{id}": {
       "get": {
         "tags": [
           "Users"
         ],
         "summary": "Get user",
+        "description": "Returns the user associated with the provided Bearer token.",
         "security": [
           {
             "BearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "example": 10
-            }
           }
         ],
         "responses": {
@@ -325,6 +253,10 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token",
+            "$ref": "#/components/responses/401"
           },
           "404": {
             "description": "Not found - User not found",
@@ -340,17 +272,6 @@
         "security": [
           {
             "BearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "example": 10
-            }
           }
         ],
         "requestBody": {
@@ -384,6 +305,10 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token",
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "description": "Not found - User not found",
             "$ref": "#/components/responses/404"
@@ -400,20 +325,13 @@
             "BearerAuth": []
           }
         ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "example": 10
-            }
-          }
-        ],
         "responses": {
           "204": {
             "description": "User deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing Bearer token",
+            "$ref": "#/components/responses/401"
           },
           "404": {
             "description": "Not found - User not found",
@@ -464,6 +382,30 @@
       }
     },
     "responses": {
+      "400": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Email and password are required"
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {

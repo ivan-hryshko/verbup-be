@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { ctrlWrapper } from '../../utils/ctrlWrapper'
+import { ctrlWrapper } from '../../middlewares/ctrlWrapper'
 import { ProgressController } from './progress.controller'
 
 const router = Router()

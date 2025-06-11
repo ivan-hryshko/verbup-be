@@ -1,5 +1,5 @@
-import { Router } from "express"
-import {IrrWordsEnController} from "./irr-words-en.controller"
+import { Router } from 'express'
+import { IrrWordsEnController } from './irr-words-en.controller'
 
 const router = Router()
 

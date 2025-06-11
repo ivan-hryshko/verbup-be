@@ -24,18 +24,16 @@ paths:
     post:
       $ref: './paths/auth/refresh.yaml'
   /users:
-    post:
-      $ref: './paths/users/create.yaml'
+    # post:
+    #   $ref: './paths/users/create.yaml'
+    # get:
+    #   $ref: './paths/users/getAll.yaml'
     get:
-      $ref: './paths/users/getAll.yaml'
-  /users/{id}:
-    get:
-      $ref: './paths/users/{id}/get.yaml'
+      $ref: './paths/users/get.yaml'
     patch:
-      $ref: './paths/users/{id}/patch.yaml'
+      $ref: './paths/users/patch.yaml'
     delete:
-      $ref: './paths/users/{id}/delete.yaml'
-
+      $ref: './paths/users/delete.yaml'
 components:
   schemas:
     User:

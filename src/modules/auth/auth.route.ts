@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { ctrlWrapper } from '../../utils/ctrlWrapper'
+import { ctrlWrapper } from '../../middlewares/ctrlWrapper'
 import { AuthController } from './auth.controller'
 
 const router = Router()
