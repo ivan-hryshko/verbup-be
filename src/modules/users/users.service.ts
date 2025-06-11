@@ -13,9 +13,7 @@ export interface IUsersService {
 export class UsersService implements IUsersService {
   private readonly usersRepository = new UsersRepository()
 
-  async create(
-    data: Partial<UserEntity>
-  ): Promise<Omit<UserEntity, 'password'>> {
+  async create(data: Partial<UserEntity>): Promise<Omit<UserEntity, 'password'>> {
     const existingUser = await this.usersRepository.findByEmail(data.email!)
     if (existingUser) throw createHttpError(409, 'User already exists')
 

@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken'
 
-export const ACCESS_TOKEN_SECRET =
-  process.env.JWT_ACCESS_SECRET || 'access_secret'
-export const REFRESH_TOKEN_SECRET =
-  process.env.JWT_REFRESH_SECRET || 'refresh_secret'
+export const ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_SECRET || 'access_secret'
+export const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh_secret'
 
 export const FIFTEEN_MINUTES = 1000 * 60 * 15
 export const THREE_DAYS = 1000 * 60 * 60 * 24 * 3

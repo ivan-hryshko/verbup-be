@@ -27,22 +27,20 @@ export class IrrWordRepository {
     return this.repo.findOneBy({ basic: base_form })
   }
 
-  async getRandomWordsByLevel(
-    params: GetRandomWordsByLevelParams
-  ): Promise<IrrWordEntity[]> {
+  async getRandomWordsByLevel(params: GetRandomWordsByLevelParams): Promise<IrrWordEntity[]> {
     return this.repo
       .createQueryBuilder('word')
       .leftJoin(
         'word.progressPs',
         'progressPs',
         'progressPs.userId = :userId AND progressPs.status = :studied',
-        { userId: params.userId, studied: 'studied' }
+        { userId: params.userId, studied: 'studied' },
       )
       .leftJoin(
         'word.progressPp',
         'progressPp',
         'progressPp.userId = :userId AND progressPp.status = :studied',
-        { userId: params.userId, studied: 'studied' }
+        { userId: params.userId, studied: 'studied' },
       )
       .where('word.level = :level', { level: params.level })
       .andWhere('word.lang = :lang', { lang: params.lang })
@@ -57,7 +55,7 @@ export class IrrWordRepository {
     type: IrrWordType,
     level: string,
     lang: string,
-    userId: number
+    userId: number,
   ): Promise<GameWord[]> {
     const qb = this.repo.createQueryBuilder('word')
 
@@ -66,7 +64,7 @@ export class IrrWordRepository {
         'word.progressPs',
         'progressPs',
         'progressPs.userId = :userId AND progressPs.status = :studied',
-        { userId, studied: 'studied' }
+        { userId, studied: 'studied' },
       )
         .andWhere('progressPs.id IS NULL')
         .addSelect(['word.pastSimple', 'word.psSound'])
@@ -75,7 +73,7 @@ export class IrrWordRepository {
         'word.progressPp',
         'progressPp',
         'progressPp.userId = :userId AND progressPp.status = :studied',
-        { userId, studied: 'studied' }
+        { userId, studied: 'studied' },
       )
         .andWhere('progressPp.id IS NULL')
         .addSelect(['word.pastParticiple', 'word.ppSound'])
@@ -89,7 +87,7 @@ export class IrrWordRepository {
         words.map((word) => ({
           ...word,
           type,
-        }))
+        })),
       )
   }
 

@@ -1,10 +1,6 @@
 import appDataSource from '../../config/app-data-source'
 import { SessionEntity } from './session.entity'
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  THREE_DAYS,
-} from './constants'
+import { generateAccessToken, generateRefreshToken, THREE_DAYS } from './constants'
 import { UserEntity } from '../users/users.entity'
 import { SessionRepository } from './session.repository'
 import createHttpError from 'http-errors'
@@ -12,23 +8,16 @@ import createHttpError from 'http-errors'
 
 export interface ISessionService {
   create(userId: number, currentRefreshToken?: string): Promise<SessionEntity>
-  refresh(
-    refreshToken: string
-  ): Promise<{ accessToken: string; refreshToken: string }>
+  refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }>
   // cleanExpiredSessions(): Promise<any>
 }
 
 export class SessionService implements ISessionService {
   private readonly sessionRepo = new SessionRepository()
 
-  async create(
-    userId: number,
-    currentRefreshToken?: string
-  ): Promise<SessionEntity> {
+  async create(userId: number, currentRefreshToken?: string): Promise<SessionEntity> {
     if (currentRefreshToken) {
-      const existingSession = await this.sessionRepo.findByRefreshToken(
-        currentRefreshToken
-      )
+      const existingSession = await this.sessionRepo.findByRefreshToken(currentRefreshToken)
       if (existingSession) {
         existingSession.refreshToken = generateRefreshToken(userId)
         existingSession.expiresAt = new Date(Date.now() + THREE_DAYS)
@@ -45,9 +34,7 @@ export class SessionService implements ISessionService {
     return await this.sessionRepo.save(session)
   }
 
-  async refresh(
-    refreshToken: string
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  async refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
     const session = await this.sessionRepo.findByRefreshToken(refreshToken)
     if (!session) throw createHttpError(404, 'Session not found')
     const now = new Date()

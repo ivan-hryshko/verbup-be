@@ -1,10 +1,6 @@
 import createHttpError from 'http-errors'
 import { IrrWordRepository } from '../irr-words-en/irr-words.repository'
-import {
-  IrrWordLang,
-  IrrWordLevel,
-  IrrWordType,
-} from '../irr-words-en/irr-words.types'
+import { IrrWordLang, IrrWordLevel, IrrWordType } from '../irr-words-en/irr-words.types'
 import { GameWord } from './games.type'
 import { UsersRepository } from '../users/users.repository'
 
@@ -43,8 +39,7 @@ export class GamesService {
       throw createHttpError(400, 'Invalid or missing "userId" param')
     }
     const user = await this.usersRepository.findById(userId)
-    if (!user)
-      throw createHttpError(404, `User with id: ${dto.userId} not found`)
+    if (!user) throw createHttpError(404, `User with id: ${dto.userId} not found`)
 
     return {
       level: dto.level as IrrWordLevel,
@@ -61,13 +56,13 @@ export class GamesService {
       IrrWordType.PS,
       level,
       lang,
-      userId
+      userId,
     )
     const ppWords = await this.irrWordRepo.getAvailableWordsByType(
       IrrWordType.PP,
       level,
       lang,
-      userId
+      userId,
     )
 
     const allWords = [...psWords, ...ppWords]

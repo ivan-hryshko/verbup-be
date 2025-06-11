@@ -5,6 +5,7 @@ command for copy and use
 npm run migration:gen src/migrations/
 
 Migration name example
+
 - AddUsersAddIrrWords
 - RenameNameToFullNameAtUsers
 - RemoveNameAtUsers

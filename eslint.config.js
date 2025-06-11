@@ -1,8 +1,8 @@
 // eslint.config.js
-const js = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const prettierPlugin = require('eslint-plugin-prettier');
-const prettierConfig = require('eslint-config-prettier');
+const js = require('@eslint/js')
+const tseslint = require('typescript-eslint')
+const prettierPlugin = require('eslint-plugin-prettier')
+const prettierConfig = require('eslint-config-prettier')
 
 /** @type {import("eslint").Linter.FlatConfig[]} */
 module.exports = [
@@ -20,4 +20,4 @@ module.exports = [
     },
   },
   prettierConfig,
-];
+]

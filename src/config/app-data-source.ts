@@ -6,13 +6,7 @@ import { SessionEntity } from '../modules/sessions/session.entity'
 import { ProgressPsEntity } from '../modules/progress/progress-ps/progress-ps.entity'
 import { ProgressPpEntity } from '../modules/progress/progress-pp/progress-pp.entity'
 
-const entities = [
-  UserEntity,
-  SessionEntity,
-  IrrWordEntity,
-  ProgressPsEntity,
-  ProgressPpEntity,
-]
+const entities = [UserEntity, SessionEntity, IrrWordEntity, ProgressPsEntity, ProgressPpEntity]
 
 const appDataSource = new DataSource({
   type: 'postgres',

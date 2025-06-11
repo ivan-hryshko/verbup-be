@@ -13,7 +13,7 @@ type ProgressSaveDto = {
       wordId: number
       type: IrrWordType
       status: ProgressStatus
-    }
+    },
   ]
 }
 type ProgressListDto = {
@@ -47,21 +47,14 @@ export class ProgressService {
       throw createHttpError(400, 'Invalid or missing "userId" param')
     }
     const user = await this.usersRepository.findById(dto.userId)
-    if (!user)
-      throw createHttpError(404, `User with id: ${dto.userId} not found`)
+    if (!user) throw createHttpError(404, `User with id: ${dto.userId} not found`)
 
     for (const word of dto.words) {
       if (!word?.type || !validTypes.includes(word?.type)) {
-        throw createHttpError(
-          400,
-          `Invalid type: ${word.type} at word: ${word}`
-        )
+        throw createHttpError(400, `Invalid type: ${word.type} at word: ${word}`)
       }
       if (!word?.status || !validStatuses.includes(word?.status)) {
-        throw createHttpError(
-          400,
-          `Invalid status: ${word.status} at word: ${word}`
-        )
+        throw createHttpError(400, `Invalid status: ${word.status} at word: ${word}`)
       }
     }
   }
@@ -99,20 +92,15 @@ export class ProgressService {
       throw createHttpError(400, 'Invalid or missing "userId" param')
     }
     const user = await this.usersRepository.findById(dto.userId)
-    if (!user)
-      throw createHttpError(404, `User with id: ${dto.userId} not found`)
+    if (!user) throw createHttpError(404, `User with id: ${dto.userId} not found`)
   }
 
   async list(dto: any): Promise<any> {
     await this.validateList(dto)
     const { userId } = dto
 
-    const progressPs = await this.progressPsRepository.getProgressByUserId(
-      dto.userId
-    )
-    const progressPp = await this.progressPpRepository.getProgressByUserId(
-      userId
-    )
+    const progressPs = await this.progressPsRepository.getProgressByUserId(dto.userId)
+    const progressPp = await this.progressPpRepository.getProgressByUserId(userId)
 
     return {
       progressPs,

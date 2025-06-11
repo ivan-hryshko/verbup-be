@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  Unique,
-  Column,
-  OneToMany,
-} from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, OneToOne, Unique, Column, OneToMany } from 'typeorm'
 import { ProgressPsEntity } from '../progress/progress-ps/progress-ps.entity'
 import { ProgressPpEntity } from '../progress/progress-pp/progress-pp.entity'
 
