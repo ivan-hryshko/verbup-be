@@ -3,6 +3,8 @@ import createHttpError from 'http-errors'
 import { verify } from 'jsonwebtoken'
 import { SessionEntity } from '../modules/sessions/session.entity'
 import appDataSource from '../config/app-data-source'
+import ENVS from '../config/envs'
+import { UserEntity } from '../modules/users/users.entity'
 
 const sessionRepository = appDataSource.getRepository(SessionEntity)
 
@@ -21,7 +23,7 @@ export const authenticate = async (
     return next(createHttpError(401, 'Auth header should be of type Bearer'))
   }
 
-  const payload = verify(token, process.env.JWT_ACCESS_SECRET!) as {
+  const payload = verify(token, ENVS.JWT_ACCESS_SECRET!) as {
     userId: number
   }
 
@@ -38,6 +40,6 @@ export const authenticate = async (
     return next(createHttpError(410, 'Access token expired'))
   }
 
-  ;(req as any).user = session.user
+  req.user = session.user as UserEntity
   next()
 }

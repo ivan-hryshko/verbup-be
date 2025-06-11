@@ -20,7 +20,7 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ length: 30 })
+  @Column({ length: 30, nullable: true })
   username: string
 
   @Column({ length: 200, select: false })
@@ -38,11 +38,11 @@ export class UserEntity {
   //   @Column()
   //   isAdmin: boolean
 
-  @OneToMany(() => ProgressPsEntity, ps => ps.user)
-  progressPs: ProgressPsEntity[];
+  @OneToMany(() => ProgressPsEntity, (ps) => ps.user)
+  progressPs: ProgressPsEntity[]
 
-  @OneToMany(() => ProgressPpEntity, pp => pp.user)
-  progressPp: ProgressPpEntity[];
+  @OneToMany(() => ProgressPpEntity, (pp) => pp.user)
+  progressPp: ProgressPpEntity[]
 
   @CreateDateColumn()
   created_at: Date

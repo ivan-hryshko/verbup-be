@@ -36,7 +36,8 @@
                 "type": "object",
                 "required": [
                   "email",
-                  "password"
+                  "password",
+                  "username"
                 ],
                 "properties": {
                   "email": {
@@ -46,6 +47,10 @@
                   "password": {
                     "type": "string",
                     "example": "password123"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "Eugene"
                   }
                 }
               }
@@ -76,6 +81,10 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input data",
+            "$ref": "#/components/responses/400"
           },
           "409": {
             "description": "Conflict - User already exists",
@@ -156,6 +165,10 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request - Email and password are required",
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "description": "Unauthorized (Invalid password || Session expired)",
@@ -464,6 +477,30 @@
       }
     },
     "responses": {
+      "400": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fields are required"
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {

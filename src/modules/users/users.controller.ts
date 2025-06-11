@@ -19,19 +19,19 @@ export class UsersController {
   }
 
   getById = async (req: Request, res: Response) => {
-    const { id } = req.params
+    const { id } = req.user
     const user = await this.service.getById(Number(id))
     res.status(200).json(user)
   }
 
   update = async (req: Request, res: Response) => {
-    const { id } = req.params
+    const { id } = req.user
     const user = await this.service.update(Number(id), req.body)
     res.status(200).json(user)
   }
 
   delete = async (req: Request, res: Response) => {
-    const { id } = req.params
+    const { id } = req.user
     await this.service.delete(Number(id))
     res.status(204).send()
   }

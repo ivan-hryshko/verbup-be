@@ -1,0 +1,19 @@
+tags:
+  - Users
+summary: Get user
+description: Returns the user associated with the provided Bearer token.
+security:
+  - BearerAuth: []
+responses:
+  '200':
+    description: User found successfully
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/schemas/User.yaml
+  '404':
+    description: Not found - User not found
+    $ref: ../../components/responses/404.yaml
+  '401':
+    description: Unauthorized - Invalid or missing Bearer token
+    $ref: ../../components/responses/401.yaml
