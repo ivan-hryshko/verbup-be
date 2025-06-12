@@ -6,15 +6,14 @@ import { ProgressPsRepository } from './progress-ps/progress-ps.repository'
 import { ProgressStatus } from './progress.types'
 import { UsersRepository } from '../users/users.repository'
 
-type ProgressSaveDto = {
+export type ProgressSaveDto = {
   userId: number
-  words: [
+  words:
     {
       wordId: number
       type: IrrWordType
       status: ProgressStatus
-    },
-  ]
+    }[],
 }
 type ProgressListDto = {
   userId?: number
