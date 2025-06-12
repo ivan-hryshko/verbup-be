@@ -1,11 +1,13 @@
 import { Request, Response } from 'express'
 import { Logger } from '../../utils/logger'
-import { IrrWordsEnService } from './irr-words-en.service'
+import { IrrWordsService } from './irr-words.service'
 
 export class IrrWordsEnController {
-  static list = async (req: Request, res: Response): Promise<void> => {
+  private readonly irrWordsService = new IrrWordsService()
+
+  list = async (req: Request, res: Response): Promise<void> => {
     try {
-      const words = await IrrWordsEnService.list({ ...req.body })
+      const words = await this.irrWordsService.list({ ...req.body })
       // const userRes = await UsersResponse.create()
 
       res.status(200).json({ data: { words } })
@@ -17,5 +19,10 @@ export class IrrWordsEnController {
         res.status(500).json({ message: 'Error creating user', error })
       }
     }
+  }
+
+  addImage = async (req: Request, res: Response): Promise<any> => {
+    const progress = await this.irrWordsService.addImage({...req.body, file: req.file})
+    res.status(200).json({ data: progress })
   }
 }
