@@ -49,6 +49,14 @@ module.exports = [
           groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
         },
       ],
+      // verbup
+      // TODO: check later why it not work
+      "object-curly-newline": [
+        "error",
+        {
+          "ObjectExpression": { "multiline": true, "minProperties": 3 },
+        }
+      ],
 
       // Node best practices
       'no-console': 'warn',
