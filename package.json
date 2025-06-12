@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "format": "prettier --write .",
     "test": "jest --detectOpenHandles",
     "test-d": "TEST_COMMAND=\"npm run test\" docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit",

@@ -1,7 +1,7 @@
+import createHttpError from 'http-errors'
 import { hashPassword } from '../../utils/hash'
 import { UserEntity } from './users.entity'
 import { UsersRepository } from './users.repository'
-import createHttpError from 'http-errors'
 
 export interface IUsersService {
   create(data: Partial<UserEntity>): Promise<Omit<UserEntity, 'password'>>

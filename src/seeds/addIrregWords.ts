@@ -1,6 +1,6 @@
+import * as fs from 'fs'
 import AppDataSource from '../config/app-data-source'
 import { IrrWordEntity } from '../modules/irr-words-en/irr-words.entity'
-import * as fs from 'fs'
 
 type IrrWordJSON = {
   base_form: string
@@ -21,7 +21,7 @@ async function addIrregWords() {
       fs.readFileSync('src/json-data/irr-verbs.filtered.json', 'utf-8'),
     )
     let index = 1
-    let verbsToSave = []
+    const verbsToSave = []
     for (const [level, words] of Object.entries(data)) {
       for (const word of words) {
         const preparedWordEng = {

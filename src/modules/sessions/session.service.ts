@@ -1,9 +1,9 @@
+import createHttpError from 'http-errors'
 import appDataSource from '../../config/app-data-source'
 import { SessionEntity } from './session.entity'
 import { generateAccessToken, generateRefreshToken, THREE_DAYS } from './constants'
 import { UserEntity } from '../users/users.entity'
 import { SessionRepository } from './session.repository'
-import createHttpError from 'http-errors'
 // import { LessThan } from 'typeorm'
 
 export interface ISessionService {

@@ -1,10 +1,10 @@
+import createHttpError from 'http-errors'
 import { UserEntity } from '../users/users.entity'
 import { verifyPassword } from '../../utils/hash'
 import { UsersService } from '../users/users.service'
 import { SessionService } from '../sessions/session.service'
 import { generateAccessToken } from '../sessions/constants'
 import { UsersRepository } from '../users/users.repository'
-import createHttpError from 'http-errors'
 
 export interface IAuthService {
   register(data: Partial<UserEntity>): Promise<{ accessToken: string; refreshToken: string }>
