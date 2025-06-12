@@ -25,9 +25,7 @@ export class SessionRepository implements ISessionRepository {
     return this.sessionRepo.save(session)
   }
 
-  async findByRefreshToken(
-    refreshToken: string
-  ): Promise<SessionEntity | null> {
+  async findByRefreshToken(refreshToken: string): Promise<SessionEntity | null> {
     return this.sessionRepo.findOne({
       where: { refreshToken },
       relations: ['user'],

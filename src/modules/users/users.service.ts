@@ -1,7 +1,7 @@
+import createHttpError from 'http-errors'
 import { hashPassword } from '../../utils/hash'
 import { UserEntity } from './users.entity'
 import { UsersRepository } from './users.repository'
-import createHttpError from 'http-errors'
 
 export interface IUsersService {
   create(data: Partial<UserEntity>): Promise<Omit<UserEntity, 'password'>>
@@ -13,9 +13,7 @@ export interface IUsersService {
 export class UsersService implements IUsersService {
   private readonly usersRepository = new UsersRepository()
 
-  async create(
-    data: Partial<UserEntity>
-  ): Promise<Omit<UserEntity, 'password'>> {
+  async create(data: Partial<UserEntity>): Promise<Omit<UserEntity, 'password'>> {
     const existingUser = await this.usersRepository.findByEmail(data.email!)
     if (existingUser) throw createHttpError(409, 'User already exists')
 

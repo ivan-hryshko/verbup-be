@@ -4,9 +4,7 @@ import { ProgressPpEntity } from './progress-pp.entity'
 import { ProgressSaveParams } from '../progress.types'
 import { IProgressRepository } from '../progress.interface'
 
-export class ProgressPpRepository
-  implements IProgressRepository<ProgressPpEntity>
-{
+export class ProgressPpRepository implements IProgressRepository<ProgressPpEntity> {
   private repo: Repository<ProgressPpEntity>
 
   constructor() {

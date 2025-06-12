@@ -8,11 +8,7 @@ import { UserEntity } from '../modules/users/users.entity'
 
 const sessionRepository = appDataSource.getRepository(SessionEntity)
 
-export const authenticate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.get('Authorization')
   if (!authHeader) {
     return next(createHttpError(401, 'Please provide Authorization header'))

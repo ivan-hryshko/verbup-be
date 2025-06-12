@@ -1,6 +1,6 @@
 import express from 'express'
-import apiV1routes from './routes/api-v1.routes'
 import cookieParser from 'cookie-parser'
+import apiV1routes from './routes/api-v1.routes'
 import { swaggerDocs } from './utils/swagger'
 import { errorHandler } from './middlewares/errorHandler'
 import './types/express'

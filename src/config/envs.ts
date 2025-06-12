@@ -21,9 +21,7 @@ if (!JWT_ACCESS_SECRET) {
 }
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || ''
 if (!JWT_REFRESH_SECRET) {
-  console.error(
-    'JWT_REFRESH_SECRET is not defined in the environment variables'
-  )
+  console.error('JWT_REFRESH_SECRET is not defined in the environment variables')
 }
 
 const PG_HOST = process.env.PG_HOST

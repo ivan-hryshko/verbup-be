@@ -4,11 +4,7 @@ import { UsersService } from './users.service'
 export class UsersController {
   private readonly service = new UsersService()
 
-  create = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<any> => {
+  create = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const user = await this.service.create(req.body)
     res.status(201).json(user)
   }
