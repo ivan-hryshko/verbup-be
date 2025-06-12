@@ -1,4 +1,6 @@
 import createHttpError from "http-errors"
+import { S3Client, PutObjectCommand, PutObjectCommandInput } from '@aws-sdk/client-s3'
+import ENVS from "../../config/envs"
 
 type IrrWordsaddImageDto = {
   wordId: number
@@ -39,6 +41,22 @@ export class IrrWordsService {
   async addImage(data: unknown): Promise<unknown> {
     console.log('data :>> ', data);
     const dto = this.validateAddImage(data)
+
+    const s3 = new S3Client({
+      credentials: {
+        accessKeyId: ENVS.AWS_ACCESS_KEY,
+        secretAccessKey: ENVS.AWS_SECRET_KEY,
+      },
+      region: ENVS.BUCKET_REGION
+    })
+
+    const params: PutObjectCommandInput = {
+      Bucket: ENVS.BUCKET_NAME,
+      Key: dto.file.originalname,
+      Body: dto.file.buffer,
+      ContentType: dto.file.mimetype,
+    }
+    const command = new PutObjectCommand(params)
     return data
   }
 }
