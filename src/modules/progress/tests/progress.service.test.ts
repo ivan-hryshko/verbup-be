@@ -82,7 +82,6 @@ describe('ProgressService', () => {
       }
 
       const result = await service.save(input)
-      console.log('result :>> ', result);
 
       expect(usersRepoMock.findById).toHaveBeenCalledWith(1)
       expect(psRepoMock.saveProgress).toHaveBeenCalledWith({
@@ -109,8 +108,8 @@ describe('ProgressService', () => {
       const result = await service.list(input)
 
       expect(result).toEqual({
-        progressPs: [{ id: 'ps1' }],
-        progressPp: [{ id: 'pp1' }],
+        progressPs: [mockProgressPs],
+        progressPp: [mockProgressPp],
       })
 
       expect(psRepoMock.getProgressByUserId).toHaveBeenCalledWith(1)
