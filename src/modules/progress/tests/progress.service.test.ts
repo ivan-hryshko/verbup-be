@@ -5,8 +5,8 @@ import { ProgressPpRepository } from '../../../modules/progress/progress-pp/prog
 import { ProgressStatus } from '../../../modules/progress/progress.types'
 import { UserEntity } from '../../users/users.entity'
 import { ProgressPsEntity } from '../progress-ps/progress-ps.entity'
-import { IrrWordEntity } from '../../irr-words-en/irr-words.entity'
-import { IrrWordType } from '../../irr-words-en/irr-words.types'
+import { IrrWordEntity } from '../../irr-words/irr-words.entity'
+import { IrrWordType } from '../../irr-words/irr-words.types'
 
 // Mocks
 jest.mock('../../../modules/users/users.repository')

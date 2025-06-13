@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors'
 import { enumValues } from '../../utils/enumsHelp'
-import { IrrWordType } from '../irr-words-en/irr-words.types'
+import { IrrWordType } from '../irr-words/irr-words.types'
 import { ProgressPpRepository } from './progress-pp/progress-pp.repository'
 import { ProgressPsRepository } from './progress-ps/progress-ps.repository'
 import { ProgressStatus } from './progress.types'

@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import AppDataSource from '../config/app-data-source'
-import { IrrWordEntity } from '../modules/irr-words-en/irr-words.entity'
+import { IrrWordEntity } from '../modules/irr-words/irr-words.entity'
 
 type IrrWordJSON = {
   base_form: string

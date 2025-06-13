@@ -11,6 +11,10 @@ export type GetRandomWordsByLevelParams = {
   lang: IrrWordLang
   userId: number
 }
+export type GetWordsByBaseParams = {
+  basic: string
+  lang: IrrWordLang
+}
 
 export class IrrWordRepository {
   private repo: Repository<IrrWordEntity>
@@ -27,6 +31,13 @@ export class IrrWordRepository {
     return this.repo.findOneBy({ basic: base_form })
   }
 
+  async getWordsByBase(params: GetWordsByBaseParams): Promise<IrrWordEntity | null> {
+    return this.repo
+      .createQueryBuilder('word')
+      .where('word.lang = :lang', { lang: params.lang })
+      .andWhere('word.basic = :basic', { basic: params.basic })
+      .getOne()
+  }
   async getRandomWordsByLevel(params: GetRandomWordsByLevelParams): Promise<IrrWordEntity[]> {
     return this.repo
       .createQueryBuilder('word')

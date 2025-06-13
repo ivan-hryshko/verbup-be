@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import { UserEntity } from '../../users/users.entity'
-import { IrrWordEntity } from '../../irr-words-en/irr-words.entity'
+import { IrrWordEntity } from '../../irr-words/irr-words.entity'
 import { ProgressStatus } from '../progress.types'
 
 @Entity({ name: 'progress_ps' })

@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import { TsNavigator } from '../utils/ts-navigator'
+import { getRequiredEnvVar } from '../utils/envsHelper'
 
 const APP_ENV = process.env.APP_ENV || 'development'
 if (!APP_ENV) {
@@ -11,18 +12,13 @@ if (APP_ENV === 'test') {
   dotenv.config({ path: TsNavigator.fromRoot('.env.development.local') })
 }
 
-const APP_PORT = process.env.APP_PORT || 8000
-if (!APP_PORT) {
-  console.error('APP_PORT is not defined in the environment variables')
-}
-const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || ''
-if (!JWT_ACCESS_SECRET) {
-  console.error('JWT_ACCESS_SECRET is not defined in the environment variables')
-}
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || ''
-if (!JWT_REFRESH_SECRET) {
-  console.error('JWT_REFRESH_SECRET is not defined in the environment variables')
-}
+const APP_PORT = getRequiredEnvVar('JWT_ACCESS_SECRET', 8000)
+const JWT_ACCESS_SECRET = getRequiredEnvVar('JWT_ACCESS_SECRET', '')
+const JWT_REFRESH_SECRET = getRequiredEnvVar('JWT_REFRESH_SECRET', '')
+const BUCKET_NAME = getRequiredEnvVar('BUCKET_NAME', '')
+const BUCKET_REGION = getRequiredEnvVar('BUCKET_REGION', '')
+const AWS_ACCESS_KEY = getRequiredEnvVar('AWS_ACCESS_KEY', '')
+const AWS_SECRET_KEY = getRequiredEnvVar('AWS_SECRET_KEY', '')
 
 const PG_HOST = process.env.PG_HOST
 const PG_PORT = process.env.PG_PORT
@@ -40,6 +36,10 @@ const ENVS = {
   PG_PASSWORD,
   JWT_ACCESS_SECRET,
   JWT_REFRESH_SECRET,
+  BUCKET_NAME,
+  BUCKET_REGION,
+  AWS_ACCESS_KEY,
+  AWS_SECRET_KEY,
 }
 
 export default ENVS

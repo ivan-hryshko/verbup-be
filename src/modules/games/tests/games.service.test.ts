@@ -1,8 +1,7 @@
 import { GamesService } from '../games.service';
-import { IrrWordRepository } from '../../irr-words-en/irr-words.repository';
+import { IrrWordRepository } from '../../irr-words/irr-words.repository';
 import { UsersRepository } from '../../users/users.repository';
-import { IrrWordType } from '../../irr-words-en/irr-words.types';
-import createHttpError from 'http-errors';
+import { IrrWordType } from '../../irr-words/irr-words.types';
 import { UserEntity } from '../../users/users.entity';
 
 jest.mock('../../irr-words-en/irr-words.repository');

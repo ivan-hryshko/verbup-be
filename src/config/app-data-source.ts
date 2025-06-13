@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm'
 import ENVS from './envs'
-import { IrrWordEntity } from '../modules/irr-words-en/irr-words.entity'
+import { IrrWordEntity } from '../modules/irr-words/irr-words.entity'
 import { UserEntity } from '../modules/users/users.entity'
 import { SessionEntity } from '../modules/sessions/session.entity'
 import { ProgressPsEntity } from '../modules/progress/progress-ps/progress-ps.entity'
