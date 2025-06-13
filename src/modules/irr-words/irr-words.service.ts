@@ -50,13 +50,16 @@ export class IrrWordsService {
       region: ENVS.BUCKET_REGION
     })
 
-    const params: PutObjectCommandInput = {
+    const putParams: PutObjectCommandInput = {
       Bucket: ENVS.BUCKET_NAME,
       Key: dto.file.originalname,
       Body: dto.file.buffer,
       ContentType: dto.file.mimetype,
     }
-    const command = new PutObjectCommand(params)
+    const command = new PutObjectCommand(putParams)
+
+    await s3.send(command)
+
     return data
   }
 }
