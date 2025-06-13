@@ -10,6 +10,7 @@ const irrWordsEnController = new IrrWordsEnController()
 
 router.get('/:lang/list', ctrlWrapper(irrWordsEnController.list))
 router.post('/image', upload.single('image'), ctrlWrapper(irrWordsEnController.addImage))
+router.get('/image', ctrlWrapper(irrWordsEnController.getImage))
 
 
 export default router

@@ -25,4 +25,8 @@ export class IrrWordsEnController {
     const progress = await this.irrWordsService.addImage({...req.body, file: req.file})
     res.status(200).json({ data: progress })
   }
+  getImage = async (req: Request, res: Response): Promise<any> => {
+    const progress = await this.irrWordsService.getImage({...req.query})
+    res.status(200).json({ data: progress })
+  }
 }

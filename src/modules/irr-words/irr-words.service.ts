@@ -9,6 +9,10 @@ type IrrWordsaddImageDto = {
   file: Express.Multer.File,
   word: IrrWordEntity
 }
+type IrrWordsGetImageDto = {
+  wordBasic: string
+  word: IrrWordEntity
+}
 
 export class IrrWordsService {
   private readonly s3Service = new S3Service()
@@ -39,7 +43,7 @@ export class IrrWordsService {
     const wordBasic = (data as any)?.wordBasic
 
     if (typeof wordBasic !== 'string') {
-      throw createHttpError(400, '"wordId" must be a number')
+      throw createHttpError(400, '"wordBasic" must be a string')
     }
     const word = await this.irrWordRepository.getWordsByBase({ lang: IrrWordLang.EN, basic: wordBasic })
     if (!word) {
@@ -60,5 +64,35 @@ export class IrrWordsService {
     await this.irrWordRepository.save(dto.word)
 
     return data
+  }
+
+  async validateGetImage(data: unknown): Promise<IrrWordsGetImageDto> {
+    if (typeof data !== 'object' || data === null) {
+      throw createHttpError(400, 'Payload must be a non-null object')
+    }
+
+    const wordBasic = (data as any)?.wordBasic
+
+    if (typeof wordBasic !== 'string') {
+      throw createHttpError(400, '"wordBasic" must be a string')
+    }
+    const word = await this.irrWordRepository.getWordsByBase({ lang: IrrWordLang.EN, basic: wordBasic })
+    if (!word) {
+      throw createHttpError(400, 'word with "wordBasic" key not exist')
+    }
+
+    return { wordBasic, word }
+  }
+
+  async getImage(data: unknown): Promise<unknown> {
+    const dto = await this.validateGetImage(data)
+    const filename = dto.word.image
+    if (!filename) {
+      throw createHttpError(400, 'word not contain image')
+    }
+
+    const url = await this.s3Service.getFile(filename)
+    dto.word.image = url
+    return dto.word
   }
 }
