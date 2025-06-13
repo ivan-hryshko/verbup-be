@@ -2,10 +2,12 @@ import createHttpError from "http-errors"
 import { S3Service } from "../s3/s3.service"
 import { IrrWordRepository } from "./irr-words.repository"
 import { IrrWordLang } from "./irr-words.types"
+import { IrrWordEntity } from "./irr-words.entity"
 
 type IrrWordsaddImageDto = {
   wordBasic: string
-  file: Express.Multer.File
+  file: Express.Multer.File,
+  word: IrrWordEntity
 }
 
 export class IrrWordsService {
@@ -44,7 +46,7 @@ export class IrrWordsService {
       throw createHttpError(400, 'word with "wordBasic" key not exist')
     }
 
-    return { wordBasic, file }
+    return { wordBasic, file, word }
   }
 
   async addImage(data: unknown): Promise<unknown> {
@@ -52,10 +54,10 @@ export class IrrWordsService {
     const dto = await this.validateAddImage(data)
     const filename = `irr-words/${dto.file.originalname}`
 
-    // await this.s3Service.upload(dto.file, filename)
+    await this.s3Service.upload(dto.file, filename)
 
-    // save image name to irr word.
-    // get word/
+    dto.word.image = filename
+    await this.irrWordRepository.save(dto.word)
 
     return data
   }
