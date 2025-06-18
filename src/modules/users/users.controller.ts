@@ -14,16 +14,16 @@ export class UsersController {
     return res.status(200).json(users)
   }
 
-  getById = async (req: Request, res: Response): Promise<Response> => {
+  getById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.user
     const user = await this.service.getById(Number(id))
-    return res.status(200).json(user)
+    res.status(200).json(user)
   }
 
-  update = async (req: Request, res: Response): Promise<Response> => {
+  update = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.user
     const user = await this.service.update(Number(id), req.body)
-    return res.status(200).json(user)
+    res.status(200).json(user)
   }
 
   delete = async (req: Request, res: Response): Promise<void> => {
