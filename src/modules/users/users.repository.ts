@@ -8,7 +8,7 @@ export interface IUserRepository {
   findAll(): Promise<UserEntity[]>
   create(user: Partial<UserEntity>): Promise<UserEntity>
   update(user: UserEntity): Promise<UserEntity>
-  delete(user: UserEntity): Promise<any>
+  delete(user: UserEntity): Promise<void>
   findByEmailWithPassword(email: string): Promise<UserEntity | null>
 }
 export class UsersRepository implements IUserRepository {
@@ -39,8 +39,8 @@ export class UsersRepository implements IUserRepository {
     return this.userRepo.save(user)
   }
 
-  async delete(user: UserEntity): Promise<any> {
-    return this.userRepo.remove(user)
+  async delete(user: UserEntity): Promise<void> {
+    this.userRepo.remove(user)
   }
 
   async findByEmailWithPassword(email: string): Promise<UserEntity | null> {

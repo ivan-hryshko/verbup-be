@@ -1,8 +1,8 @@
-const js = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const prettierPlugin = require('eslint-plugin-prettier');
-const prettierConfig = require('eslint-config-prettier');
-const importPlugin = require('eslint-plugin-import');
+const js = require('@eslint/js')
+const tseslint = require('typescript-eslint')
+const prettierPlugin = require('eslint-plugin-prettier')
+const prettierConfig = require('eslint-config-prettier')
+const importPlugin = require('eslint-plugin-import')
 
 /** @type {import("eslint").Linter.FlatConfig[]} */
 module.exports = [
@@ -32,17 +32,6 @@ module.exports = [
       'import/named': 'error',
       'import/default': 'error',
       'import/namespace': 'error',
-      'import/no-extraneous-dependencies': [
-        'error',
-        {
-          devDependencies: [
-            '**/*.test.ts',
-            '**/*.spec.ts',
-            '**/*.config.ts',
-            '**/jest.setup.ts',
-          ],
-        },
-      ],
       'import/order': [
         'warn',
         {
@@ -51,11 +40,11 @@ module.exports = [
       ],
       // verbup
       // TODO: check later why it not work
-      "object-curly-newline": [
-        "error",
+      'object-curly-newline': [
+        'error',
         {
-          "ObjectExpression": { "multiline": true, "minProperties": 3 },
-        }
+          ObjectExpression: { multiline: true, minProperties: 3 },
+        },
       ],
 
       // Node best practices
@@ -79,4 +68,4 @@ module.exports = [
 
   // Turn off conflicting rules with Prettier
   prettierConfig,
-];
+]

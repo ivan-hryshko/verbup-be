@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import { AuthService } from './auth.service'
 import { SessionService } from '../sessions/session.service'
 
@@ -6,7 +6,7 @@ export class AuthController {
   private readonly authService = new AuthService()
   private readonly sessionService = new SessionService()
 
-  register = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  register = async (req: Request, res: Response): Promise<Response> => {
     const { accessToken, refreshToken } = await this.authService.register(req.body)
 
     res.cookie('refreshToken', refreshToken, {
@@ -39,7 +39,7 @@ export class AuthController {
     return res.status(200).json({ message: 'Login successfull', accessToken })
   }
 
-  refresh = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  refresh = async (req: Request, res: Response): Promise<Response> => {
     const refreshToken = req.cookies?.refreshToken
     const { accessToken, refreshToken: newRefreshToken } =
       await this.sessionService.refresh(refreshToken)
@@ -49,6 +49,6 @@ export class AuthController {
       sameSite: 'strict',
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
-    res.status(200).json({ accessToken })
+    return res.status(200).json({ accessToken })
   }
 }

@@ -1,5 +1,4 @@
 import createHttpError from 'http-errors'
-import appDataSource from '../../config/app-data-source'
 import { SessionEntity } from './session.entity'
 import { generateAccessToken, generateRefreshToken, THREE_DAYS } from './constants'
 import { UserEntity } from '../users/users.entity'
@@ -9,7 +8,7 @@ import { SessionRepository } from './session.repository'
 export interface ISessionService {
   create(userId: number, currentRefreshToken?: string): Promise<SessionEntity>
   refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }>
-  // cleanExpiredSessions(): Promise<any>
+  // cleanExpiredSessions(): Promise<void>
 }
 
 export class SessionService implements ISessionService {
@@ -50,7 +49,7 @@ export class SessionService implements ISessionService {
     }
   }
 
-  //  async cleanExpiredSessions(): Promise<any> {
+  //  async cleanExpiredSessions(): Promise<void> {
   //   await this.sessionRepo.delete({
   //     expiresAt: LessThan(new Date()),
   //   })

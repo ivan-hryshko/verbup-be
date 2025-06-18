@@ -1,13 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { HttpError } from 'http-errors'
 import { Logger } from './../utils/logger'
 
-export const errorHandler = (
-  err: HttpError | Error,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const errorHandler = (err: HttpError | Error, req: Request, res: Response) => {
   if (err instanceof HttpError) {
     res.status(err.status).json({
       status: err.status,
