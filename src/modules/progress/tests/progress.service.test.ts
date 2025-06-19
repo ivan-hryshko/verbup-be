@@ -30,25 +30,25 @@ describe('ProgressService', () => {
     progressPp: [],
     created_at: new Date(),
     updated_at: new Date(),
-  };
+  }
 
   const mockProgressPs: ProgressPsEntity = {
-    "id": 1,
-    "status": ProgressStatus.MISTAKE,
-    "createdAt": new Date("2025-06-03T13:31:36.705Z"),
-    "updatedAt": new Date("2025-06-03T13:31:36.705Z"),
-    "word": {
-        "basic": "go"
+    id: 1,
+    status: ProgressStatus.MISTAKE,
+    createdAt: new Date('2025-06-03T13:31:36.705Z'),
+    updatedAt: new Date('2025-06-03T13:31:36.705Z'),
+    word: {
+      basic: 'go',
     } as IrrWordEntity,
     user: mockUser,
   }
   const mockProgressPp: ProgressPsEntity = {
-    "id": 1,
-    "status": ProgressStatus.STUDIED,
-    "createdAt": new Date("2025-06-03T13:31:36.705Z"),
-    "updatedAt": new Date("2025-06-03T13:31:36.705Z"),
-    "word": {
-        "basic": "go"
+    id: 1,
+    status: ProgressStatus.STUDIED,
+    createdAt: new Date('2025-06-03T13:31:36.705Z'),
+    updatedAt: new Date('2025-06-03T13:31:36.705Z'),
+    word: {
+      basic: 'go',
     } as IrrWordEntity,
     user: mockUser,
   }

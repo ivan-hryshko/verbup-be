@@ -23,9 +23,7 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Register user",
         "description": "Register a new user with email and password.   Upon successful registration, the user is automatically logged in.   Access Token is returned in the response body.   Refresh Token is set in an HttpOnly cookie via the `Set Cookie` header.\n",
         "requestBody": {
@@ -34,10 +32,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -90,9 +85,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Login user",
         "description": "Access Token return in JSON, Refresh Token saves in HttpOnly Cookie",
         "parameters": [
@@ -113,10 +106,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -178,9 +168,7 @@
     },
     "/auth/refresh": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Refresh access token",
         "description": "Refresh the access token using the refresh token stored in an HttpOnly cookie.   The new access token is returned in the response body, and the refresh token is updated in the cookie.\n",
         "parameters": [
@@ -233,9 +221,7 @@
     },
     "/users": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Get user",
         "description": "Returns the user associated with the provided Bearer token.",
         "security": [
@@ -265,9 +251,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Update user",
         "security": [
           {
@@ -316,9 +300,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Delete user",
         "security": [
           {
@@ -388,10 +370,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -412,10 +391,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -436,10 +412,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message"],
               "properties": {
                 "status": {
                   "type": "integer",
