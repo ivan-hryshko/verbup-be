@@ -11,8 +11,8 @@ export class AuthController {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: false,
+      sameSite: 'lax',
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
 
@@ -32,8 +32,8 @@ export class AuthController {
     )
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: false,
+      sameSite: 'lax',
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
     res.status(200).json({ message: 'Login successfull', accessToken })
@@ -45,8 +45,8 @@ export class AuthController {
       await this.sessionService.refresh(refreshToken)
     res.cookie('refreshToken', newRefreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: false,
+      sameSite: 'lax',
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
     res.status(200).json({ accessToken })
