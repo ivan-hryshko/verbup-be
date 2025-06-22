@@ -4,7 +4,7 @@ import { UsersRepository } from '../../users/users.repository';
 import { IrrWordType } from '../../irr-words/irr-words.types';
 import { UserEntity } from '../../users/users.entity';
 
-jest.mock('../../irr-words-en/irr-words.repository');
+jest.mock('../../irr-words/irr-words.repository');
 jest.mock('../../users/users.repository');
 
 describe('GamesService - getWords', () => {
