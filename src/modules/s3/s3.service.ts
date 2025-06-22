@@ -3,7 +3,12 @@ import { S3Client, PutObjectCommand, PutObjectCommandInput, GetObjectCommand, Ge
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import ENVS from '../../config/envs'
 
-export class S3Service {
+export interface IS3Service {
+  upload(file: Express.Multer.File, filename: string): Promise<any>
+  getFile(filename: string): Promise<any>
+}
+
+export class S3Service implements IS3Service {
   private readonly s3: S3Client
 
   constructor() {
