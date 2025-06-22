@@ -1,4 +1,4 @@
-import { IrrWordType } from '../irr-words-en/irr-words.types'
+import { IrrWordType } from '../irr-words/irr-words.types'
 
 export interface GetWordsDto {
   level: string

@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors'
-import { IrrWordRepository } from '../irr-words-en/irr-words.repository'
-import { IrrWordLang, IrrWordLevel, IrrWordType } from '../irr-words-en/irr-words.types'
+import { IrrWordRepository } from '../irr-words/irr-words.repository'
+import { IrrWordLang, IrrWordLevel, IrrWordType } from '../irr-words/irr-words.types'
 import { GameWord } from './games.type'
 import { UsersRepository } from '../users/users.repository'
 
