@@ -1,16 +1,16 @@
-import { GamesService } from '../games.service';
-import { IrrWordRepository } from '../../irr-words/irr-words.repository';
-import { UsersRepository } from '../../users/users.repository';
-import { IrrWordType } from '../../irr-words/irr-words.types';
-import { UserEntity } from '../../users/users.entity';
+import { GamesService } from '../games.service'
+import { IrrWordRepository } from '../../irr-words/irr-words.repository'
+import { UsersRepository } from '../../users/users.repository'
+import { IrrWordType } from '../../irr-words/irr-words.types'
+import { UserEntity } from '../../users/users.entity'
 
-jest.mock('../../irr-words/irr-words.repository');
-jest.mock('../../users/users.repository');
+jest.mock('../../irr-words/irr-words.repository')
+jest.mock('../../users/users.repository')
 
 describe('GamesService - getWords', () => {
-  let service: GamesService;
-  let mockIrrWordRepo: jest.Mocked<IrrWordRepository>;
-  let mockUsersRepo: jest.Mocked<UsersRepository>;
+  let service: GamesService
+  let mockIrrWordRepo: jest.Mocked<IrrWordRepository>
+  let mockUsersRepo: jest.Mocked<UsersRepository>
 
   const mockUser: UserEntity = {
     id: 1,
@@ -23,51 +23,58 @@ describe('GamesService - getWords', () => {
     progressPp: [],
     created_at: new Date(),
     updated_at: new Date(),
-  };
+  }
 
   beforeEach(() => {
-    mockIrrWordRepo = new IrrWordRepository() as jest.Mocked<IrrWordRepository>;
-    mockUsersRepo = new UsersRepository() as jest.Mocked<UsersRepository>;
+    mockIrrWordRepo = new IrrWordRepository() as jest.Mocked<IrrWordRepository>
+    mockUsersRepo = new UsersRepository() as jest.Mocked<UsersRepository>
 
-    service = new GamesService();
+    service = new GamesService()
     // Override injected repo instances
-    (service as any).irrWordRepo = mockIrrWordRepo;
-    (service as any).usersRepository = mockUsersRepo;
-  });
+    ;(service as any).irrWordRepo = mockIrrWordRepo
+    ;(service as any).usersRepository = mockUsersRepo
+  })
 
   it('should throw error for invalid level', async () => {
-    await expect(service.getWords({
-      level: 'invalid',
-      count: 5,
-      lang: 'en',
-      userId: 1
-    })).rejects.toThrow('Invalid or missing "level" param');
-  });
+    await expect(
+      service.getWords({
+        level: 'invalid',
+        count: 5,
+        lang: 'en',
+        userId: 1,
+      }),
+    ).rejects.toThrow('Invalid or missing "level" param')
+  })
 
   it('should throw error for invalid count', async () => {
-    await expect(service.getWords({
-      level: 'easy',
-      count: -5,
-      lang: 'en',
-      userId: 1
-    })).rejects.toThrow('Invalid or missing "count" param');
-  });
+    await expect(
+      service.getWords({
+        level: 'easy',
+        count: -5,
+        lang: 'en',
+        userId: 1,
+      }),
+    ).rejects.toThrow('Invalid or missing "count" param')
+  })
 
   it('should throw error if user does not exist', async () => {
-    mockUsersRepo.findById.mockResolvedValue(null);
-    await expect(service.getWords({
-      level: 'easy',
-      count: 5,
-      lang: 'en',
-      userId: 999
-    })).rejects.toThrow('User with id: 999 not found');
-  });
+    mockUsersRepo.findById.mockResolvedValue(null)
+    await expect(
+      service.getWords({
+        level: 'easy',
+        count: 5,
+        lang: 'en',
+        userId: 999,
+      }),
+    ).rejects.toThrow('User with id: 999 not found')
+  })
 
   it('should return cleaned and shuffled words (mix ps/pp)', async () => {
-    mockUsersRepo.findById.mockResolvedValue(mockUser);
+    mockUsersRepo.findById.mockResolvedValue(mockUser)
 
     mockIrrWordRepo.getAvailableWordsByType
-      .mockImplementationOnce(async () => [ // PS words
+      .mockImplementationOnce(async () => [
+        // PS words
         {
           id: 1,
           basic: 'go',
@@ -76,9 +83,10 @@ describe('GamesService - getWords', () => {
           basicSound: 'go-basic.mp3',
           image: 'go.png',
           type: IrrWordType.PS,
-        }
+        },
       ])
-      .mockImplementationOnce(async () => [ // PP words
+      .mockImplementationOnce(async () => [
+        // PP words
         {
           id: 2,
           basic: 'eat',
@@ -87,20 +95,20 @@ describe('GamesService - getWords', () => {
           basicSound: 'eat-basic.mp3',
           image: 'eat.png',
           type: IrrWordType.PP,
-        }
-      ]);
+        },
+      ])
 
     const words = await service.getWords({
       level: 'easy',
       count: 2,
       lang: 'en',
-      userId: 1
-    });
+      userId: 1,
+    })
 
-    expect(words).toHaveLength(2);
+    expect(words).toHaveLength(2)
 
-    const psWord = words.find(w => w.type === 'ps');
-    const ppWord = words.find(w => w.type === 'pp');
+    const psWord = words.find((w) => w.type === 'ps')
+    const ppWord = words.find((w) => w.type === 'pp')
 
     expect(psWord).toMatchObject({
       id: 1,
@@ -110,9 +118,9 @@ describe('GamesService - getWords', () => {
       psSound: 'go.mp3',
       basicSound: 'go-basic.mp3',
       image: 'go.png',
-    });
-    expect(psWord).not.toHaveProperty('pastParticiple');
-    expect(psWord).not.toHaveProperty('ppSound');
+    })
+    expect(psWord).not.toHaveProperty('pastParticiple')
+    expect(psWord).not.toHaveProperty('ppSound')
 
     expect(ppWord).toMatchObject({
       id: 2,
@@ -122,8 +130,8 @@ describe('GamesService - getWords', () => {
       ppSound: 'eat.mp3',
       basicSound: 'eat-basic.mp3',
       image: 'eat.png',
-    });
-    expect(ppWord).not.toHaveProperty('pastSimple');
-    expect(ppWord).not.toHaveProperty('psSound');
-  });
-});
+    })
+    expect(ppWord).not.toHaveProperty('pastSimple')
+    expect(ppWord).not.toHaveProperty('psSound')
+  })
+})

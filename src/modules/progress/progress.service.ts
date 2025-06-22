@@ -8,12 +8,11 @@ import { UsersRepository } from '../users/users.repository'
 
 export type ProgressSaveDto = {
   userId: number
-  words:
-    {
-      wordId: number
-      type: IrrWordType
-      status: ProgressStatus
-    }[],
+  words: {
+    wordId: number
+    type: IrrWordType
+    status: ProgressStatus
+  }[]
 }
 type ProgressListDto = {
   userId?: number

@@ -1,4 +1,5 @@
 import createHttpError from 'http-errors'
+import { omit } from 'lodash'
 import { hashPassword } from '../../utils/hash'
 import { UserEntity } from './users.entity'
 import { UsersRepository } from './users.repository'
@@ -8,7 +9,7 @@ export interface IUsersService {
   getAll(): Promise<UserEntity[]>
   getById(id: number): Promise<UserEntity | null>
   update(id: number, data: Partial<UserEntity>): Promise<UserEntity>
-  delete(id: number): Promise<any>
+  delete(id: number): Promise<void>
 }
 export class UsersService implements IUsersService {
   private readonly usersRepository = new UsersRepository()
@@ -22,9 +23,7 @@ export class UsersService implements IUsersService {
       ...data,
       password: hashedPassword,
     })
-    const { password, ...userWithoutPassword } = user
-
-    return userWithoutPassword
+    return omit(user, 'password')
   }
 
   async getAll(): Promise<UserEntity[]> {
@@ -46,10 +45,10 @@ export class UsersService implements IUsersService {
     return this.usersRepository.update(user)
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number): Promise<void> {
     const user = await this.usersRepository.findById(id)
     if (!user) throw createHttpError(404, 'User not found')
 
-    return this.usersRepository.delete(user)
+    this.usersRepository.delete(user)
   }
 }
