@@ -27,7 +27,9 @@
     "build:docs": "redocly bundle src/swagger/index.yaml --ext json -o src/swagger/swagger.json",
     "preview:docs": "redocly preview-docs src/swagger/index.yaml",
     "docs": "npm run lint:docs && npm run build:docs",
-    "copy:docs": "mkdir -p dist/swagger && cp src/swagger/swagger.json dist/swagger/swagger.json"
+    "copy:docs": "mkdir -p dist/swagger && cp src/swagger/swagger.json dist/swagger/swagger.json",
+    "predev": "npm run migration:up && npm run seed",
+    "postinstall": "npm run build && npm run migration:up && npm run seed && node dist/scripts/upload-assets.js"
   },
   "keywords": [],
   "author": "",
