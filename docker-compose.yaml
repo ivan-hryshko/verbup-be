@@ -12,6 +12,7 @@ services:
 
   app:
     build: .
+    container_name: verbup-be
     ports:
       - '8000:8000'
     depends_on:
