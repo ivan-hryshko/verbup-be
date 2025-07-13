@@ -1,0 +1,22 @@
+post:
+  summary: Add an image to an irregular word
+  description: Uploads an image and associates it with an irregular word.
+  tags:
+    - IrrWords
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            image:
+              type: string
+              format: binary
+            wordBasic:
+              type: string
+  responses:
+    '200':
+      description: The image was uploaded successfully.
+    '400':
+      description: Invalid or missing parameters.

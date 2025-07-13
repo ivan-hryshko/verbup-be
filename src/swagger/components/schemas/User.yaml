@@ -1,7 +1,7 @@
 type: object
 properties:
   id:
-    type: string
+    type: integer
     example: 10
   username:
     type: string
@@ -16,6 +16,8 @@ properties:
   created_at:
     type: string
     example: '2025-06-06T18:50:11.640Z'
+    format: date-time
   updated_at:
     type: string
     example: '2025-06-06T18:50:11.640Z'
+    format: date-time

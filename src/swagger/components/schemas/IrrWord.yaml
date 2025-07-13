@@ -1,0 +1,24 @@
+type: object
+properties:
+  id:
+    type: integer
+  wordGroupId:
+    type: integer
+  lang:
+    type: string
+  basic:
+    type: string
+  pastSimple:
+    type: string
+  pastParticiple:
+    type: string
+  level:
+    type: string
+  image:
+    type: string
+  basicSound:
+    type: string
+  psSound:
+    type: string
+  ppSound:
+    type: string

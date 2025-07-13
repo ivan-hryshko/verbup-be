@@ -1,0 +1,17 @@
+type: object
+properties:
+  userId:
+    type: integer
+  words:
+    type: array
+    items:
+      type: object
+      properties:
+        wordId:
+          type: integer
+        type:
+          type: string
+          enum: [ps, pp]
+        status:
+          type: string
+          enum: [learned, in_progress]

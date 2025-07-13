@@ -23,7 +23,9 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Register user",
         "description": "Register a new user with email and password.   Upon successful registration, the user is automatically logged in.   Access Token is returned in the response body.   Refresh Token is set in an HttpOnly cookie via the `Set Cookie` header.\n",
         "requestBody": {
@@ -32,7 +34,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": [
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -85,7 +90,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Login user",
         "description": "Access Token return in JSON, Refresh Token saves in HttpOnly Cookie",
         "parameters": [
@@ -106,7 +113,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": [
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -168,7 +178,9 @@
     },
     "/auth/refresh": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Refresh access token",
         "description": "Refresh the access token using the refresh token stored in an HttpOnly cookie.   The new access token is returned in the response body, and the refresh token is updated in the cookie.\n",
         "parameters": [
@@ -221,7 +233,9 @@
     },
     "/users": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Get user",
         "description": "Returns the user associated with the provided Bearer token.",
         "security": [
@@ -251,7 +265,9 @@
         }
       },
       "patch": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Update user",
         "security": [
           {
@@ -300,7 +316,9 @@
         }
       },
       "delete": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Delete user",
         "security": [
           {
@@ -321,6 +339,324 @@
           }
         }
       }
+    },
+    "/games/words": {
+      "get": {
+        "summary": "Get words for a game",
+        "description": "Retrieves a list of words for a game based on the specified level, count, language, and user ID.",
+        "tags": [
+          "Games"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "level",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "easy",
+                "medium",
+                "hard"
+              ]
+            },
+            "required": true,
+            "description": "The difficulty level of the words."
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "The number of words to retrieve."
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en",
+                "uk"
+              ]
+            },
+            "required": true,
+            "description": "The language of the words."
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "The ID of the user."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of words for the game.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "words": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/GameWord"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing parameters."
+          }
+        }
+      }
+    },
+    "/irr-words/{lang}/list": {
+      "get": {
+        "tags": [
+          "IrrWords"
+        ],
+        "summary": "Get a list of irregular words",
+        "description": "Retrieves a list of irregular words for the specified language.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lang",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en",
+                "uk"
+              ]
+            },
+            "required": true,
+            "description": "The language of the words."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of irregular words."
+          }
+        }
+      }
+    },
+    "/irr-words/image": {
+      "post": {
+        "post": {
+          "summary": "Add an image to an irregular word",
+          "description": "Uploads an image and associates it with an irregular word.",
+          "tags": [
+            "IrrWords"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "image": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "wordBasic": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "The image was uploaded successfully."
+            },
+            "400": {
+              "description": "Invalid or missing parameters."
+            }
+          }
+        }
+      },
+      "get": {
+        "get": {
+          "summary": "Get an image for an irregular word",
+          "description": "Retrieves the image URL for a specified irregular word.",
+          "tags": [
+            "IrrWords"
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "wordBasic",
+              "schema": {
+                "type": "string"
+              },
+              "required": true,
+              "description": "The basic form of the word."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The image URL.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "image": {
+                            "type": "string",
+                            "format": "url"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid or missing parameters."
+            }
+          }
+        }
+      }
+    },
+    "/progress": {
+      "post": {
+        "tags": [
+          "Progress"
+        ],
+        "summary": "Save user progress",
+        "description": "Saves the user's progress for a set of words.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer",
+                    "description": "The ID of the user."
+                  },
+                  "words": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "wordId": {
+                          "type": "integer",
+                          "description": "The ID of the word."
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "ps",
+                            "pp"
+                          ],
+                          "description": "The type of the word (past simple or past participle)."
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "correct",
+                            "incorrect"
+                          ],
+                          "description": "The status of the user's answer."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Progress saved successfully."
+          },
+          "400": {
+            "description": "Invalid or missing parameters."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Progress"
+        ],
+        "summary": "Get user progress",
+        "description": "Retrieves the user's progress.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The ID of the user."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of the user's progress."
+          },
+          "400": {
+            "description": "Invalid or missing parameters."
+          }
+        }
+      }
+    },
+    "/upload/image": {
+      "post": {
+        "post": {
+          "summary": "Upload an image",
+          "description": "Uploads an image file.",
+          "tags": [
+            "Upload"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "image": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "The image was uploaded successfully."
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -329,7 +665,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
+            "type": "integer",
             "example": 10
           },
           "username": {
@@ -347,11 +683,49 @@
           },
           "created_at": {
             "type": "string",
-            "example": "2025-06-06T18:50:11.640Z"
+            "example": "2025-06-06T18:50:11.640Z",
+            "format": "date-time"
           },
           "updated_at": {
             "type": "string",
-            "example": "2025-06-06T18:50:11.640Z"
+            "example": "2025-06-06T18:50:11.640Z",
+            "format": "date-time"
+          }
+        }
+      },
+      "GameWord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "basic": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ps",
+              "pp"
+            ]
+          },
+          "pastSimple": {
+            "type": "string"
+          },
+          "pastParticiple": {
+            "type": "string"
+          },
+          "psSound": {
+            "type": "string"
+          },
+          "ppSound": {
+            "type": "string"
+          },
+          "basicSound": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
           }
         }
       }
@@ -370,7 +744,10 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message"],
+              "required": [
+                "status",
+                "message"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -391,7 +768,10 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message"],
+              "required": [
+                "status",
+                "message"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -412,7 +792,10 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message"],
+              "required": [
+                "status",
+                "message"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",

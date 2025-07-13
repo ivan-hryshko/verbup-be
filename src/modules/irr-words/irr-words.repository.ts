@@ -15,6 +15,9 @@ export type GetWordsByBaseParams = {
   basic: string
   lang: IrrWordLang
 }
+export type GetWordsAll = {
+  lang?: IrrWordLang
+}
 
 export class IrrWordRepository {
   private repo: Repository<IrrWordEntity>
@@ -23,8 +26,12 @@ export class IrrWordRepository {
     this.repo = AppDataSource.getRepository(IrrWordEntity)
   }
 
-  async findAll(): Promise<IrrWordEntity[]> {
-    return this.repo.find()
+  async findAll(params: GetWordsAll): Promise<IrrWordEntity[]> {
+    let qb = this.repo.createQueryBuilder('word')
+    if (params?.lang) {
+      qb = qb.where('word.lang = :lang', { lang: params.lang })
+    }
+    return qb.getMany()
   }
 
   async findByBaseForm(base_form: string): Promise<IrrWordEntity | null> {
