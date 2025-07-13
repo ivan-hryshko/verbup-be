@@ -1,0 +1,10 @@
+type: object
+properties:
+  progressPs:
+    type: array
+    items:
+      $ref: './Progress.yaml'
+  progressPp:
+    type: array
+    items:
+      $ref: './Progress.yaml'

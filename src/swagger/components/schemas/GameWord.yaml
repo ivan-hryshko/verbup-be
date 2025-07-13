@@ -1,0 +1,21 @@
+type: object
+properties:
+  id:
+    type: integer
+  basic:
+    type: string
+  type:
+    type: string
+    enum: [ps, pp]
+  pastSimple:
+    type: string
+  pastParticiple:
+    type: string
+  psSound:
+    type: string
+  ppSound:
+    type: string
+  basicSound:
+    type: string
+  image:
+    type: string

@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    type: integer
+  user:
+    $ref: './User.yaml'
+  word:
+    $ref: './IrrWord.yaml'
+  status:
+    type: string
+    enum: [mistake, studied]
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time

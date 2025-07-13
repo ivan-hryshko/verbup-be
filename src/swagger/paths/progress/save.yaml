@@ -1,0 +1,35 @@
+tags:
+  - Progress
+summary: Save user progress
+description: Saves the user's progress for a set of words.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          userId:
+            type: integer
+            description: The ID of the user.
+          words:
+            type: array
+            items:
+              type: object
+              properties:
+                wordId:
+                  type: integer
+                  description: The ID of the word.
+                type:
+                  type: string
+                  enum: [ps, pp]
+                  description: The type of the word (past simple or past participle).
+                status:
+                  type: string
+                  enum: [correct, incorrect]
+                  description: The status of the user's answer.
+responses:
+  '200':
+    description: Progress saved successfully.
+  '400':
+    description: Invalid or missing parameters.
