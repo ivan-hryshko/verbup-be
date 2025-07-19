@@ -10,6 +10,7 @@ import {
 import { SessionEntity } from '../sessions/session.entity'
 import { ProgressPsEntity } from '../progress/progress-ps/progress-ps.entity'
 import { ProgressPpEntity } from '../progress/progress-pp/progress-pp.entity'
+import { FeedbackEntity } from '../feedback/feedback.entity'
 
 @Entity({ name: 'users' })
 @Unique(['email'])
@@ -35,8 +36,8 @@ export class UserEntity {
   @OneToMany(() => SessionEntity, (session) => session.user)
   sessions: SessionEntity[]
 
-  //   @Column()
-  //   isAdmin: boolean
+  @OneToMany(() => FeedbackEntity, (feedback) => feedback.user)
+  feedback: FeedbackEntity[]
 
   @OneToMany(() => ProgressPsEntity, (ps) => ps.user)
   progressPs: ProgressPsEntity[]
