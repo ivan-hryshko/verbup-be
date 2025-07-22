@@ -5,7 +5,11 @@ export class FeedbackController {
   private readonly service = new FeedbackService()
 
   create = async (req: Request, res: Response): Promise<void> => {
-    const feedback = await this.service.create(req.body)
+    const user = req.user ? { id: req.user.id } : null
+    const feedback = await this.service.create({
+      ...req.body,
+      user,
+    })
     res.status(201).json(feedback)
   }
 

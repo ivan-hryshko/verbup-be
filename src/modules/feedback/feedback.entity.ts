@@ -19,11 +19,11 @@ export class FeedbackEntity {
   @Column({ length: 500 })
   comment: string
 
-  @Column({ length: 100 })
+  @Column('int')
   rating: number
 
-  @ManyToOne(() => UserEntity, (user) => user.feedback)
-  user: Pick<UserEntity, 'id'>
+  @ManyToOne(() => UserEntity, (user) => user.feedback, { nullable: true })
+  user: UserEntity | null
 
   @CreateDateColumn()
   created_at: Date

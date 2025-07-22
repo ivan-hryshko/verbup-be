@@ -36,7 +36,7 @@ export class UserEntity {
   @OneToMany(() => SessionEntity, (session) => session.user)
   sessions: SessionEntity[]
 
-  @OneToMany(() => FeedbackEntity, (feedback) => feedback.user)
+  @OneToMany(() => FeedbackEntity, (feedback) => feedback.user, { nullable: true })
   feedback: FeedbackEntity[]
 
   @OneToMany(() => ProgressPsEntity, (ps) => ps.user)
