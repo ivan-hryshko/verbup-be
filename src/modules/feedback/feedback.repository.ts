@@ -15,11 +15,15 @@ export class FeedbackRepository implements IFeedbackRepository {
   }
 
   async findAll(): Promise<FeedbackEntity[]> {
-    return this.feedbackRepo.find()
+    return this.feedbackRepo.find({ relations: ['user'] })
   }
 
   async create(feedback: Partial<FeedbackEntity>): Promise<FeedbackEntity> {
-    const newFeedback = this.feedbackRepo.create(feedback)
+    const newFeedback = this.feedbackRepo.create({
+      comment: feedback.comment,
+      rating: feedback.rating,
+      userId: feedback.userId ?? null,
+    })
     return this.feedbackRepo.save(newFeedback)
   }
 }

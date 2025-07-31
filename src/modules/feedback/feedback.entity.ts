@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm'
-import { UserEntity } from '../users/users.entity'
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity({ name: 'feedback' })
 export class FeedbackEntity {
@@ -22,8 +14,8 @@ export class FeedbackEntity {
   @Column('int')
   rating: number
 
-  @ManyToOne(() => UserEntity, (user) => user.feedback, { nullable: true })
-  user: UserEntity | null
+  @Column({ type: 'int', nullable: true })
+  userId: number | null
 
   @CreateDateColumn()
   created_at: Date

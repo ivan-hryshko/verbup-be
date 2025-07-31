@@ -19,7 +19,6 @@ describe('GamesService - getWords', () => {
     email: 'test@gmail.com',
     avatar: '',
     sessions: [],
-    feedback: [],
     progressPs: [],
     progressPp: [],
     created_at: new Date(),
