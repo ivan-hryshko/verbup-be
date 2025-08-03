@@ -7,7 +7,6 @@ export class FeedbackController {
 
   create = async (req: Request, res: Response): Promise<void> => {
     const userId = getUserFromToken(req.get('Authorization'))?.id ?? null
-    console.log('Decoded user from token:', userId)
     const feedback = await this.service.create({
       ...req.body,
       userId,

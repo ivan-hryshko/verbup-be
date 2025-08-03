@@ -29,8 +29,6 @@ responses:
               type: string
               example: eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...
   '401':
-    description: Session expired
     $ref: ../../components/responses/401.yaml
   '404':
-    description: Not found - Session not found
     $ref: ../../components/responses/404.yaml

@@ -9,6 +9,8 @@ tags:
     description: Authentication & authorization endpoints
   - name: Users
     description: User management endpoints
+  - name: Feedbacks
+    description: Feedback management endpoints
 
 servers:
   - url: http://localhost:8000/api/v1
@@ -34,6 +36,11 @@ paths:
       $ref: './paths/users/patch.yaml'
     delete:
       $ref: './paths/users/delete.yaml'
+  /feedback:
+    post:
+      $ref: './paths/feedback/create.yaml'
+    # get:
+    #   $ref: './patch/feedback/getAll.yaml'
 components:
   schemas:
     User:

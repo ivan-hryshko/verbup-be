@@ -1,0 +1,43 @@
+tags:
+  - Feedbacks
+summary: Create new feedback
+description: If user registered, automatically add user ID from JWT token to feedback
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - comment
+          - rating
+        properties:
+          comment:
+            type: string
+            example: This is a feedback comment.
+          rating:
+            type: integer
+            example: 5
+responses:
+  '201':
+    description: Successful created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            feedback:
+              $ref: ../../components/schemas/Feedback.yaml
+  '400':
+    description: Bad request, comment and rating are required
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Comment and rating are required

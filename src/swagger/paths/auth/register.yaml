@@ -39,8 +39,6 @@ responses:
             user:
               $ref: ../../components/schemas/User.yaml
   '409':
-    description: Conflict - User already exists
     $ref: ../../components/responses/409.yaml
   '400':
-    description: Bad Request - Invalid input data
     $ref: ../../components/responses/400.yaml

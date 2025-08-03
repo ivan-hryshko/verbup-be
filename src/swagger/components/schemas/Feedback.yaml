@@ -2,17 +2,17 @@ type: object
 properties:
   id:
     type: number
-    example: 10
-  username:
+    example: 8
+  comment:
     type: string
-    example: Eugene
-  email:
-    type: string
-    example: test@gmail.com
-  avatar:
-    type: string
+    example: This is a feedback comment.
+  rating:
+    type: integer
+    example: 5
+  user_id:
+    type: number
+    example: 10 (or null if user is not registered)
     nullable: true
-    example: https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
   created_at:
     type: string
     example: '2025-06-06T18:50:11.640Z'
