@@ -1,0 +1,18 @@
+post:
+  summary: Upload an image
+  description: Uploads an image file.
+  tags:
+    - Upload
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            image:
+              type: string
+              format: binary
+  responses:
+    '200':
+      description: The image was uploaded successfully.

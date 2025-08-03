@@ -1,0 +1,28 @@
+get:
+  summary: Get an image for an irregular word
+  description: Retrieves the image URL for a specified irregular word.
+  tags:
+    - IrrWords
+  parameters:
+    - in: query
+      name: wordBasic
+      schema:
+        type: string
+      required: true
+      description: The basic form of the word.
+  responses:
+    '200':
+      description: The image URL.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  image:
+                    type: string
+                    format: url
+    '400':
+      description: Invalid or missing parameters.
