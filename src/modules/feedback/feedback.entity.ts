@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity({ name: 'feedback' })
 export class FeedbackEntity {
@@ -19,7 +19,4 @@ export class FeedbackEntity {
 
   @CreateDateColumn()
   created_at: Date
-
-  @UpdateDateColumn()
-  updated_at: Date
 }
