@@ -1,0 +1,12 @@
+tags:
+  - Feedbacks
+summary: Get all feedbacks
+responses:
+  '200':
+    description: A list of feedbacks
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '../../components/schemas/Feedback.yaml'

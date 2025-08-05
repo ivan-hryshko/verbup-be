@@ -47,11 +47,8 @@ responses:
               type: string
               example: eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...
   '401':
-    description: Unauthorized (Invalid password)
     $ref: ../../components/responses/401.yaml
   '404':
-    description: Not found - User not found
     $ref: ../../components/responses/404.yaml
   '400':
-    description: Bad Request - Email and password are required
     $ref: ../../components/responses/400.yaml

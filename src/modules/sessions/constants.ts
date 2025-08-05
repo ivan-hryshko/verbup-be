@@ -17,3 +17,17 @@ export const generateRefreshToken = (userId: number): string => {
     expiresIn: '3d',
   })
 }
+
+export const getUserFromToken = (authHeader?: string): { id: number } | null => {
+  if (!authHeader) return null
+
+  const [bearer, token] = authHeader.split(' ')
+  if (bearer !== 'Bearer' || !token) return null
+
+  try {
+    const payload = jwt.verify(token, ACCESS_TOKEN_SECRET) as { userId: number }
+    return { id: payload.userId }
+  } catch {
+    return null
+  }
+}

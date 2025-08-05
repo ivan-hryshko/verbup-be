@@ -1,0 +1,21 @@
+type: object
+properties:
+  id:
+    type: number
+    example: 8
+  comment:
+    type: string
+    example: This is a feedback comment.
+  rating:
+    type: integer
+    example: 5
+  user_id:
+    type: number
+    example: 10 (or null if user is not registered)
+    nullable: true
+  created_at:
+    type: string
+    example: '2025-06-06T18:50:11.640Z'
+  updated_at:
+    type: string
+    example: '2025-06-06T18:50:11.640Z'

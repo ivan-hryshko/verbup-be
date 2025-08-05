@@ -35,9 +35,6 @@ export class UserEntity {
   @OneToMany(() => SessionEntity, (session) => session.user)
   sessions: SessionEntity[]
 
-  //   @Column()
-  //   isAdmin: boolean
-
   @OneToMany(() => ProgressPsEntity, (ps) => ps.user)
   progressPs: ProgressPsEntity[]
 

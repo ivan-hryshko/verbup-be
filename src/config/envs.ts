@@ -12,7 +12,7 @@ if (APP_ENV === 'test') {
   dotenv.config({ path: TsNavigator.fromRoot('.env.development.local') })
 }
 
-const APP_PORT = getRequiredEnvVar('JWT_ACCESS_SECRET', 8000)
+const APP_PORT = getRequiredEnvVar('APP_PORT', 8000)
 const JWT_ACCESS_SECRET = getRequiredEnvVar('JWT_ACCESS_SECRET', '')
 const JWT_REFRESH_SECRET = getRequiredEnvVar('JWT_REFRESH_SECRET', '')
 const BUCKET_NAME = getRequiredEnvVar('BUCKET_NAME', '')

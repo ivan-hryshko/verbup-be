@@ -1,8 +1,14 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { HttpError } from 'http-errors'
 import { Logger } from './../utils/logger'
 
-export const errorHandler = (err: HttpError | Error, req: Request, res: Response) => {
+export const errorHandler = (
+  err: HttpError | Error,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction,
+) => {
   if (err instanceof HttpError) {
     res.status(err.status).json({
       status: err.status,
