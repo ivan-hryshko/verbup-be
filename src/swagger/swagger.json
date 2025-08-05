@@ -344,6 +344,69 @@
         ],
         "summary": "Create new feedback",
         "description": "If user registered, automatically add user ID from JWT token to feedback",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "comment",
+                  "rating"
+                ],
+                "properties": {
+                  "comment": {
+                    "type": "string",
+                    "example": "This is a feedback comment."
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "example": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "feedback": {
+                      "$ref": "#/components/schemas/Feedback"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, comment and rating are required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Comment and rating are required"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/games/words": {
       "get": {
         "summary": "Get words for a game",
@@ -550,25 +613,12 @@
         ],
         "summary": "Save user progress",
         "description": "Saves the user's progress for a set of words.",
-
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "comment",
-                  "rating"
-                ],
-                "properties": {
-                  "comment": {
-                    "type": "string",
-                    "example": "This is a feedback comment."
-                  },
-                  "rating": {
-                    "type": "integer",
-                    "example": 5
                 "properties": {
                   "userId": {
                     "type": "integer",
@@ -608,40 +658,6 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Successful created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "feedback": {
-                      "$ref": "#/components/schemas/Feedback"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request, comment and rating are required",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 400
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Comment and rating are required"
-                    }
-                  }
-                }
-              }
-            }
           "200": {
             "description": "Progress saved successfully."
           },
@@ -744,6 +760,36 @@
           }
         }
       },
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 8
+          },
+          "comment": {
+            "type": "string",
+            "example": "This is a feedback comment."
+          },
+          "rating": {
+            "type": "integer",
+            "example": 5
+          },
+          "user_id": {
+            "type": "number",
+            "example": "10 (or null if user is not registered)",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2025-06-06T18:50:11.640Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2025-06-06T18:50:11.640Z"
+          }
+        }
+      },
       "GameWord": {
         "type": "object",
         "properties": {
@@ -777,36 +823,6 @@
           },
           "image": {
             "type": "string"
-          }
-        }
-      },
-      "Feedback": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "example": 8
-          },
-          "comment": {
-            "type": "string",
-            "example": "This is a feedback comment."
-          },
-          "rating": {
-            "type": "integer",
-            "example": 5
-          },
-          "user_id": {
-            "type": "number",
-            "example": "10 (or null if user is not registered)",
-            "nullable": true
-          },
-          "created_at": {
-            "type": "string",
-            "example": "2025-06-06T18:50:11.640Z"
-          },
-          "updated_at": {
-            "type": "string",
-            "example": "2025-06-06T18:50:11.640Z"
           }
         }
       }

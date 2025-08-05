@@ -2,7 +2,7 @@ import { FeedbackService } from '../feedback.service'
 import { FeedbackRepository } from '../feedback.repository'
 import { FeedbackEntity } from '../feedback.entity'
 
-jest.mock('./feedback.repository')
+jest.mock('../feedback.repository')
 
 describe('FeedbackService - create', () => {
   let service: FeedbackService
