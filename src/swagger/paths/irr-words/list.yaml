@@ -1,0 +1,15 @@
+tags:
+  - IrrWords
+summary: Get a list of irregular words
+description: Retrieves a list of irregular words for the specified language.
+parameters:
+  - in: path
+    name: lang
+    schema:
+      type: string
+      enum: [en, uk]
+    required: true
+    description: The language of the words.
+responses:
+  '200':
+    description: A list of irregular words.

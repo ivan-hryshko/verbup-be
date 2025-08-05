@@ -41,6 +41,25 @@ paths:
       $ref: './paths/feedback/create.yaml'
     # get:
     #   $ref: './patch/feedback/getAll.yaml'
+  /games/words:
+    $ref: './paths/games.yaml'
+  /irr-words/{lang}/list:
+    get:
+      $ref: './paths/irr-words/list.yaml'
+  /irr-words/image:
+    post:
+      $ref: './paths/irr-words/addImage.yaml'
+    get:
+      $ref: './paths/irr-words/getImage.yaml'
+  /progress:
+    post:
+      $ref: './paths/progress/save.yaml'
+    get:
+      $ref: './paths/progress/list.yaml'
+  /upload/image:
+    post:
+      $ref: './paths/upload.yaml'
+
 components:
   schemas:
     User:
