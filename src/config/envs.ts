@@ -19,6 +19,7 @@ const BUCKET_NAME = getRequiredEnvVar('BUCKET_NAME', '')
 const BUCKET_REGION = getRequiredEnvVar('BUCKET_REGION', '')
 const AWS_ACCESS_KEY = getRequiredEnvVar('AWS_ACCESS_KEY', '')
 const AWS_SECRET_KEY = getRequiredEnvVar('AWS_SECRET_KEY', '')
+const FRONTEND_ORIGIN = getRequiredEnvVar('FRONTEND_ORIGIN', '')
 
 const PG_HOST = process.env.PG_HOST
 const PG_PORT = process.env.PG_PORT
@@ -40,6 +41,7 @@ const ENVS = {
   BUCKET_REGION,
   AWS_ACCESS_KEY,
   AWS_SECRET_KEY,
+  FRONTEND_ORIGIN,
 }
 
 export default ENVS
