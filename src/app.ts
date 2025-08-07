@@ -4,6 +4,8 @@ import apiV1routes from './routes/api-v1.routes'
 import { swaggerDocs } from './utils/swagger'
 import { errorHandler } from './middlewares/errorHandler'
 import './types/express'
+import cors from 'cors';
+import ENVS from './config/envs'
 
 // import postgresSource from './config/app-data-source'
 
@@ -17,6 +19,10 @@ const app = express()
 //   .catch((err) => {
 //       console.error("Error during Data Source initialization:", err)
 //   })
+app.use(cors({
+  origin: ENVS.FRONTEND_ORIGIN,
+  credentials: true,
+}));
 app.use(cookieParser())
 app.use(express.json())
 app.use('/api/v1/docs', swaggerDocs())
