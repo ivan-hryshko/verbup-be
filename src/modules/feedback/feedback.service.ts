@@ -2,14 +2,24 @@ import createHttpError from 'http-errors'
 import { FeedbackEntity } from './feedback.entity'
 import { FeedbackRepository } from './feedback.repository'
 import { SlackService } from '../slack/slack.service'
+import ENVS from '../../config/envs'
 export interface IFeedbackService {
+  isSlacCredsExist: boolean
   create(data: Partial<FeedbackEntity>): Promise<FeedbackEntity>
   getAll(): Promise<FeedbackEntity[]>
 }
 
 export class FeedbackService implements IFeedbackService {
+  isSlacCredsExist: boolean
   private readonly feedbackRepository = new FeedbackRepository()
-  private readonly slackService = new SlackService()
+  private readonly slackService
+
+  constructor() {
+    this.isSlacCredsExist = Boolean(ENVS.SLACK_BOT_TOCKEN)
+    if (this.isSlacCredsExist) {
+      this.slackService = new SlackService()
+    }
+  }
 
   async create(data: Partial<FeedbackEntity>): Promise<FeedbackEntity> {
     if (!data.comment || !data.rating) {
@@ -17,7 +27,9 @@ export class FeedbackService implements IFeedbackService {
     }
 
     const feedback = await this.feedbackRepository.create(data)
-    await this.slackService.sendFeedbackMessage(feedback)
+    if (this.isSlacCredsExist) {
+      await this.slackService?.sendFeedbackMessage(feedback)
+    }
     return feedback
   }
 
