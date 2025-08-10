@@ -20,6 +20,9 @@ const BUCKET_REGION = getRequiredEnvVar('BUCKET_REGION', '')
 const AWS_ACCESS_KEY = getRequiredEnvVar('AWS_ACCESS_KEY', '')
 const AWS_SECRET_KEY = getRequiredEnvVar('AWS_SECRET_KEY', '')
 const FRONTEND_ORIGIN = getRequiredEnvVar('FRONTEND_ORIGIN', '')
+const SLACK_SIGNIN_SECRET = getRequiredEnvVar('SLACK_SIGNIN_SECRET', '')
+const SLACK_BOT_TOCKEN = getRequiredEnvVar('SLACK_BOT_TOCKEN', '')
+const SLACK_CHANNEL = getRequiredEnvVar('SLACK_CHANNEL', '')
 
 const PG_HOST = process.env.PG_HOST
 const PG_PORT = process.env.PG_PORT
@@ -42,6 +45,9 @@ const ENVS = {
   AWS_ACCESS_KEY,
   AWS_SECRET_KEY,
   FRONTEND_ORIGIN,
+  SLACK_SIGNIN_SECRET,
+  SLACK_BOT_TOCKEN,
+  SLACK_CHANNEL,
 }
 
 export default ENVS
