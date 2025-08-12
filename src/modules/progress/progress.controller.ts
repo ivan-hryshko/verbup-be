@@ -1,16 +1,19 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { ProgressService } from './progress.service'
+import { getUserFromToken } from '../sessions/constants'
 
 export class ProgressController {
   private readonly progressService = new ProgressService()
 
-  list = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const progress = await this.progressService.list(req.query)
+  list = async (req: Request, res: Response): Promise<any> => {
+    const userId = getUserFromToken(req.get('Authorization'))?.id ?? null
+    const progress = await this.progressService.list({ ...req.query, userId })
     res.status(200).json({ data: progress })
   }
 
-  save = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const progress = await this.progressService.save(req.body)
+  save = async (req: Request, res: Response): Promise<any> => {
+    const userId = getUserFromToken(req.get('Authorization'))?.id ?? null
+    const progress = await this.progressService.save({ ...req.body, userId })
     res.status(200).json({ data: progress })
   }
 }

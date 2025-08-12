@@ -8,7 +8,7 @@ interface GetWordsDto {
   level?: string
   count?: string | number
   lang?: string
-  userId?: number
+  userId?: number | null
 }
 
 export class GamesService {
