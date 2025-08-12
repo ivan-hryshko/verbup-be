@@ -3,6 +3,7 @@ import { IrrWordRepository } from '../../irr-words/irr-words.repository'
 import { UsersRepository } from '../../users/users.repository'
 import { IrrWordType } from '../../irr-words/irr-words.types'
 import { UserEntity } from '../../users/users.entity'
+import { GameWordType } from '../games.type'
 
 jest.mock('../../irr-words/irr-words.repository')
 jest.mock('../../users/users.repository')
@@ -56,6 +57,16 @@ describe('GamesService - getWords', () => {
       }),
     ).rejects.toThrow('Invalid or missing "count" param')
   })
+  it('should throw error for invalid count', async () => {
+    await expect(
+      service.getWords({
+        level: 'easy',
+        count: -5,
+        lang: 'en',
+        userId: 1,
+      }),
+    ).rejects.toThrow('Invalid or missing "count" param')
+  })
 
   it('should throw error if user does not exist', async () => {
     mockUsersRepo.findById.mockResolvedValue(null)
@@ -65,8 +76,21 @@ describe('GamesService - getWords', () => {
         count: 5,
         lang: 'en',
         userId: 999,
+        irrWordType: GameWordType.MIXED,
       }),
     ).rejects.toThrow('User with id: 999 not found')
+  })
+
+  it('should throw error for invalid irrWordType', async () => {
+    mockUsersRepo.findById.mockResolvedValue(mockUser)
+    await expect(
+      service.getWords({
+        level: 'easy',
+        count: 5,
+        lang: 'en',
+        userId: 1,
+      }),
+    ).rejects.toThrow('Invalid or missing "irrWordType" param')
   })
 
   it('should return cleaned and shuffled words (mix ps/pp)', async () => {
@@ -103,6 +127,7 @@ describe('GamesService - getWords', () => {
       count: 2,
       lang: 'en',
       userId: 1,
+      irrWordType: GameWordType.MIXED,
     })
 
     expect(words).toHaveLength(2)
