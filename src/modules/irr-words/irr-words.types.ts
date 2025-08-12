@@ -1,7 +1,7 @@
 export type IrrWordLevel = 'easy' | 'medium' | 'hard'
 export enum IrrWordLang {
   EN = 'en',
-  UK = 'uk'
+  UK = 'uk',
 }
 export enum IrrWordType {
   PS = 'ps',

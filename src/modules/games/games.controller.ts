@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { Logger } from '../../utils/logger'
 import { GamesService } from './games.service'
 
 export class GamesController {

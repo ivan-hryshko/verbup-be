@@ -7,7 +7,11 @@ export interface GetWordsDto {
   userId: number
 }
 
-type GameWordType = 'ps' | 'pp'
+export enum GameWordType {
+  PS = 'ps',
+  PP = 'pp',
+  MIXED = 'mixed',
+}
 
 export interface GameWord {
   id: number

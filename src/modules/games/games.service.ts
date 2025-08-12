@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors'
 import { IrrWordRepository } from '../irr-words/irr-words.repository'
 import { IrrWordLang, IrrWordLevel, IrrWordType } from '../irr-words/irr-words.types'
-import { GameWord } from './games.type'
+import { GameWord, GameWordType } from './games.type'
 import { UsersRepository } from '../users/users.repository'
 
 interface GetWordsDto {
@@ -9,6 +9,7 @@ interface GetWordsDto {
   count?: string | number
   lang?: string
   userId?: number
+  irrWordType?: GameWordType
 }
 
 export class GamesService {
@@ -20,7 +21,7 @@ export class GamesService {
   }
 
   async validateGetWords(dto: GetWordsDto) {
-    const { count, lang } = dto
+    const { count, lang, irrWordType } = dto
     if (!dto?.level || !['easy', 'medium', 'hard'].includes(dto?.level)) {
       throw createHttpError(400, 'Invalid or missing "level" param')
     }
@@ -32,6 +33,9 @@ export class GamesService {
 
     if (!lang || !['en', 'uk'].includes(lang)) {
       throw createHttpError(400, 'Invalid or missing "lang" param')
+    }
+    if (!irrWordType || !Object.values(GameWordType).includes(irrWordType)) {
+      throw createHttpError(400, 'Invalid or missing "irrWordType" param')
     }
 
     const userId = Number(dto.userId)
@@ -46,25 +50,24 @@ export class GamesService {
       count: wordCount,
       lang: lang as IrrWordLang,
       userId,
+      irrWordType,
     }
   }
 
   async getWords(dto: GetWordsDto): Promise<GameWord[]> {
-    const { level, count, lang, userId } = await this.validateGetWords(dto)
+    const { level, count, lang, userId, irrWordType } = await this.validateGetWords(dto)
 
-    const psWords = await this.irrWordRepo.getAvailableWordsByType(
-      IrrWordType.PS,
-      level,
-      lang,
-      userId,
-    )
-    const ppWords = await this.irrWordRepo.getAvailableWordsByType(
-      IrrWordType.PP,
-      level,
-      lang,
-      userId,
-    )
+    let psWords: GameWord[] = []
+    let ppWords: GameWord[] = []
 
+    if (irrWordType === GameWordType.PS || irrWordType === GameWordType.MIXED) {
+      psWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PS, level, lang, userId)
+    }
+    if (irrWordType === GameWordType.PP || irrWordType === GameWordType.MIXED) {
+      ppWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PP, level, lang, userId)
+    }
+
+    // TODO: what todo if all words learned?
     const allWords = [...psWords, ...ppWords]
 
     // Random shuffle and limit
