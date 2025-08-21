@@ -1,6 +1,7 @@
 import app from './app'
 import ENVS from './config/envs'
 import postgresSource from './config/app-data-source'
+import { DailyStatsService } from './modules/statistics/daily-stats.service'
 
 const startServer = async () => {
   try {
