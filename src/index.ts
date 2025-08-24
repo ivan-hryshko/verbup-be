@@ -7,8 +7,8 @@ const startServer = async () => {
     await postgresSource.initialize()
     console.log('📦 Data Source has been initialized!')
 
-    app.listen(ENVS.APP_PORT, () => {
-      console.log(`VerbUp app listening at http://localhost:${ENVS.APP_PORT}`)
+    app.listen(ENVS.PORT, () => {
+      console.log(`VerbUp app listening at http://localhost:${ENVS.PORT}`)
     })
   } catch (error) {
     console.error('Unable to connect to the database:', error)

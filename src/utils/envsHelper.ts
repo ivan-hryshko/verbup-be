@@ -1,6 +1,6 @@
 export function getRequiredEnvVar<T extends string | number>(key: string, defaultValue: T): T {
   const value = process.env[key]
-  const isGitCi = process.env.APP_ENV === 'git-ci'
+  const isGitCi = process.env.NODE_ENV === 'git-ci'
   if (!value && !isGitCi) {
     console.error(`${key} is not defined in the environment variables`)
     return defaultValue
