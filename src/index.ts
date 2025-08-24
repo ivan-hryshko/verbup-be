@@ -1,9 +1,11 @@
+console.log('at index')
 import app from './app'
 import ENVS from './config/envs'
 import postgresSource from './config/app-data-source'
 
 const startServer = async () => {
   try {
+    console.log('📦 before Data Source initialization„')
     await postgresSource.initialize()
     console.log('📦 Data Source has been initialized!')
 
