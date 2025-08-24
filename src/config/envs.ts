@@ -24,6 +24,7 @@ const SLACK_SIGNIN_SECRET = getRequiredEnvVar('SLACK_SIGNIN_SECRET', '')
 const SLACK_BOT_TOCKEN = getRequiredEnvVar('SLACK_BOT_TOCKEN', '')
 const SLACK_CHANNEL = getRequiredEnvVar('SLACK_CHANNEL', '')
 
+const PG_DATABASE_URL = process.env.DATABASE_URL
 const PG_HOST = process.env.PG_HOST
 const PG_PORT = process.env.PG_PORT
 const PG_USERNAME = process.env.PG_USERNAME
@@ -38,6 +39,7 @@ const ENVS = {
   PG_PORT,
   PG_USERNAME,
   PG_PASSWORD,
+  PG_DATABASE_URL,
   JWT_ACCESS_SECRET,
   JWT_REFRESH_SECRET,
   BUCKET_NAME,
