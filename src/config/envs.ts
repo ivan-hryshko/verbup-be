@@ -2,17 +2,17 @@ import dotenv from 'dotenv'
 import { TsNavigator } from '../utils/ts-navigator'
 import { getRequiredEnvVar } from '../utils/envsHelper'
 
-const APP_ENV = process.env.APP_ENV || 'development'
-if (!APP_ENV) {
-  console.error('APP_ENV is not defined in the environment variables')
+const NODE_ENV = process.env.NODE_ENV || 'development'
+if (!NODE_ENV) {
+  console.error('NODE_ENV is not defined in the environment variables')
 }
-if (APP_ENV === 'test') {
+if (NODE_ENV === 'test') {
   dotenv.config({ path: TsNavigator.fromRoot('.env.test.local') })
-} else {
+} else if (NODE_ENV === 'development') {
   dotenv.config({ path: TsNavigator.fromRoot('.env.development.local') })
 }
 
-const APP_PORT = getRequiredEnvVar('APP_PORT', 8000)
+const PORT = getRequiredEnvVar('PORT', 8000)
 const JWT_ACCESS_SECRET = getRequiredEnvVar('JWT_ACCESS_SECRET', '')
 const JWT_REFRESH_SECRET = getRequiredEnvVar('JWT_REFRESH_SECRET', '')
 const BUCKET_NAME = getRequiredEnvVar('BUCKET_NAME', '')
@@ -24,6 +24,7 @@ const SLACK_SIGNIN_SECRET = getRequiredEnvVar('SLACK_SIGNIN_SECRET', '')
 const SLACK_BOT_TOCKEN = getRequiredEnvVar('SLACK_BOT_TOCKEN', '')
 const SLACK_CHANNEL = getRequiredEnvVar('SLACK_CHANNEL', '')
 
+const PG_DATABASE_URL = process.env.DATABASE_URL
 const PG_HOST = process.env.PG_HOST
 const PG_PORT = process.env.PG_PORT
 const PG_USERNAME = process.env.PG_USERNAME
@@ -31,13 +32,14 @@ const PG_PASSWORD = process.env.PG_PASSWORD
 const PG_DATABASE = process.env.PG_DATABASE
 
 const ENVS = {
-  APP_PORT,
-  APP_ENV,
+  PORT,
+  NODE_ENV,
   PG_HOST,
   PG_DATABASE,
   PG_PORT,
   PG_USERNAME,
   PG_PASSWORD,
+  PG_DATABASE_URL,
   JWT_ACCESS_SECRET,
   JWT_REFRESH_SECRET,
   BUCKET_NAME,

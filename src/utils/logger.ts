@@ -8,7 +8,7 @@ export class Logger {
   }
 
   static error(message: string, error: unknown) {
-    if (ENVS.APP_ENV === 'test') {
+    if (ENVS.NODE_ENV === 'test') {
       return
     }
     console.error(message, error)

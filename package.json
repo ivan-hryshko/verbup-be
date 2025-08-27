@@ -12,6 +12,7 @@
     "test-d-list": "TEST_COMMAND=\"npm run test list-movies.test.ts\" docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit",
     "prestart": "npm run build",
     "build": "rm -rf dist && tsc && npm run build:docs && npm run copy:docs",
+    "heroku-postbuild": "npm run build",
     "start": "node dist/index.js",
     "start:full": "npm run migration:up && npm run seed && node dist/index.js",
     "preserve": "npm run build",
