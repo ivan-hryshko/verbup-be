@@ -45,6 +45,7 @@ export class AuthController {
       await this.sessionService.refresh(refreshToken)
 
     const isLocalhost = req.hostname.includes('localhost')
+    console.log('req.hostname :>> ', req.hostname);
 
     res.cookie('refreshToken', newRefreshToken, {
       httpOnly: true,
