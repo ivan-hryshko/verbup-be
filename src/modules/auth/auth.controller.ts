@@ -43,10 +43,15 @@ export class AuthController {
     const refreshToken = req.cookies?.refreshToken
     const { accessToken, refreshToken: newRefreshToken } =
       await this.sessionService.refresh(refreshToken)
+
+    const isLocalhost = req.hostname.includes('localhost')
+
     res.cookie('refreshToken', newRefreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      // secure: true,
+      // sameSite: 'strict',
+      secure: !isLocalhost, // на локалці false, на проді true
+      sameSite: isLocalhost ? 'lax' : 'none',
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
     res.status(200).json({ accessToken })
