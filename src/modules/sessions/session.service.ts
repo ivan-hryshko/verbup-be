@@ -35,8 +35,10 @@ export class SessionService implements ISessionService {
 
   async refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
     const session = await this.sessionRepo.findByRefreshToken(refreshToken)
+    console.log('session :>> ', session);
     if (!session) throw createHttpError(404, 'Session not found')
     const now = new Date()
+  console.log('now :>> ', now);
     if (session.expiresAt < now) throw createHttpError(401, 'Session expired')
     const newAccessToken = generateAccessToken(session.user.id)
     const newRefreshToken = generateRefreshToken(session.user.id)
