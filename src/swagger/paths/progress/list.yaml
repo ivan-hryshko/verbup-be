@@ -2,13 +2,8 @@ tags:
   - Progress
 summary: Get user progress
 description: Retrieves the user's progress.
-parameters:
-  - in: query
-    name: userId
-    schema:
-      type: integer
-    required: true
-    description: The ID of the user.
+security:
+  - BearerAuth: []
 responses:
   '200':
     description: A list of the user's progress.

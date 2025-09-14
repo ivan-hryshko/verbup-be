@@ -65,7 +65,7 @@ components:
     User:
       $ref: './components/schemas/User.yaml'
   securitySchemes:
-    bearerAuth:
+    BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT

@@ -2,6 +2,8 @@ tags:
   - IrrWords
 summary: Get a list of irregular words
 description: Retrieves a list of irregular words for the specified language.
+security:
+  - BearerAuth: []
 parameters:
   - in: path
     name: lang

@@ -2,6 +2,8 @@ tags:
   - Progress
 summary: Save user progress
 description: Saves the user's progress for a set of words.
+security:
+  - BearerAuth: []
 requestBody:
   required: true
   content:
@@ -9,9 +11,6 @@ requestBody:
       schema:
         type: object
         properties:
-          userId:
-            type: integer
-            description: The ID of the user.
           words:
             type: array
             items:
@@ -26,7 +25,7 @@ requestBody:
                   description: The type of the word (past simple or past participle).
                 status:
                   type: string
-                  enum: [correct, incorrect]
+                  enum: [studied, mistake, 'in_progress']
                   description: The status of the user's answer.
 responses:
   '200':

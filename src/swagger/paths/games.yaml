@@ -1,6 +1,8 @@
 get:
   summary: Get words for a game
   description: Retrieves a list of words for a game based on the specified level, count, language, and user ID.
+  security:
+    - BearerAuth: []
   tags:
     - Games
   parameters:
@@ -16,6 +18,7 @@ get:
       schema:
         type: integer
         minimum: 1
+        default: 5
       required: true
       description: The number of words to retrieve.
     - in: query
@@ -26,12 +29,12 @@ get:
       required: true
       description: The language of the words.
     - in: query
-      name: userId
+      name: irrWordType
       schema:
-        type: integer
-        minimum: 1
+        type: string
+        enum: [ps, ps, mixed]
       required: true
-      description: The ID of the user.
+      description: The type of the words, only past simple, past participle ot both.
   responses:
     '200':
       description: A list of words for the game.
