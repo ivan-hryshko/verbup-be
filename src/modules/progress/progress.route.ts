@@ -7,6 +7,7 @@ const progressController = new ProgressController()
 
 router.post('/', ctrlWrapper(progressController.save))
 router.get('/', ctrlWrapper(progressController.list))
+router.get('/short', ctrlWrapper(progressController.short))
 // router.post('/pp', ctrlWrapper(UsersController.getAll))
 
 export default router

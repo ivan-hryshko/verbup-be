@@ -10,3 +10,6 @@ export type ProgressSaveParams = {
     status: ProgressStatus
   }[]
 }
+export type ProgressListQuery = {
+  status: ProgressStatus
+}

@@ -105,4 +105,19 @@ export class ProgressService {
       progressPp,
     }
   }
+
+  async short(dto: { userId: number }): Promise<any> {
+    await this.validateList(dto)
+    const { userId } = dto
+
+    const progressPs = await this.progressPsRepository.getProgressByUserId(dto.userId)
+    const progressPp = await this.progressPpRepository.getProgressByUserId(userId)
+
+    return {
+      // general: number
+      // easy: 
+      // medium:
+      // hard:  
+    }
+  }
 }
