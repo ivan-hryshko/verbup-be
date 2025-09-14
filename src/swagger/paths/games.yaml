@@ -18,6 +18,7 @@ get:
       schema:
         type: integer
         minimum: 1
+        default: 5
       required: true
       description: The number of words to retrieve.
     - in: query
