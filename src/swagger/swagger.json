@@ -415,6 +415,11 @@
       "get": {
         "summary": "Get words for a game",
         "description": "Retrieves a list of words for a game based on the specified level, count, language, and user ID.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "tags": [
           "Games"
         ],
@@ -458,13 +463,17 @@
           },
           {
             "in": "query",
-            "name": "userId",
+            "name": "irrWordType",
             "schema": {
-              "type": "integer",
-              "minimum": 1
+              "type": "string",
+              "enum": [
+                "ps",
+                "ps",
+                "mixed"
+              ]
             },
             "required": true,
-            "description": "The ID of the user."
+            "description": "The type of the words, only past simple, past participle ot both."
           }
         ],
         "responses": {
@@ -832,7 +841,7 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
+      "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
