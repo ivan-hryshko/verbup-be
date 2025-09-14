@@ -348,6 +348,11 @@
         ],
         "summary": "Create new feedback",
         "description": "If user registered, automatically add user ID from JWT token to feedback",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -514,6 +519,11 @@
         ],
         "summary": "Get a list of irregular words",
         "description": "Retrieves a list of irregular words for the specified language.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -627,6 +637,11 @@
         ],
         "summary": "Save user progress",
         "description": "Saves the user's progress for a set of words.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -634,10 +649,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "userId": {
-                    "type": "integer",
-                    "description": "The ID of the user."
-                  },
                   "words": {
                     "type": "array",
                     "items": {
@@ -658,8 +669,9 @@
                         "status": {
                           "type": "string",
                           "enum": [
-                            "correct",
-                            "incorrect"
+                            "studied",
+                            "mistake",
+                            "in_progress"
                           ],
                           "description": "The status of the user's answer."
                         }
@@ -686,15 +698,9 @@
         ],
         "summary": "Get user progress",
         "description": "Retrieves the user's progress.",
-        "parameters": [
+        "security": [
           {
-            "in": "query",
-            "name": "userId",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "The ID of the user."
+            "BearerAuth": []
           }
         ],
         "responses": {
