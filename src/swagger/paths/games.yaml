@@ -32,7 +32,7 @@ get:
       name: irrWordType
       schema:
         type: string
-        enum: [ps, ps, mixed]
+        enum: [ps, pp, mixed]
       required: true
       description: The type of the words, only past simple, past participle ot both.
   responses:

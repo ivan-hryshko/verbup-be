@@ -474,7 +474,7 @@
               "type": "string",
               "enum": [
                 "ps",
-                "ps",
+                "pp",
                 "mixed"
               ]
             },
@@ -636,7 +636,7 @@
           "Progress"
         ],
         "summary": "Save user progress",
-        "description": "Saves the user's progress for a set of words.",
+        "description": "Saves the user's progress for a set of words. type can be \"ps\" or \"pp\". status can be \"studied\", \"mistake\", \"in_progress\".",
         "security": [
           {
             "BearerAuth": []
@@ -656,6 +656,7 @@
                       "properties": {
                         "wordId": {
                           "type": "integer",
+                          "example": 1,
                           "description": "The ID of the word."
                         },
                         "type": {
