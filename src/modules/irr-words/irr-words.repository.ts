@@ -75,7 +75,7 @@ export class IrrWordRepository {
     lang: string,
     userId: number,
   ): Promise<GameWord[]> {
-    const qb = this.repo.createQueryBuilder('word')
+    let qb = this.repo.createQueryBuilder('word')
 
     if (type === 'ps') {
       qb.leftJoin(
@@ -86,6 +86,7 @@ export class IrrWordRepository {
       )
         .andWhere('progressPs.id IS NULL')
         .addSelect(['word.pastSimple', 'word.psSound'])
+        .addSelect(['progressPs'])
     } else {
       qb.leftJoin(
         'word.progressPp',
@@ -95,18 +96,16 @@ export class IrrWordRepository {
       )
         .andWhere('progressPp.id IS NULL')
         .addSelect(['word.pastParticiple', 'word.ppSound'])
+        .addSelect(['progressPp'])
     }
 
-    return qb
-      .where('word.level = :level', { level })
-      .andWhere('word.lang = :lang', { lang })
-      .getMany()
-      .then((words) =>
-        words.map((word) => ({
-          ...word,
-          type,
-        })),
-      )
+    qb = qb.where('word.level = :level', { level }).andWhere('word.lang = :lang', { lang })
+
+    const relusts = await qb.getMany()
+    return relusts.map((word) => ({
+      ...word,
+      type,
+    }))
   }
 
   async save(word: Partial<IrrWordEntity>): Promise<IrrWordEntity> {
