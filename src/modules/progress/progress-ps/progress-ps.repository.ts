@@ -1,8 +1,8 @@
 // modules/irr-words-en/irr-words.repository.ts
-import { Repository } from 'typeorm'
+import { InsertResult, Repository } from 'typeorm'
 import AppDataSource from '../../../config/app-data-source'
 import { ProgressPsEntity } from './progress-ps.entity'
-import { ProgressSaveParams, ProgressStatus } from '../progress.types'
+import { ProgressSaveParams } from '../progress.types'
 import { IProgressRepository } from '../progress.interface'
 
 export class ProgressPsRepository implements IProgressRepository<ProgressPsEntity> {
@@ -21,7 +21,7 @@ export class ProgressPsRepository implements IProgressRepository<ProgressPsEntit
       .getMany()
   }
 
-  async saveProgress(params: ProgressSaveParams): Promise<ProgressPsEntity[]> {
+  async saveProgress(params: ProgressSaveParams): Promise<InsertResult> {
     const preparedWords = params.words.map((param) => {
       return {
         user: { id: params.userId },
@@ -29,7 +29,11 @@ export class ProgressPsRepository implements IProgressRepository<ProgressPsEntit
         status: param.status,
       }
     })
-    const progress = this.repo.create(preparedWords)
-    return this.repo.save(progress)
+    const progress = await this.repo.upsert(preparedWords, {
+      conflictPaths: ['user', 'word'],
+      skipUpdateIfNoValuesChanged: true,
+    })
+
+    return progress
   }
 }

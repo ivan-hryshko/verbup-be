@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm'
+import { InsertResult, Repository } from 'typeorm'
 import AppDataSource from '../../../config/app-data-source'
 import { ProgressPpEntity } from './progress-pp.entity'
 import { ProgressSaveParams } from '../progress.types'
@@ -20,7 +20,7 @@ export class ProgressPpRepository implements IProgressRepository<ProgressPpEntit
       .getMany()
   }
 
-  async saveProgress(params: ProgressSaveParams): Promise<ProgressPpEntity[]> {
+  async saveProgress(params: ProgressSaveParams): Promise<InsertResult> {
     const preparedWords = params.words.map((param) => {
       return {
         user: { id: params.userId },
@@ -28,7 +28,10 @@ export class ProgressPpRepository implements IProgressRepository<ProgressPpEntit
         status: param.status,
       }
     })
-    const progress = this.repo.create(preparedWords)
-    return this.repo.save(progress)
+    const progress = await this.repo.upsert(preparedWords, {
+      conflictPaths: ['user', 'word'],
+      skipUpdateIfNoValuesChanged: true,
+    })
+    return progress
   }
 }
