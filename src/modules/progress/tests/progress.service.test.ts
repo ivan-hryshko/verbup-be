@@ -58,9 +58,9 @@ describe('ProgressService', () => {
     psRepoMock = new ProgressPsRepository() as jest.Mocked<ProgressPsRepository>
     ppRepoMock = new ProgressPpRepository() as jest.Mocked<ProgressPpRepository>
 
-    usersRepoMock.findById.mockResolvedValue(mockUser) // fake user
-    psRepoMock.saveProgress.mockResolvedValue([mockProgressPs]) // fake save result
-    ppRepoMock.saveProgress.mockResolvedValue([mockProgressPp])
+    usersRepoMock.findById.mockResolvedValue(mockUser)
+    psRepoMock.saveProgress.mockResolvedValue()
+    ppRepoMock.saveProgress.mockResolvedValue()
 
     service = new ProgressService()
     // @ts-ignore: Inject mocks

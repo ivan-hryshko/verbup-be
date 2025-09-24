@@ -21,7 +21,7 @@ export class ProgressPsRepository implements IProgressRepository<ProgressPsEntit
       .getMany()
   }
 
-  async saveProgress(params: ProgressSaveParams): Promise<InsertResult> {
+  async saveProgress(params: ProgressSaveParams): Promise<void> {
     const preparedWords = params.words.map((param) => {
       return {
         user: { id: params.userId },
@@ -29,11 +29,10 @@ export class ProgressPsRepository implements IProgressRepository<ProgressPsEntit
         status: param.status,
       }
     })
-    const progress = await this.repo.upsert(preparedWords, {
+
+    await this.repo.upsert(preparedWords, {
       conflictPaths: ['user', 'word'],
       skipUpdateIfNoValuesChanged: true,
     })
-
-    return progress
   }
 }
