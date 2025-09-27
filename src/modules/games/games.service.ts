@@ -40,7 +40,7 @@ export class GamesService {
 
     const userId = Number(dto.userId)
     if (!userId || isNaN(userId) || userId <= 0) {
-      throw createHttpError(400, 'Invalid or missing "userId" param')
+      throw createHttpError(401, 'Invalid Authorization header')
     }
     const user = await this.usersRepository.findById(userId)
     if (!user) throw createHttpError(404, `User with id: ${dto.userId} not found`)
