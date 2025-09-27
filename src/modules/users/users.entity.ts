@@ -26,6 +26,15 @@ export class UserEntity {
   @Column({ length: 200, select: false })
   password: string
 
+  @Column({ default: false })
+  isActive: boolean
+
+  @Column({ type: 'varchar', nullable: true })
+  emailVerificationToken: string | null
+
+  @Column({ type: 'timestamptz', nullable: true })
+  emailVerificationTokenExpiresAt: Date | null
+
   @Column({ length: 40 })
   email: string
 
