@@ -1,0 +1,53 @@
+tags:
+  - Auth
+summary: Verification email
+description: >
+  Verify user's email using the link sent to user's email during registration.
+parameters:
+  - in: query
+    name: token
+    required: true
+    schema:
+      type: string
+    description: Verification token from email link.
+responses:
+  '200':
+    description: Successful email verification
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'Email successfully verified. You can now log in.'
+  '400':
+    description: Verification token missing
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'Verification token is required.'
+  '410':
+    description: Verification token expired
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'Verification token expired. A new email has been sent.'
+  '409':
+    description: User already verified
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'User already verified.'

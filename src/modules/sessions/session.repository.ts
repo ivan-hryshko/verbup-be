@@ -5,6 +5,7 @@ import appDataSource from '../../config/app-data-source'
 export interface ISessionRepository {
   create(data: Partial<SessionEntity>): Promise<SessionEntity>
   findByRefreshToken(refreshToken: string): Promise<SessionEntity | null>
+  findByUserId(userId: number): Promise<SessionEntity | null>
   save(session: SessionEntity): Promise<SessionEntity>
   //   delete(expiresAt: Date): Promise<void>
 }
@@ -28,6 +29,13 @@ export class SessionRepository implements ISessionRepository {
   async findByRefreshToken(refreshToken: string): Promise<SessionEntity | null> {
     return this.sessionRepo.findOne({
       where: { refreshToken },
+      relations: ['user'],
+    })
+  }
+
+  async findByUserId(userId: number): Promise<SessionEntity | null> {
+    return this.sessionRepo.findOne({
+      where: { user: { id: userId } },
       relations: ['user'],
     })
   }
