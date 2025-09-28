@@ -15,6 +15,7 @@ export interface IAuthService {
     password: string,
     currentRefreshToken?: string,
   ): Promise<{ accessToken: string; refreshToken: string }>
+  verifyEmail(token: string): Promise<{ message: string }>
 }
 
 export class AuthService implements IAuthService {
@@ -31,7 +32,11 @@ export class AuthService implements IAuthService {
       isActive: false,
       emailVerificationToken: verificationToken,
     })
-    await this.mailService.sendVerificationEmail(user.email, user.username, verificationToken)
+    await this.mailService.sendVerificationEmail(
+      user.email,
+      user.username ?? 'user',
+      verificationToken,
+    )
 
     return { message: 'User created. Please check email to verify account.' }
   }
@@ -52,9 +57,9 @@ export class AuthService implements IAuthService {
         await this.usersRepository.update(user)
         await this.mailService.sendVerificationEmail(user.email, user.username, newToken)
 
-        return { message: 'Verification token expired. A new email has been sent.' }
+        throw createHttpError(410, 'Verification token expired. A new email has been sent.')
       } else {
-        return { message: 'User already verified.' }
+        throw createHttpError(409, 'User already verified.')
       }
     }
 
@@ -79,9 +84,11 @@ export class AuthService implements IAuthService {
     }
     const session = await this.sessionService.create(user.id, currentRefreshToken)
     const accessToken = generateAccessToken(user.id)
+    const publicUser = await this.usersRepository.findByEmailPublic(email)
     return {
       accessToken,
       refreshToken: session.refreshToken,
+      user: publicUser,
     }
   }
 }

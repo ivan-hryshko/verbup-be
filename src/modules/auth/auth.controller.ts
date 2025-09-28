@@ -24,7 +24,7 @@ export class AuthController {
   login = async (req: Request, res: Response): Promise<void> => {
     const { email, password } = req.body
     const currentRefreshToken = req.cookies?.refreshToken
-    const { accessToken, refreshToken } = await this.authService.login(
+    const { accessToken, refreshToken, user } = await this.authService.login(
       email,
       password,
       currentRefreshToken,
@@ -38,7 +38,7 @@ export class AuthController {
       sameSite: isLocalhost ? 'lax' : 'none',
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
-    res.status(200).json({ message: 'Login successfull', accessToken })
+    res.status(200).json({ message: 'Login successfull', accessToken, user })
   }
 
   refresh = async (req: Request, res: Response): Promise<void> => {

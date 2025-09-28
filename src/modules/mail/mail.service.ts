@@ -21,7 +21,11 @@ export class MailService implements IMailService {
     })
   }
 
-  async sendVerificationEmail(email: string, username: string, token: string): Promise<void> {
+  async sendVerificationEmail(
+    email: string,
+    username: string = 'user',
+    token: string,
+  ): Promise<void> {
     const verificationLink = `https://verbup-fe.vercel.app/verify-email?token=${token}`
 
     await this.transporter.sendMail({
