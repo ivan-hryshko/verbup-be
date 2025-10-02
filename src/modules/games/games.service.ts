@@ -61,13 +61,18 @@ export class GamesService {
     let ppWords: GameWord[] = []
 
     if (irrWordType === GameWordType.PS || irrWordType === GameWordType.MIXED) {
-      psWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PS, level, lang, userId)
+      psWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PS, level, lang, userId)
+      if (psWords.length === 0) {
+        psWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PS, level, lang)
+      }
     }
     if (irrWordType === GameWordType.PP || irrWordType === GameWordType.MIXED) {
-      ppWords = await this.irrWordRepo.getAvailableWordsByType(IrrWordType.PP, level, lang, userId)
+      ppWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PP, level, lang, userId)
+      if (ppWords.length === 0) {
+        ppWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PP, level, lang)
+      }
     }
 
-    // TODO: what todo if all words learned?
     const allWords = [...psWords, ...ppWords]
 
     // Random shuffle and limit

@@ -96,7 +96,7 @@ describe('GamesService - getWords', () => {
   it('should return cleaned and shuffled words (mix ps/pp)', async () => {
     mockUsersRepo.findById.mockResolvedValue(mockUser)
 
-    mockIrrWordRepo.getAvailableWordsByType
+    mockIrrWordRepo.getNotLearnedWordsByType
       .mockImplementationOnce(async () => [
         // PS words
         {
