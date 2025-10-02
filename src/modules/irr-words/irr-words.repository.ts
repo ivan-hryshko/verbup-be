@@ -69,6 +69,37 @@ export class IrrWordRepository {
       .getMany()
   }
 
+async getNotLearnedWordsByType(
+  type: IrrWordType,
+  level: string,
+  lang: string,
+  userId: number,
+): Promise<GameWord[]> {
+  let qb = this.repo.createQueryBuilder('word');
+
+  if (type === 'ps') {
+    qb.leftJoinAndSelect('word.progressPs', 'progressPs', 'progressPs.userId = :userId', { userId })
+      .andWhere('(progressPs.status IS NULL OR progressPs.status != :studied)', { studied: 'studied' })
+      .addSelect(['word.pastSimple', 'word.psSound']);
+  } else {
+    qb.leftJoinAndSelect('word.progressPp', 'progressPp', 'progressPp.userId = :userId', { userId })
+      .andWhere('(progressPp.status IS NULL OR progressPp.status != :studied)', { studied: 'studied' })
+      .addSelect(['word.pastParticiple', 'word.ppSound']);
+  }
+
+  qb = qb
+    .andWhere('word.level = :level', { level })
+    .andWhere('word.lang = :lang', { lang });
+
+  const results = await qb.getMany();
+  return results.map((word) => ({
+    ...word,
+    type,
+  }));
+}
+
+
+  // TODO: remove?
   async getAvailableWordsByType(
     type: IrrWordType,
     level: string,
@@ -100,6 +131,29 @@ export class IrrWordRepository {
     }
 
     qb = qb.where('word.level = :level', { level }).andWhere('word.lang = :lang', { lang })
+
+    const relusts = await qb.getMany()
+    return relusts.map((word) => ({
+      ...word,
+      type,
+    }))
+  }
+
+
+  async getAllWordsByType(
+    type: IrrWordType,
+    level: string,
+    lang: string,
+  ): Promise<GameWord[]> {
+    let qb = this.repo.createQueryBuilder('word')
+      .where('word.level = :level', { level })
+      .andWhere('word.lang = :lang', { lang });
+
+    if (type === 'ps') {
+      qb.addSelect(['word.pastSimple', 'word.psSound']);
+    } else {
+      qb.addSelect(['word.pastParticiple', 'word.ppSound']);
+    }
 
     const relusts = await qb.getMany()
     return relusts.map((word) => ({
