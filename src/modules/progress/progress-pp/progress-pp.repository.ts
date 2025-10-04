@@ -20,6 +20,16 @@ export class ProgressPpRepository implements IProgressRepository<ProgressPpEntit
       .getMany()
   }
 
+  async getProgressByStatus(userId: number, status: string): Promise<ProgressPpEntity[]> {
+    return this.repo
+      .createQueryBuilder('progressPp')
+      .where('progressPp.userId = :userId', { userId })
+      .andWhere('progressPp.status = :status', { status })
+      .innerJoin('progressPp.word', 'word')
+      .addSelect(['word.id', 'word.basic'])
+      .getMany()
+  }
+
   async saveProgress(params: ProgressSaveParams): Promise<void> {
     const preparedWords = params.words.map((param) => {
       return {

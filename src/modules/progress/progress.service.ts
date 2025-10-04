@@ -1,10 +1,11 @@
 import createHttpError from 'http-errors'
 import { enumValues } from '../../utils/enumsHelp'
-import { IrrWordType } from '../irr-words/irr-words.types'
+import { IrrWordLang, IrrWordType } from '../irr-words/irr-words.types'
 import { ProgressPpRepository } from './progress-pp/progress-pp.repository'
 import { ProgressPsRepository } from './progress-ps/progress-ps.repository'
 import { ProgressStatus } from './progress.types'
 import { UsersRepository } from '../users/users.repository'
+import { IrrWordRepository } from '../irr-words/irr-words.repository'
 
 export type ProgressSaveDtoWords = {
   wordId: number
@@ -110,11 +111,14 @@ export class ProgressService {
     await this.validateList(dto)
     const { userId } = dto
 
-    const progressPs = await this.progressPsRepository.getProgressByUserId(dto.userId)
-    const progressPp = await this.progressPpRepository.getProgressByUserId(userId)
+    const progressPs = await this.progressPsRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
+    const progressPp = await this.progressPpRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
 
     return {
-      // general: number
+      general: {
+        ps: progressPs.length,
+        pp: progressPp.length,
+      }
       // easy: 
       // medium:
       // hard:  
