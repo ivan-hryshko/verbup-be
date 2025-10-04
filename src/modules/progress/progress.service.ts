@@ -1,10 +1,13 @@
 import createHttpError from 'http-errors'
 import { enumValues } from '../../utils/enumsHelp'
-import { IrrWordType } from '../irr-words/irr-words.types'
+import { IrrWordLevelEnum, IrrWordType } from '../irr-words/irr-words.types'
 import { ProgressPpRepository } from './progress-pp/progress-pp.repository'
 import { ProgressPsRepository } from './progress-ps/progress-ps.repository'
 import { ProgressStatus } from './progress.types'
 import { UsersRepository } from '../users/users.repository'
+import { IrrWordRepository } from '../irr-words/irr-words.repository'
+import { ProgressPpEntity } from './progress-pp/progress-pp.entity'
+import { ProgressPsEntity } from './progress-ps/progress-ps.entity'
 
 export type ProgressSaveDtoWords = {
   wordId: number
@@ -103,6 +106,48 @@ export class ProgressService {
     return {
       progressPs,
       progressPp,
+    }
+  }
+
+  async short(dto: { userId: number }): Promise<any> {
+    await this.validateList(dto)
+    const { userId } = dto
+
+    const progressPs = await this.progressPsRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
+    const progressPp = await this.progressPpRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
+    
+    return {
+      general: this.calculateProgressByLevel(progressPs, progressPp),
+      easy: this.calculateProgressByLevel(progressPs, progressPp, IrrWordLevelEnum.EASY),
+      medium: this.calculateProgressByLevel(progressPs, progressPp, IrrWordLevelEnum.MEDIUM),
+      hard: this.calculateProgressByLevel(progressPs, progressPp, IrrWordLevelEnum.HARD),
+    }
+  }
+
+  calculateProgressByLevel(progressPs: ProgressPsEntity[], progressPp: ProgressPpEntity[], level?: IrrWordLevelEnum) {
+    let psWords = progressPs
+    let ppWords = progressPp
+
+    if (level) {
+      psWords = progressPs.filter(p => p.word.level === level)
+      ppWords = progressPp.filter(p => p.word.level === level)
+    }
+
+    let generalTotal = 0
+
+    const psWordIds = psWords.map(p => p.word.id)
+    const ppWordIds = ppWords.map(p => p.word.id)
+
+    ppWordIds.forEach(id => {
+      if (psWordIds.includes(id)) {
+        generalTotal = generalTotal + 1
+      }
+    })
+
+    return {
+      ps: psWords.length,
+      pp: ppWords.length,
+      total: generalTotal
     }
   }
 }

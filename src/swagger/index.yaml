@@ -59,6 +59,9 @@ paths:
       $ref: './paths/progress/save.yaml'
     get:
       $ref: './paths/progress/list.yaml'
+  /progress/short:
+    get:
+      $ref: './paths/progress/short.yaml'
   /upload/image:
     post:
       $ref: './paths/upload.yaml'
