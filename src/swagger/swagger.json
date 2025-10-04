@@ -7,7 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/api/v1"
+      "url": "http://localhost:8000/api/v1",
+      "description": "Local dev"
+    },
+    {
+      "url": "https://verbup-60d2d030ff70.herokuapp.com/api/v1",
+      "description": "Production"
     }
   ],
   "tags": [
@@ -43,6 +48,10 @@
                   "password"
                 ],
                 "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "Eugene"
+                  },
                   "email": {
                     "type": "string",
                     "example": "test@gmail.com"
@@ -344,6 +353,11 @@
         ],
         "summary": "Create new feedback",
         "description": "If user registered, automatically add user ID from JWT token to feedback",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -411,6 +425,11 @@
       "get": {
         "summary": "Get words for a game",
         "description": "Retrieves a list of words for a game based on the specified level, count, language, and user ID.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "tags": [
           "Games"
         ],
@@ -434,7 +453,8 @@
             "name": "count",
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "default": 5
             },
             "required": true,
             "description": "The number of words to retrieve."
@@ -454,13 +474,17 @@
           },
           {
             "in": "query",
-            "name": "userId",
+            "name": "irrWordType",
             "schema": {
-              "type": "integer",
-              "minimum": 1
+              "type": "string",
+              "enum": [
+                "ps",
+                "pp",
+                "mixed"
+              ]
             },
             "required": true,
-            "description": "The ID of the user."
+            "description": "The type of the words, only past simple, past participle ot both."
           }
         ],
         "responses": {
@@ -500,6 +524,11 @@
         ],
         "summary": "Get a list of irregular words",
         "description": "Retrieves a list of irregular words for the specified language.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -612,7 +641,12 @@
           "Progress"
         ],
         "summary": "Save user progress",
-        "description": "Saves the user's progress for a set of words.",
+        "description": "Saves the user's progress for a set of words. type can be \"ps\" or \"pp\". status can be \"studied\", \"mistake\", \"in_progress\".",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -620,10 +654,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "userId": {
-                    "type": "integer",
-                    "description": "The ID of the user."
-                  },
                   "words": {
                     "type": "array",
                     "items": {
@@ -631,6 +661,7 @@
                       "properties": {
                         "wordId": {
                           "type": "integer",
+                          "example": 1,
                           "description": "The ID of the word."
                         },
                         "type": {
@@ -644,8 +675,9 @@
                         "status": {
                           "type": "string",
                           "enum": [
-                            "correct",
-                            "incorrect"
+                            "studied",
+                            "mistake",
+                            "in_progress"
                           ],
                           "description": "The status of the user's answer."
                         }
@@ -672,15 +704,9 @@
         ],
         "summary": "Get user progress",
         "description": "Retrieves the user's progress.",
-        "parameters": [
+        "security": [
           {
-            "in": "query",
-            "name": "userId",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "The ID of the user."
+            "BearerAuth": []
           }
         ],
         "responses": {
@@ -828,7 +854,7 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
+      "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"

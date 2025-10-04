@@ -6,13 +6,14 @@ import { ProgressPsRepository } from './progress-ps/progress-ps.repository'
 import { ProgressStatus } from './progress.types'
 import { UsersRepository } from '../users/users.repository'
 
+export type ProgressSaveDtoWords = {
+  wordId: number
+  type: IrrWordType
+  status: ProgressStatus
+}
 export type ProgressSaveDto = {
   userId: number
-  words: {
-    wordId: number
-    type: IrrWordType
-    status: ProgressStatus
-  }[]
+  words: ProgressSaveDtoWords[]
 }
 type ProgressListDto = {
   userId?: number
@@ -73,16 +74,15 @@ export class ProgressService {
         status: word.status,
       }))
 
-    const progressPs = await this.progressPsRepository.saveProgress({
+    await this.progressPsRepository.saveProgress({
       userId: Number(dto.userId),
       words: psWords,
     })
-    const progressPp = await this.progressPpRepository.saveProgress({
+    await this.progressPpRepository.saveProgress({
       userId: Number(dto.userId),
       words: ppWords,
     })
-
-    return [...progressPs, ...progressPp]
+    return dto.words
   }
 
   async validateList(dto: ProgressListDto) {
