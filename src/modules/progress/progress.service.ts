@@ -113,11 +113,23 @@ export class ProgressService {
 
     const progressPs = await this.progressPsRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
     const progressPp = await this.progressPpRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
+    console.log(progressPs);
+    const progressPswordIds = progressPs.map(p => p.word.id)
+    const progressPpwordIds = progressPp.map(p => p.word.id)
 
+    let generalTotal = 0
+
+    progressPpwordIds.forEach(id => {
+      if (progressPswordIds.includes(id)) {
+        generalTotal = generalTotal + 1
+      }
+    })
+    
     return {
       general: {
         ps: progressPs.length,
         pp: progressPp.length,
+        total: generalTotal
       }
       // easy: 
       // medium:

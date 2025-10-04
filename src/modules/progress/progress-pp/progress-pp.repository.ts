@@ -26,7 +26,7 @@ export class ProgressPpRepository implements IProgressRepository<ProgressPpEntit
       .where('progressPp.userId = :userId', { userId })
       .andWhere('progressPp.status = :status', { status })
       .innerJoin('progressPp.word', 'word')
-      .addSelect(['word.id', 'word.basic'])
+      .addSelect(['word.id', 'word.basic', 'word.level'])
       .getMany()
   }
 
