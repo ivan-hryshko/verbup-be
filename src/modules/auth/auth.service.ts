@@ -46,7 +46,7 @@ export class AuthService implements IAuthService {
     if (user.emailVerificationTokenExpiresAt && user.emailVerificationTokenExpiresAt < now) {
       if (!user.isActive) {
         const newToken = crypto.randomUUID()
-        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
+        const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         user.emailVerificationToken = newToken
         user.emailVerificationTokenExpiresAt = expiresAt
         await this.usersRepository.update(user)
