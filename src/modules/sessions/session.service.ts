@@ -23,11 +23,19 @@ export class SessionService implements ISessionService {
         return await this.sessionRepo.save(existingSession)
       }
     }
+
+    const existingByUser = await this.sessionRepo.findByUserId(userId)
+    if (existingByUser) {
+      existingByUser.refreshToken = generateRefreshToken(userId)
+      existingByUser.expiresAt = new Date(Date.now() + THREE_DAYS)
+      return await this.sessionRepo.save(existingByUser)
+    }
+
     const refreshToken = generateRefreshToken(userId)
     const expiresAt = new Date(Date.now() + THREE_DAYS)
     const session = await this.sessionRepo.create({
       refreshToken,
-      expiresAt: expiresAt,
+      expiresAt,
       user: { id: userId } as UserEntity,
     })
     return await this.sessionRepo.save(session)
