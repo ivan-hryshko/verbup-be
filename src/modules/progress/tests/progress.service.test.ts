@@ -76,8 +76,8 @@ describe('ProgressService', () => {
       const input: ProgressSaveDto = {
         userId: 1,
         words: [
-          { wordId: 10, type: IrrWordType.PS, status: ProgressStatus.MISTAKE },
-          { wordId: 20, type: IrrWordType.PP, status: ProgressStatus.STUDIED },
+          { wordId: 10, type: IrrWordType.PS, status: ProgressStatus.MISTAKE, correct: true },
+          { wordId: 20, type: IrrWordType.PP, status: ProgressStatus.STUDIED, correct: true },
         ],
       }
 
