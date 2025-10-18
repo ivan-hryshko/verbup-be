@@ -1,7 +1,7 @@
 import { InsertResult, Repository } from 'typeorm'
 import AppDataSource from '../../../config/app-data-source'
 import { ProgressPpEntity } from './progress-pp.entity'
-import { ProgressSaveParams } from '../progress.types'
+import { ProgressGetWordParams, ProgressSaveParams } from '../progress.types'
 import { IProgressRepository } from '../progress.interface'
 
 export class ProgressPpRepository implements IProgressRepository<ProgressPpEntity> {
@@ -44,4 +44,13 @@ export class ProgressPpRepository implements IProgressRepository<ProgressPpEntit
       skipUpdateIfNoValuesChanged: true,
     })
   }
+
+    async getWordProgress(params: ProgressGetWordParams): Promise<ProgressPpEntity | null> {
+      const { userId, wordId } = params
+      return this.repo
+        .createQueryBuilder('progressPs')
+        .where('progressPs.userId = :userId', { userId })
+        .andWhere('progressPs.wordId = :wordId', { wordId })
+        .getOne()
+    }
 }

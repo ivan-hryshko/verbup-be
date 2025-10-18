@@ -1,7 +1,7 @@
 tags:
   - Progress
 summary: Save user progress
-description: Saves the user's progress for a set of words. type can be "ps" or "pp". status can be "studied", "mistake", "in_progress".
+description: Saves the user's progress for a set of words. type can be "ps" or "pp". correct can be true or false.
 security:
   - BearerAuth: []
 requestBody:
@@ -23,11 +23,13 @@ requestBody:
                 type:
                   type: string
                   enum: [ps, pp]
+                  example: "ps"
                   description: The type of the word (past simple or past participle).
-                status:
-                  type: string
-                  enum: [studied, mistake, 'in_progress']
-                  description: The status of the user's answer.
+                correct:
+                  type: boolean
+                  enum: [true, false]
+                  example: true
+                  description: Is user correct anser the game question.
 responses:
   '200':
     description: Progress saved successfully.
