@@ -10,6 +10,7 @@ export interface IUserRepository {
   update(user: UserEntity): Promise<UserEntity>
   delete(user: UserEntity): Promise<void>
   findByEmailWithPassword(email: string): Promise<UserEntity | null>
+  findByVerificationToken(token: string): Promise<UserEntity | null>
 }
 export class UsersRepository implements IUserRepository {
   private readonly userRepo: Repository<UserEntity>
@@ -47,6 +48,12 @@ export class UsersRepository implements IUserRepository {
     return this.userRepo.findOne({
       where: { email },
       select: ['id', 'email', 'password'],
+    })
+  }
+
+  async findByVerificationToken(token: string): Promise<UserEntity | null> {
+    return this.userRepo.findOne({
+      where: { emailVerificationToken: token },
     })
   }
 }
