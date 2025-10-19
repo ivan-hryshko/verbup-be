@@ -31,7 +31,7 @@
           "Auth"
         ],
         "summary": "Register user",
-        "description": "Register a new user with email and password.   Upon successful registration, the user is automatically logged in.   Access Token is returned in the response body.   Refresh Token is set in an HttpOnly cookie via the `Set Cookie` header.\n",
+        "description": "Register a new user with email and password.   Upon successful registration server send a verification email to the user with verification link. Link live-time is 24 hours.\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -63,22 +63,14 @@
         "responses": {
           "201": {
             "description": "Successful registration",
-            "headers": {
-              "Set Cookie": {
-                "description": "HttpOnly cookie with Refresh Token",
-                "schema": {
-                  "type": "string",
-                  "example": "Refresh Token - eyJhbGciJIUzI1NiIsInR5iOi..."
-                }
-              }
-            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "user": {
-                      "$ref": "#/components/schemas/User"
+                    "message": {
+                      "type": "string",
+                      "example": "User created. Please check email to verify account."
                     }
                   }
                 }
@@ -161,6 +153,9 @@
                     "accessToken": {
                       "type": "string",
                       "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp..."
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
                     }
                   }
                 }
@@ -173,8 +168,97 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/verify-email": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Verification email",
+        "description": "Verify user's email using the link sent to user's email during registration.\n",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Verification token from email link."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful email verification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email successfully verified. You can now log in."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Verification token missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Verification token is required."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User already verified."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Verification token expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Verification token expired. A new email has been sent."
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -773,11 +857,6 @@
             "type": "string",
             "example": "2025-06-06T18:50:11.640Z",
             "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "example": "2025-06-06T18:50:11.640Z",
-            "format": "date-time"
           }
         }
       },
@@ -898,6 +977,30 @@
                 "message": {
                   "type": "string",
                   "example": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 403
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Please verify your email before login"
                 }
               }
             }

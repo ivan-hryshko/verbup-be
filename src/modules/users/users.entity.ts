@@ -26,7 +26,7 @@ export class UserEntity {
   @Column({ length: 200, select: false })
   password: string
 
-  @Column({ default: false })
+  @Column({ default: false, nullable: false })
   isActive: boolean
 
   @Column({ type: 'varchar', nullable: true })
