@@ -22,10 +22,7 @@ export class MailService implements IMailService {
   }
 
   async sendVerificationEmail(email: string, username: string, token: string): Promise<void> {
-    // Production link
-    // const verificationLink = `https://verbup-fe.vercel.app/verify-email?token=${token}`
-    // Development link
-    const verificationLink = `http://localhost:5173/verify-email?token=${token}`
+    const verificationLink = `${ENVS.FRONTEND_ORIGIN}/verify-email?token=${token}`
 
     await this.transporter.sendMail({
       from: '"VerbUP" <verbup@ukr.net>',
@@ -40,10 +37,7 @@ export class MailService implements IMailService {
   }
 
   // async sendPasswordResetEmail(email: string, token: string): Promise<void> {
-  // Production link
-  //   const resetLink = `https://verbup-fe.vercel.app/reset-password?token=${token}`
-  // Development link
-  // const resetLink = `http://localhost:5173/reset-password?token=${token}`
+  // const resetLink = `${ENVS.FRONTEND_ORIGIN}/reset-password?token=${token}`
 
   //   await this.transporter.sendMail({
   //     from: '"VerbUP" <verbup@ukr.net>',
