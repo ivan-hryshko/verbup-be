@@ -47,7 +47,7 @@ export class UsersRepository implements IUserRepository {
   async findByEmailWithPassword(email: string): Promise<UserEntity | null> {
     return this.userRepo.findOne({
       where: { email },
-      select: ['id', 'email', 'password'],
+      select: ['id', 'email', 'password', 'isActive'],
     })
   }
 
