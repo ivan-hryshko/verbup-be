@@ -23,6 +23,8 @@ const FRONTEND_ORIGIN = getRequiredEnvVar('FRONTEND_ORIGIN', '')
 const SLACK_SIGNIN_SECRET = getRequiredEnvVar('SLACK_SIGNIN_SECRET', '')
 const SLACK_BOT_TOCKEN = getRequiredEnvVar('SLACK_BOT_TOCKEN', '')
 const SLACK_CHANNEL = getRequiredEnvVar('SLACK_CHANNEL', '')
+const BREVO_SMTP_USER = getRequiredEnvVar('BREVO_SMTP_USER', '')
+const BREVO_SMTP_PASSWORD = getRequiredEnvVar('BREVO_SMTP_PASSWORD', '')
 
 const PG_DATABASE_URL = process.env.DATABASE_URL
 const PG_HOST = process.env.PG_HOST
@@ -32,6 +34,8 @@ const PG_PASSWORD = process.env.PG_PASSWORD
 const PG_DATABASE = process.env.PG_DATABASE
 
 const ENVS = {
+  BREVO_SMTP_USER,
+  BREVO_SMTP_PASSWORD,
   PORT,
   NODE_ENV,
   PG_HOST,
