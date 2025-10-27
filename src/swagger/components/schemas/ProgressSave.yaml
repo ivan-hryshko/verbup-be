@@ -12,6 +12,6 @@ properties:
         type:
           type: string
           enum: [ps, pp]
-        status:
-          type: string
-          enum: [learned, in_progress]
+        correct:
+          type: boolean
+          enum: [true, false]

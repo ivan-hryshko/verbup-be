@@ -2,7 +2,7 @@
 import { InsertResult, Repository } from 'typeorm'
 import AppDataSource from '../../../config/app-data-source'
 import { ProgressPsEntity } from './progress-ps.entity'
-import { ProgressSaveParams, ProgressStatus } from '../progress.types'
+import { ProgressGetWordParams, ProgressSaveParams, ProgressStatus } from '../progress.types'
 import { IProgressRepository } from '../progress.interface'
 
 export class ProgressPsRepository implements IProgressRepository<ProgressPsEntity> {
@@ -29,6 +29,16 @@ export class ProgressPsRepository implements IProgressRepository<ProgressPsEntit
       .innerJoin('progressPs.word', 'word')
       .addSelect(['word.id', 'word.basic', 'word.level'])
       .getMany()
+  }
+
+  // get word progress by user
+  async getWordProgress(params: ProgressGetWordParams): Promise<ProgressPsEntity | null> {
+    const { userId, wordId } = params
+    return this.repo
+      .createQueryBuilder('progressPs')
+      .where('progressPs.userId = :userId', { userId })
+      .andWhere('progressPs.wordId = :wordId', { wordId })
+      .getOne()
   }
   
   // count words
