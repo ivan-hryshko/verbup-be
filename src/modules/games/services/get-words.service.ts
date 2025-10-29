@@ -1,8 +1,8 @@
 import createHttpError from 'http-errors'
-import { IrrWordRepository } from '../irr-words/irr-words.repository'
-import { IrrWordLang, IrrWordLevel, IrrWordType } from '../irr-words/irr-words.types'
-import { GameWord, GameWordType } from './games.type'
-import { UsersRepository } from '../users/users.repository'
+import { IrrWordRepository } from '../../irr-words/irr-words.repository'
+import { IrrWordLang, IrrWordLevel, IrrWordType } from '../../irr-words/irr-words.types'
+import { GameWord, GameWordType } from '../games.type'
+import { UsersRepository } from '../../users/users.repository'
 
 interface GetWordsDto {
   level?: string
@@ -12,7 +12,7 @@ interface GetWordsDto {
   irrWordType?: GameWordType
 }
 
-export class GamesService {
+export class GetWordService {
   private irrWordRepo: IrrWordRepository
   private readonly usersRepository = new UsersRepository()
 
@@ -20,7 +20,7 @@ export class GamesService {
     this.irrWordRepo = new IrrWordRepository()
   }
 
-  async validateGetWords(dto: GetWordsDto) {
+  async validate(dto: GetWordsDto) {
     const { count, lang, irrWordType } = dto
     if (!dto?.level || !['easy', 'medium', 'hard'].includes(dto?.level)) {
       throw createHttpError(400, 'Invalid or missing "level" param')
@@ -54,8 +54,8 @@ export class GamesService {
     }
   }
 
-  async getWords(dto: GetWordsDto): Promise<GameWord[]> {
-    const { level, count, lang, userId, irrWordType } = await this.validateGetWords(dto)
+  async execute(dto: GetWordsDto): Promise<GameWord[]> {
+    const { level, count, lang, userId, irrWordType } = await this.validate(dto)
 
     let psWords: GameWord[] = []
     let ppWords: GameWord[] = []

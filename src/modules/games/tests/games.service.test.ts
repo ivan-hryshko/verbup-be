@@ -1,4 +1,4 @@
-import { GamesService } from '../games.service'
+import { GetWordService } from '../services/get-words.service'
 import { IrrWordRepository } from '../../irr-words/irr-words.repository'
 import { UsersRepository } from '../../users/users.repository'
 import { IrrWordType } from '../../irr-words/irr-words.types'
@@ -9,7 +9,7 @@ jest.mock('../../irr-words/irr-words.repository')
 jest.mock('../../users/users.repository')
 
 describe('GamesService - getWords', () => {
-  let service: GamesService
+  let getWordService: GetWordService
   let mockIrrWordRepo: jest.Mocked<IrrWordRepository>
   let mockUsersRepo: jest.Mocked<UsersRepository>
 
@@ -33,15 +33,15 @@ describe('GamesService - getWords', () => {
     mockIrrWordRepo = new IrrWordRepository() as jest.Mocked<IrrWordRepository>
     mockUsersRepo = new UsersRepository() as jest.Mocked<UsersRepository>
 
-    service = new GamesService()
+    getWordService = new GetWordService()
     // Override injected repo instances
-    ;(service as any).irrWordRepo = mockIrrWordRepo
-    ;(service as any).usersRepository = mockUsersRepo
+    ;(getWordService as any).irrWordRepo = mockIrrWordRepo
+    ;(getWordService as any).usersRepository = mockUsersRepo
   })
 
   it('should throw error for invalid level', async () => {
     await expect(
-      service.getWords({
+      getWordService.execute({
         level: 'invalid',
         count: 5,
         lang: 'en',
@@ -52,7 +52,7 @@ describe('GamesService - getWords', () => {
 
   it('should throw error for invalid count', async () => {
     await expect(
-      service.getWords({
+      getWordService.execute({
         level: 'easy',
         count: -5,
         lang: 'en',
@@ -62,7 +62,7 @@ describe('GamesService - getWords', () => {
   })
   it('should throw error for invalid count', async () => {
     await expect(
-      service.getWords({
+      getWordService.execute({
         level: 'easy',
         count: -5,
         lang: 'en',
@@ -74,7 +74,7 @@ describe('GamesService - getWords', () => {
   it('should throw error if user does not exist', async () => {
     mockUsersRepo.findById.mockResolvedValue(null)
     await expect(
-      service.getWords({
+      getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -87,7 +87,7 @@ describe('GamesService - getWords', () => {
   it('should throw error for invalid irrWordType', async () => {
     mockUsersRepo.findById.mockResolvedValue(mockUser)
     await expect(
-      service.getWords({
+      getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -111,7 +111,7 @@ describe('GamesService - getWords', () => {
         },
       ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -149,7 +149,7 @@ describe('GamesService - getWords', () => {
         },
       ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -190,7 +190,7 @@ describe('GamesService - getWords', () => {
       ])
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -249,7 +249,7 @@ describe('GamesService - getWords', () => {
         },
       ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -282,7 +282,7 @@ describe('GamesService - getWords', () => {
         },
       ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -328,7 +328,7 @@ describe('GamesService - getWords', () => {
 
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -415,7 +415,7 @@ describe('GamesService - getWords', () => {
           },
         ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -467,7 +467,7 @@ describe('GamesService - getWords', () => {
           },
         ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -507,7 +507,7 @@ describe('GamesService - getWords', () => {
           },
         ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 1,
         lang: 'en',
@@ -534,7 +534,7 @@ describe('GamesService - getWords', () => {
         },
       ])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
@@ -561,7 +561,7 @@ describe('GamesService - getWords', () => {
       ])
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
 
-      const words = await service.getWords({
+      const words = await getWordService.execute({
         level: 'easy',
         count: 5,
         lang: 'en',
