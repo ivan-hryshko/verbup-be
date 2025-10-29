@@ -60,15 +60,79 @@ export class GamesService {
     let psWords: GameWord[] = []
     let ppWords: GameWord[] = []
 
-    if (irrWordType === GameWordType.PS || irrWordType === GameWordType.MIXED) {
+    if (irrWordType === GameWordType.PS) {
+      // For PS: get not learned PS words (current behavior)
       psWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PS, level, lang, userId)
       if (psWords.length === 0) {
         psWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PS, level, lang)
       }
     }
-    if (irrWordType === GameWordType.PP || irrWordType === GameWordType.MIXED) {
-      ppWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PP, level, lang, userId)
+    else if (irrWordType === GameWordType.PP) {
+      // For PP: prefer words that are already learned in PS with MISTAKE or IN_PROGRESS status
+      const wordsWithPsProgress = await this.irrWordRepo.getWordsByProgressStatus(
+        IrrWordType.PS,
+        IrrWordType.PP,
+        level,
+        lang,
+        userId,
+        ['mistake', 'in_progress']
+      )
+
+      ppWords = [...wordsWithPsProgress]
+
+      // If not enough words, add regular not learned PP words
+      if (ppWords.length < count) {
+        const additionalPpWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PP, level, lang, userId)
+        // Filter out words already included
+        const newWords = additionalPpWords.filter(w => !ppWords.find(pw => pw.id === w.id))
+        ppWords = [...ppWords, ...newWords]
+      }
+
+      // If still not enough, get all words
       if (ppWords.length === 0) {
+        ppWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PP, level, lang)
+      }
+    }
+    else if (irrWordType === GameWordType.MIXED) {
+      // For MIXED: prefer words with MISTAKE or IN_PROGRESS from both PS and PP
+      const psWithProgress = await this.irrWordRepo.getWordsByProgressStatus(
+        IrrWordType.PS,
+        IrrWordType.PS,
+        level,
+        lang,
+        userId,
+        ['mistake', 'in_progress']
+      )
+
+      const ppWithProgress = await this.irrWordRepo.getWordsByProgressStatus(
+        IrrWordType.PP,
+        IrrWordType.PP,
+        level,
+        lang,
+        userId,
+        ['mistake', 'in_progress']
+      )
+
+      psWords = [...psWithProgress]
+      ppWords = [...ppWithProgress]
+
+      // If not enough words, add regular not learned words
+      const totalWithProgress = psWords.length + ppWords.length
+      if (totalWithProgress < count) {
+        const additionalPsWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PS, level, lang, userId)
+        const additionalPpWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PP, level, lang, userId)
+
+        // Filter out words already included
+        const newPsWords = additionalPsWords.filter(w => !psWords.find(pw => pw.id === w.id))
+        const newPpWords = additionalPpWords.filter(w => !ppWords.find(pw => pw.id === w.id))
+
+        psWords = [...psWords, ...newPsWords]
+        ppWords = [...ppWords, ...newPpWords]
+      }
+
+      // If still not enough, get all words
+      if (psWords.length === 0 && ppWords.length === 0) {
+        psWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PS, level, lang)
         ppWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PP, level, lang)
       }
     }
