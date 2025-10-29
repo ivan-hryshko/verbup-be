@@ -71,15 +71,12 @@ export class ProgressService {
     const preparedWordsPromises = dto.words.map(async (word: ProgressSaveDtoWords) => {
       const progressGetParams = { userId: dto.userId, wordId: word.wordId }
       const progress = await this.progressRepository.getWordProgress(word.type, progressGetParams)
-      console.log('progress :>> ', progress);
       const newStatus = this.getNextProgressStatus(progress?.status, word.correct)
-      console.log('newStatus :>> ', newStatus);
 
       word.status = newStatus
       return word
     })
     const preparedWords = await Promise.all(preparedWordsPromises)
-    console.log('preparedWords :>> ', preparedWords);
     const saveProgresPromises = preparedWords.map(async (word: ProgressSaveDtoWords) => {
       const saveParams = {
         userId: dto.userId,
@@ -94,7 +91,7 @@ export class ProgressService {
 
   getNextProgressStatus(status: ProgressStatus | undefined, correct: boolean): ProgressStatus {
     if (!status) {
-      return ProgressStatus.IN_PROGRESS
+      return correct ? ProgressStatus.IN_PROGRESS : ProgressStatus.MISTAKE
     }
 
     let newStatus = status
