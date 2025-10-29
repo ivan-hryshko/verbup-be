@@ -106,6 +106,164 @@ describe('ProgressService', () => {
       expect(result[0].status).toBe(ProgressStatus.IN_PROGRESS)
       expect(result[1].status).toBe(ProgressStatus.IN_PROGRESS)
     })
+
+    describe('status transitions when correct=true', () => {
+      it('should set status to IN_PROGRESS when no existing progress exists', async () => {
+        progressRepoMock.getWordProgress = jest.fn().mockResolvedValue(null)
+
+        const input: ProgressSaveDto = {
+          userId: 1,
+          words: [{ wordId: 10, type: IrrWordType.PS, status: ProgressStatus.MISTAKE, correct: true }],
+        }
+
+        const result = await service.save(input)
+
+        expect(result[0].status).toBe(ProgressStatus.IN_PROGRESS)
+        expect(progressRepoMock.saveProgress).toHaveBeenCalledWith(IrrWordType.PS, {
+          userId: 1,
+          words: [{ wordId: 10, status: ProgressStatus.IN_PROGRESS }],
+        })
+      })
+
+      it('should update status from MISTAKE to IN_PROGRESS', async () => {
+        const existingProgress = {
+          id: 1,
+          status: ProgressStatus.MISTAKE,
+          word: { id: 10 } as IrrWordEntity,
+          user: mockUser,
+        } as ProgressPsEntity
+
+        progressRepoMock.getWordProgress = jest.fn().mockResolvedValue(existingProgress)
+
+        const input: ProgressSaveDto = {
+          userId: 1,
+          words: [{ wordId: 10, type: IrrWordType.PS, status: ProgressStatus.MISTAKE, correct: true }],
+        }
+
+        const result = await service.save(input)
+
+        expect(result[0].status).toBe(ProgressStatus.IN_PROGRESS)
+        expect(progressRepoMock.saveProgress).toHaveBeenCalledWith(IrrWordType.PS, {
+          userId: 1,
+          words: [{ wordId: 10, status: ProgressStatus.IN_PROGRESS }],
+        })
+      })
+
+      it('should update status from IN_PROGRESS to STUDIED', async () => {
+        const existingProgress = {
+          id: 1,
+          status: ProgressStatus.IN_PROGRESS,
+          word: { id: 10 } as IrrWordEntity,
+          user: mockUser,
+        } as ProgressPsEntity
+
+        progressRepoMock.getWordProgress = jest.fn().mockResolvedValue(existingProgress)
+
+        const input: ProgressSaveDto = {
+          userId: 1,
+          words: [{ wordId: 10, type: IrrWordType.PS, status: ProgressStatus.IN_PROGRESS, correct: true }],
+        }
+
+        const result = await service.save(input)
+
+        expect(result[0].status).toBe(ProgressStatus.STUDIED)
+        expect(progressRepoMock.saveProgress).toHaveBeenCalledWith(IrrWordType.PS, {
+          userId: 1,
+          words: [{ wordId: 10, status: ProgressStatus.STUDIED }],
+        })
+      })
+
+      it('should keep status as STUDIED when already STUDIED', async () => {
+        const existingProgress = {
+          id: 1,
+          status: ProgressStatus.STUDIED,
+          word: { id: 10 } as IrrWordEntity,
+          user: mockUser,
+        } as ProgressPsEntity
+
+        progressRepoMock.getWordProgress = jest.fn().mockResolvedValue(existingProgress)
+
+        const input: ProgressSaveDto = {
+          userId: 1,
+          words: [{ wordId: 10, type: IrrWordType.PS, status: ProgressStatus.STUDIED, correct: true }],
+        }
+
+        const result = await service.save(input)
+
+        expect(result[0].status).toBe(ProgressStatus.STUDIED)
+        expect(progressRepoMock.saveProgress).toHaveBeenCalledWith(IrrWordType.PS, {
+          userId: 1,
+          words: [{ wordId: 10, status: ProgressStatus.STUDIED }],
+        })
+      })
+    })
+
+    describe('status transitions when correct=false', () => {
+      it('should set status to MISTAKE from no existing progress', async () => {
+        progressRepoMock.getWordProgress = jest.fn().mockResolvedValue(null)
+
+        const input: ProgressSaveDto = {
+          userId: 1,
+          words: [{ wordId: 10, type: IrrWordType.PS, status: ProgressStatus.IN_PROGRESS, correct: false }],
+        }
+
+        const result = await service.save(input)
+
+        expect(result[0].status).toBe(ProgressStatus.MISTAKE)
+        expect(progressRepoMock.saveProgress).toHaveBeenCalledWith(IrrWordType.PS, {
+          userId: 1,
+          words: [{ wordId: 10, status: ProgressStatus.MISTAKE }],
+        })
+      })
+
+      it('should set status to MISTAKE from IN_PROGRESS', async () => {
+        const existingProgress = {
+          id: 1,
+          status: ProgressStatus.IN_PROGRESS,
+          word: { id: 10 } as IrrWordEntity,
+          user: mockUser,
+        } as ProgressPsEntity
+
+        progressRepoMock.getWordProgress = jest.fn().mockResolvedValue(existingProgress)
+
+        const input: ProgressSaveDto = {
+          userId: 1,
+          words: [{ wordId: 10, type: IrrWordType.PS, status: ProgressStatus.IN_PROGRESS, correct: false }],
+        }
+
+        const result = await service.save(input)
+
+        expect(result[0].status).toBe(ProgressStatus.MISTAKE)
+        expect(progressRepoMock.saveProgress).toHaveBeenCalledWith(IrrWordType.PS, {
+          userId: 1,
+          words: [{ wordId: 10, status: ProgressStatus.MISTAKE }],
+        })
+      })
+
+      it('should set status to MISTAKE from STUDIED', async () => {
+        const existingProgress = {
+          id: 1,
+          status: ProgressStatus.STUDIED,
+          word: { id: 10 } as IrrWordEntity,
+          user: mockUser,
+        } as ProgressPsEntity
+
+        progressRepoMock.getWordProgress = jest.fn().mockResolvedValue(existingProgress)
+
+        const input: ProgressSaveDto = {
+          userId: 1,
+          words: [{ wordId: 10, type: IrrWordType.PS, status: ProgressStatus.STUDIED, correct: false }],
+        }
+
+        const result = await service.save(input)
+
+        expect(result[0].status).toBe(ProgressStatus.MISTAKE)
+        expect(progressRepoMock.saveProgress).toHaveBeenCalledWith(IrrWordType.PS, {
+          userId: 1,
+          words: [{ wordId: 10, status: ProgressStatus.MISTAKE }],
+        })
+      })
+    })
   })
 
   describe('list', () => {

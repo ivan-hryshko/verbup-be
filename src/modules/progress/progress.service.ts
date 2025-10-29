@@ -91,7 +91,7 @@ export class ProgressService {
 
   getNextProgressStatus(status: ProgressStatus | undefined, correct: boolean): ProgressStatus {
     if (!status) {
-      return ProgressStatus.IN_PROGRESS
+      return correct ? ProgressStatus.IN_PROGRESS : ProgressStatus.MISTAKE
     }
 
     let newStatus = status
