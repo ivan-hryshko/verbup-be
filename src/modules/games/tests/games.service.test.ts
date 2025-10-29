@@ -97,8 +97,60 @@ describe('GamesService - getWords', () => {
   })
 
   describe('GameWordType.PS', () => {
+    it('should prioritize words with PP progress (MISTAKE or IN_PROGRESS)', async () => {
+      mockUsersRepo.findById.mockResolvedValue(mockUser)
+
+      // First call: Words with PP progress
+      // Second call: PS progress check (empty in this test)
+      mockIrrWordRepo.getWordsByProgressStatus
+        .mockResolvedValueOnce([
+          {
+            id: 1,
+            basic: 'go',
+            pastSimple: 'went',
+            psSound: 'go.mp3',
+            basicSound: 'go-basic.mp3',
+            image: 'go.png',
+            type: IrrWordType.PS,
+          },
+          {
+            id: 2,
+            basic: 'eat',
+            pastSimple: 'ate',
+            psSound: 'eat.mp3',
+            basicSound: 'eat-basic.mp3',
+            image: 'eat.png',
+            type: IrrWordType.PS,
+          },
+        ])
+        .mockResolvedValueOnce([])
+      mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
+
+      const words = await getWordService.execute({
+        level: 'easy',
+        count: 5,
+        lang: 'en',
+        userId: 1,
+        irrWordType: GameWordType.PS,
+      })
+
+      expect(mockIrrWordRepo.getWordsByProgressStatus).toHaveBeenCalledWith(
+        IrrWordType.PP,
+        IrrWordType.PS,
+        'easy',
+        'en',
+        1,
+        ['mistake', 'in_progress'],
+      )
+      expect(words).toHaveLength(2)
+      expect(words[0]).toHaveProperty('pastSimple')
+      expect(words[0]).not.toHaveProperty('pastParticiple')
+    })
+
     it('should return not learned PS words', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
+      // Mock progress status checks to return empty arrays
+      mockIrrWordRepo.getWordsByProgressStatus.mockResolvedValue([])
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([
         {
           id: 1,
@@ -136,6 +188,8 @@ describe('GamesService - getWords', () => {
 
     it('should fallback to all PS words if no not learned words', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
+      // Mock progress status checks to return empty arrays
+      mockIrrWordRepo.getWordsByProgressStatus.mockResolvedValue([])
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
       mockIrrWordRepo.getAllWordsByType.mockResolvedValue([
         {
@@ -167,27 +221,30 @@ describe('GamesService - getWords', () => {
     it('should prioritize words with PS progress (MISTAKE or IN_PROGRESS)', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
 
-      // Words that have PS progress with MISTAKE or IN_PROGRESS
-      mockIrrWordRepo.getWordsByProgressStatus.mockResolvedValue([
-        {
-          id: 1,
-          basic: 'go',
-          pastParticiple: 'gone',
-          ppSound: 'go-pp.mp3',
-          basicSound: 'go-basic.mp3',
-          image: 'go.png',
-          type: IrrWordType.PP,
-        },
-        {
-          id: 2,
-          basic: 'eat',
-          pastParticiple: 'eaten',
-          ppSound: 'eat-pp.mp3',
-          basicSound: 'eat-basic.mp3',
-          image: 'eat.png',
-          type: IrrWordType.PP,
-        },
-      ])
+      // First call: Words that have PS progress with MISTAKE or IN_PROGRESS
+      // Second call: PP progress check (empty in this test)
+      mockIrrWordRepo.getWordsByProgressStatus
+        .mockResolvedValueOnce([
+          {
+            id: 1,
+            basic: 'go',
+            pastParticiple: 'gone',
+            ppSound: 'go-pp.mp3',
+            basicSound: 'go-basic.mp3',
+            image: 'go.png',
+            type: IrrWordType.PP,
+          },
+          {
+            id: 2,
+            basic: 'eat',
+            pastParticiple: 'eaten',
+            ppSound: 'eat-pp.mp3',
+            basicSound: 'eat-basic.mp3',
+            image: 'eat.png',
+            type: IrrWordType.PP,
+          },
+        ])
+        .mockResolvedValueOnce([])
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
 
       const words = await getWordService.execute({
@@ -211,21 +268,73 @@ describe('GamesService - getWords', () => {
       expect(words[0]).not.toHaveProperty('pastSimple')
     })
 
+    it('should check PP progress when not enough PS progress words', async () => {
+      mockUsersRepo.findById.mockResolvedValue(mockUser)
+
+      // First call: empty PS progress
+      // Second call: words with PP progress
+      mockIrrWordRepo.getWordsByProgressStatus
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([
+          {
+            id: 1,
+            basic: 'go',
+            pastParticiple: 'gone',
+            ppSound: 'go-pp.mp3',
+            basicSound: 'go-basic.mp3',
+            image: 'go.png',
+            type: IrrWordType.PP,
+          },
+          {
+            id: 2,
+            basic: 'eat',
+            pastParticiple: 'eaten',
+            ppSound: 'eat-pp.mp3',
+            basicSound: 'eat-basic.mp3',
+            image: 'eat.png',
+            type: IrrWordType.PP,
+          },
+        ])
+      mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
+
+      const words = await getWordService.execute({
+        level: 'easy',
+        count: 5,
+        lang: 'en',
+        userId: 1,
+        irrWordType: GameWordType.PP,
+      })
+
+      expect(mockIrrWordRepo.getWordsByProgressStatus).toHaveBeenCalledWith(
+        IrrWordType.PP,
+        IrrWordType.PP,
+        'easy',
+        'en',
+        1,
+        ['mistake', 'in_progress'],
+      )
+      expect(words).toHaveLength(2)
+      expect(words[0]).toHaveProperty('pastParticiple')
+    })
+
     it('should add regular not learned PP words if not enough priority words', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
 
-      // Only 1 word with PS progress
-      mockIrrWordRepo.getWordsByProgressStatus.mockResolvedValue([
-        {
-          id: 1,
-          basic: 'go',
-          pastParticiple: 'gone',
-          ppSound: 'go-pp.mp3',
-          basicSound: 'go-basic.mp3',
-          image: 'go.png',
-          type: IrrWordType.PP,
-        },
-      ])
+      // First call: 1 word with PS progress
+      // Second call: PP progress check (empty)
+      mockIrrWordRepo.getWordsByProgressStatus
+        .mockResolvedValueOnce([
+          {
+            id: 1,
+            basic: 'go',
+            pastParticiple: 'gone',
+            ppSound: 'go-pp.mp3',
+            basicSound: 'go-basic.mp3',
+            image: 'go.png',
+            type: IrrWordType.PP,
+          },
+        ])
+        .mockResolvedValueOnce([])
 
       // Additional not learned PP words
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([
@@ -522,6 +631,8 @@ describe('GamesService - getWords', () => {
   describe('Word field cleanup', () => {
     it('should not include PP fields in PS words', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
+      // Mock progress status checks to return empty arrays
+      mockIrrWordRepo.getWordsByProgressStatus.mockResolvedValue([])
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([
         {
           id: 1,
@@ -548,17 +659,21 @@ describe('GamesService - getWords', () => {
 
     it('should not include PS fields in PP words', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
-      mockIrrWordRepo.getWordsByProgressStatus.mockResolvedValue([
-        {
-          id: 1,
-          basic: 'go',
-          pastParticiple: 'gone',
-          ppSound: 'go-pp.mp3',
-          basicSound: 'go-basic.mp3',
-          image: 'go.png',
-          type: IrrWordType.PP,
-        },
-      ])
+      // First call: Words with PS progress
+      // Second call: PP progress check (empty)
+      mockIrrWordRepo.getWordsByProgressStatus
+        .mockResolvedValueOnce([
+          {
+            id: 1,
+            basic: 'go',
+            pastParticiple: 'gone',
+            ppSound: 'go-pp.mp3',
+            basicSound: 'go-basic.mp3',
+            image: 'go.png',
+            type: IrrWordType.PP,
+          },
+        ])
+        .mockResolvedValueOnce([])
       mockIrrWordRepo.getNotLearnedWordsByType.mockResolvedValue([])
 
       const words = await getWordService.execute({
