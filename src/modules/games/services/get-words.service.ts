@@ -57,8 +57,8 @@ export class GetWordService {
   async execute(dto: GetWordsDto): Promise<GameWord[]> {
     const { level, count, lang, userId, irrWordType } = await this.validate(dto)
 
-    let psWords: GameWord[] = []
-    let ppWords: GameWord[] = []
+    let priorityWords: GameWord[] = []
+    let fillerWords: GameWord[] = []
 
     if (irrWordType === GameWordType.PS) {
       // For PS: prefer words with MISTAKE or IN_PROGRESS status
@@ -72,10 +72,10 @@ export class GetWordService {
         ['mistake', 'in_progress']
       )
 
-      psWords = [...wordsWithPpProgress]
+      priorityWords = [...wordsWithPpProgress]
 
-      // If not enough, get words with PS progress
-      if (psWords.length < count) {
+      // If not enough priority words, get words with PS progress
+      if (priorityWords.length < count) {
         const wordsWithPsProgress = await this.irrWordRepo.getWordsByProgressStatus(
           IrrWordType.PS,
           IrrWordType.PS,
@@ -85,21 +85,20 @@ export class GetWordService {
           ['mistake', 'in_progress']
         )
         // Filter out words already included
-        const newWords = wordsWithPsProgress.filter(w => !psWords.find(pw => pw.id === w.id))
-        psWords = [...psWords, ...newWords]
+        const newWords = wordsWithPsProgress.filter(w => !priorityWords.find(pw => pw.id === w.id))
+        priorityWords = [...priorityWords, ...newWords]
       }
 
-      // If not enough, add not learned PS words
-      if (psWords.length < count) {
+      // If still not enough, add not learned PS words as fillers
+      if (priorityWords.length < count) {
         const additionalPsWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PS, level, lang, userId)
-        // Filter out words already included
-        const newWords = additionalPsWords.filter(w => !psWords.find(pw => pw.id === w.id))
-        psWords = [...psWords, ...newWords]
+        // Filter out words already included in priority
+        fillerWords = additionalPsWords.filter(w => !priorityWords.find(pw => pw.id === w.id))
       }
 
-      // If still not enough, get all words
-      if (psWords.length === 0) {
-        psWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PS, level, lang)
+      // If still not enough filler words, get all words
+      if (priorityWords.length === 0 && fillerWords.length === 0) {
+        fillerWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PS, level, lang)
       }
     }
     else if (irrWordType === GameWordType.PP) {
@@ -114,10 +113,10 @@ export class GetWordService {
         ['mistake', 'in_progress']
       )
 
-      ppWords = [...wordsWithPsProgress]
+      priorityWords = [...wordsWithPsProgress]
 
-      // If not enough, get words with PP progress
-      if (ppWords.length < count) {
+      // If not enough priority words, get words with PP progress
+      if (priorityWords.length < count) {
         const wordsWithPpProgress = await this.irrWordRepo.getWordsByProgressStatus(
           IrrWordType.PP,
           IrrWordType.PP,
@@ -127,21 +126,20 @@ export class GetWordService {
           ['mistake', 'in_progress']
         )
         // Filter out words already included
-        const newWords = wordsWithPpProgress.filter(w => !ppWords.find(pw => pw.id === w.id))
-        ppWords = [...ppWords, ...newWords]
+        const newWords = wordsWithPpProgress.filter(w => !priorityWords.find(pw => pw.id === w.id))
+        priorityWords = [...priorityWords, ...newWords]
       }
 
-      // If not enough, add not learned PP words
-      if (ppWords.length < count) {
+      // If still not enough, add not learned PP words as fillers
+      if (priorityWords.length < count) {
         const additionalPpWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PP, level, lang, userId)
-        // Filter out words already included
-        const newWords = additionalPpWords.filter(w => !ppWords.find(pw => pw.id === w.id))
-        ppWords = [...ppWords, ...newWords]
+        // Filter out words already included in priority
+        fillerWords = additionalPpWords.filter(w => !priorityWords.find(pw => pw.id === w.id))
       }
 
-      // If still not enough, get all words
-      if (ppWords.length === 0) {
-        ppWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PP, level, lang)
+      // If still not enough filler words, get all words
+      if (priorityWords.length === 0 && fillerWords.length === 0) {
+        fillerWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PP, level, lang)
       }
     }
     else if (irrWordType === GameWordType.MIXED) {
@@ -164,37 +162,36 @@ export class GetWordService {
         ['mistake', 'in_progress']
       )
 
-      psWords = [...psWithProgress]
-      ppWords = [...ppWithProgress]
+      priorityWords = [...psWithProgress, ...ppWithProgress]
 
-      // If not enough words, add regular not learned words
-      const totalWithProgress = psWords.length + ppWords.length
-      if (totalWithProgress < count) {
+      // If not enough priority words, add regular not learned words as fillers
+      if (priorityWords.length < count) {
         const additionalPsWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PS, level, lang, userId)
         const additionalPpWords = await this.irrWordRepo.getNotLearnedWordsByType(IrrWordType.PP, level, lang, userId)
 
-        // Filter out words already included
-        const newPsWords = additionalPsWords.filter(w => !psWords.find(pw => pw.id === w.id))
-        const newPpWords = additionalPpWords.filter(w => !ppWords.find(pw => pw.id === w.id))
+        // Filter out words already included in priority
+        const newPsWords = additionalPsWords.filter(w => !priorityWords.find(pw => pw.id === w.id))
+        const newPpWords = additionalPpWords.filter(w => !priorityWords.find(pw => pw.id === w.id))
 
-        psWords = [...psWords, ...newPsWords]
-        ppWords = [...ppWords, ...newPpWords]
+        fillerWords = [...newPsWords, ...newPpWords]
       }
 
-      // If still not enough, get all words
-      if (psWords.length === 0 && ppWords.length === 0) {
-        psWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PS, level, lang)
-        ppWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PP, level, lang)
+      // If still not enough filler words, get all words
+      if (priorityWords.length === 0 && fillerWords.length === 0) {
+        const allPsWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PS, level, lang)
+        const allPpWords = await this.irrWordRepo.getAllWordsByType(IrrWordType.PP, level, lang)
+        fillerWords = [...allPsWords, ...allPpWords]
       }
     }
 
-    const allWords = [...psWords, ...ppWords]
-
-    // Random shuffle and limit
-    const shuffled = allWords.sort(() => Math.random() - 0.5).slice(0, count)
+    // Combine priority words with shuffled filler words
+    // Priority words always come first, then fill remaining slots with random filler words
+    const remainingSlots = count - priorityWords.length
+    const shuffledFillers = fillerWords.sort(() => Math.random() - 0.5).slice(0, remainingSlots)
+    const finalWords = [...priorityWords, ...shuffledFillers].slice(0, count)
 
     // Clean up word types
-    return shuffled.map((word) => {
+    return finalWords.map((word) => {
       const base = {
         id: word.id,
         basic: word.basic,

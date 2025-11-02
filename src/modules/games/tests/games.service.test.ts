@@ -145,6 +145,9 @@ describe('GamesService - getWords', () => {
       expect(words).toHaveLength(2)
       expect(words[0]).toHaveProperty('pastSimple')
       expect(words[0]).not.toHaveProperty('pastParticiple')
+      // Priority words should appear first (in order)
+      expect(words[0].id).toBe(1)
+      expect(words[1].id).toBe(2)
     })
 
     it('should return not learned PS words', async () => {
@@ -266,6 +269,9 @@ describe('GamesService - getWords', () => {
       expect(words).toHaveLength(2)
       expect(words[0]).toHaveProperty('pastParticiple')
       expect(words[0]).not.toHaveProperty('pastSimple')
+      // Priority words should appear first (in order)
+      expect(words[0].id).toBe(1)
+      expect(words[1].id).toBe(2)
     })
 
     it('should check PP progress when not enough PS progress words', async () => {
@@ -469,6 +475,9 @@ describe('GamesService - getWords', () => {
 
       expect(psWord).toBeDefined()
       expect(ppWord).toBeDefined()
+      // Priority words should appear first
+      expect(words[0].id).toBe(1)
+      expect(words[1].id).toBe(2)
     })
 
     it('should add not learned words if not enough priority words', async () => {
@@ -589,7 +598,7 @@ describe('GamesService - getWords', () => {
       expect(words).toHaveLength(2)
     })
 
-    it('should respect count limit and shuffle words', async () => {
+    it('should respect count limit with priority words first', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
 
       mockIrrWordRepo.getWordsByProgressStatus
@@ -625,6 +634,8 @@ describe('GamesService - getWords', () => {
       })
 
       expect(words).toHaveLength(1)
+      // First priority word should be returned
+      expect(words[0].id).toBe(1)
     })
   })
 
