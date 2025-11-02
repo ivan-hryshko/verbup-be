@@ -4,6 +4,7 @@ import {
   Unique,
   Column,
   ManyToOne,
+  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm'
@@ -20,11 +21,13 @@ export class ProgressPsEntity {
   @ManyToOne(() => UserEntity, (user) => user.progressPs, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'userId' })
   user: UserEntity
 
   @ManyToOne(() => IrrWordEntity, (word) => word.progressPs, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'wordId' })
   word: IrrWordEntity
 
   @Column({ type: 'varchar' })

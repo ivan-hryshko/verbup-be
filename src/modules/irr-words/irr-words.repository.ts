@@ -162,6 +162,39 @@ async getNotLearnedWordsByType(
     }))
   }
 
+  async getWordsByProgressStatus(
+    progressType: IrrWordType,
+    returnType: IrrWordType,
+    level: string,
+    lang: string,
+    userId: number,
+    statuses: string[],
+  ): Promise<GameWord[]> {
+    let qb = this.repo.createQueryBuilder('word')
+      .where('word.level = :level', { level })
+      .andWhere('word.lang = :lang', { lang });
+
+    if (progressType === 'ps') {
+      qb.innerJoinAndSelect('word.progressPs', 'progressPs', 'progressPs.userId = :userId', { userId })
+        .andWhere('progressPs.status IN (:...statuses)', { statuses });
+    } else {
+      qb.innerJoinAndSelect('word.progressPp', 'progressPp', 'progressPp.userId = :userId', { userId })
+        .andWhere('progressPp.status IN (:...statuses)', { statuses });
+    }
+
+    if (returnType === 'ps') {
+      qb.addSelect(['word.pastSimple', 'word.psSound']);
+    } else {
+      qb.addSelect(['word.pastParticiple', 'word.ppSound']);
+    }
+
+    const results = await qb.getMany();
+    return results.map((word) => ({
+      ...word,
+      type: returnType,
+    }));
+  }
+
   async save(word: Partial<IrrWordEntity>): Promise<IrrWordEntity> {
     const newWord = this.repo.create(word)
     return this.repo.save(newWord)
