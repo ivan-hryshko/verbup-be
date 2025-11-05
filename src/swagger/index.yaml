@@ -11,6 +11,8 @@ tags:
     description: User management endpoints
   - name: Feedbacks
     description: Feedback management endpoints
+  - name: Statistics
+    description: Daily statistics endpoints
 
 servers:
   - url: http://localhost:8000/api/v1
@@ -65,11 +67,16 @@ paths:
   /upload/image:
     post:
       $ref: './paths/upload.yaml'
+  /statistics:
+    get:
+      $ref: './paths/statistics/get.yaml'
 
 components:
   schemas:
     User:
       $ref: './components/schemas/User.yaml'
+    DailyStats:
+      $ref: './components/schemas/DailyStats.yaml'
   securitySchemes:
     BearerAuth:
       type: http

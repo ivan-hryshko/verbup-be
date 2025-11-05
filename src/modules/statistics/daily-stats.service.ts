@@ -10,6 +10,7 @@ import appDataSource from '../../config/app-data-source'
 export interface IDailyStatsService {
   startCollectStats(cron: string): void
   collectStats(): Promise<void>
+  getStats(offset?: number, limit?: number): Promise<{ data: DailyStatsEntity[]; total: number }>
 }
 
 interface DateRange {
@@ -202,5 +203,22 @@ export class DailyStatsService implements IDailyStatsService {
 
   private getProgressPpRepository(): Repository<ProgressPpEntity> {
     return appDataSource.getRepository(ProgressPpEntity)
+  }
+
+  async getStats(
+    offset: number = 0,
+    limit: number = 10,
+  ): Promise<{ data: DailyStatsEntity[]; total: number }> {
+    const statsRepository = this.getStatsRepository()
+
+    const [data, total] = await statsRepository.findAndCount({
+      order: {
+        stat_date: 'DESC',
+      },
+      skip: offset,
+      take: limit,
+    })
+
+    return { data, total }
   }
 }
