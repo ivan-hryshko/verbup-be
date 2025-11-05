@@ -10,6 +10,15 @@ export class ProgressController {
     const progress = await this.progressService.list({ ...req.query, userId })
     res.status(200).json({ data: progress })
   }
+  short = async (req: Request, res: Response): Promise<any> => {
+    const userId = getUserFromToken(req.get('Authorization'))?.id ?? null
+    if (userId) {
+      const progress = await this.progressService.short({ userId })
+      res.status(200).json({ data: progress })
+    } else {
+      
+    }
+  }
 
   save = async (req: Request, res: Response): Promise<any> => {
     const userId = getUserFromToken(req.get('Authorization'))?.id ?? null

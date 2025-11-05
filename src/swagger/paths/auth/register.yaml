@@ -16,6 +16,9 @@ requestBody:
           - email
           - password
         properties:
+          username:
+            type: string
+            example: Eugene
           email:
             type: string
             example: test@gmail.com

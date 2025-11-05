@@ -1,0 +1,68 @@
+tags:
+  - Progress
+summary: Get user progress short statistics
+description: Retrieves the user's progress statistics.
+security:
+  - BearerAuth: []
+responses:
+  '200':
+    description: A list of the user's progress statistics.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                general:
+                  type: object
+                  properties:
+                    ps:
+                      type: integer
+                      example: 3
+                    pp:
+                      type: integer
+                      example: 1
+                    total:
+                      type: integer
+                      example: 1
+                easy:
+                  type: object
+                  properties:
+                    ps: { type: integer, example: 3 }
+                    pp: { type: integer, example: 1 }
+                    total: { type: integer, example: 1 }
+                medium:
+                  type: object
+                  properties:
+                    ps: { type: integer, example: 0 }
+                    pp: { type: integer, example: 0 }
+                    total: { type: integer, example: 0 }
+                hard:
+                  type: object
+                  properties:
+                    ps: { type: integer, example: 0 }
+                    pp: { type: integer, example: 0 }
+                    total: { type: integer, example: 0 }
+        examples:
+          success:
+            summary: Example user progress stats
+            value:
+              data:
+                general:
+                  ps: 3
+                  pp: 1
+                  total: 1
+                easy:
+                  ps: 3
+                  pp: 1
+                  total: 1
+                medium:
+                  ps: 0
+                  pp: 0
+                  total: 0
+                hard:
+                  ps: 0
+                  pp: 0
+                  total: 0

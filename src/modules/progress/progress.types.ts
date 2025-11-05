@@ -1,6 +1,7 @@
 export enum ProgressStatus {
   MISTAKE = 'mistake',
   STUDIED = 'studied',
+  IN_PROGRESS = 'in_progress',
 }
 
 export type ProgressSaveParams = {
@@ -9,4 +10,11 @@ export type ProgressSaveParams = {
     wordId: number
     status: ProgressStatus
   }[]
+}
+export type ProgressGetWordParams = {
+  userId: number
+  wordId: number
+}
+export type ProgressListQuery = {
+  status: ProgressStatus
 }

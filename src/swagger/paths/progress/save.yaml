@@ -1,7 +1,9 @@
 tags:
   - Progress
 summary: Save user progress
-description: Saves the user's progress for a set of words.
+description: Saves the user's progress for a set of words. type can be "ps" or "pp". correct can be true or false.
+security:
+  - BearerAuth: []
 requestBody:
   required: true
   content:
@@ -9,9 +11,6 @@ requestBody:
       schema:
         type: object
         properties:
-          userId:
-            type: integer
-            description: The ID of the user.
           words:
             type: array
             items:
@@ -19,15 +18,18 @@ requestBody:
               properties:
                 wordId:
                   type: integer
+                  example: 1
                   description: The ID of the word.
                 type:
                   type: string
                   enum: [ps, pp]
+                  example: "ps"
                   description: The type of the word (past simple or past participle).
-                status:
-                  type: string
-                  enum: [correct, incorrect]
-                  description: The status of the user's answer.
+                correct:
+                  type: boolean
+                  enum: [true, false]
+                  example: true
+                  description: Is user correct anser the game question.
 responses:
   '200':
     description: Progress saved successfully.

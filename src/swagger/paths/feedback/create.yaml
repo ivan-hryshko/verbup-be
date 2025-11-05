@@ -2,6 +2,8 @@ tags:
   - Feedbacks
 summary: Create new feedback
 description: If user registered, automatically add user ID from JWT token to feedback
+security:
+  - BearerAuth: []
 requestBody:
   required: true
   content:

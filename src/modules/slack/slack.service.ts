@@ -20,7 +20,7 @@ export class SlackService implements ISlackService {
   async sendFeedbackMessage(feedback: FeedbackEntity): Promise<void> {
     const text = `
 *New Feedback Received* 🎉
-● *Environment:* ${ENVS.APP_ENV}
+● *Environment:* ${ENVS.NODE_ENV}
 ● *Rating:* ${feedback.rating}
 ● *Comment:* ${feedback.comment}
 ● *UserID:* ${feedback.userId}

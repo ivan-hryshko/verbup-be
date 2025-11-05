@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, Unique, Column, OneToMany } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Unique, Column, OneToMany } from 'typeorm'
 import { ProgressPsEntity } from '../progress/progress-ps/progress-ps.entity'
 import { ProgressPpEntity } from '../progress/progress-pp/progress-pp.entity'
 
@@ -38,9 +38,9 @@ export class IrrWordEntity {
   @Column({ name: 'pp_sound', length: 200, nullable: true })
   ppSound: string
 
-  @OneToMany(() => ProgressPsEntity, (ps) => ps.user)
+  @OneToMany(() => ProgressPsEntity, (ps) => ps.word)
   progressPs: ProgressPsEntity[]
 
-  @OneToMany(() => ProgressPpEntity, (pp) => pp.user)
+  @OneToMany(() => ProgressPpEntity, (pp) => pp.word)
   progressPp: ProgressPpEntity[]
 }

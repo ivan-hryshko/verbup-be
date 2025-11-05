@@ -7,7 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/api/v1"
+      "url": "http://localhost:8000/api/v1",
+      "description": "Local dev"
+    },
+    {
+      "url": "https://verbup-60d2d030ff70.herokuapp.com/api/v1",
+      "description": "Production"
     }
   ],
   "tags": [
@@ -43,6 +48,10 @@
                   "password"
                 ],
                 "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "Eugene"
+                  },
                   "email": {
                     "type": "string",
                     "example": "test@gmail.com"
@@ -344,6 +353,11 @@
         ],
         "summary": "Create new feedback",
         "description": "If user registered, automatically add user ID from JWT token to feedback",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -411,6 +425,11 @@
       "get": {
         "summary": "Get words for a game",
         "description": "Retrieves a list of words for a game based on the specified level, count, language, and user ID.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "tags": [
           "Games"
         ],
@@ -434,7 +453,8 @@
             "name": "count",
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "default": 5
             },
             "required": true,
             "description": "The number of words to retrieve."
@@ -454,13 +474,17 @@
           },
           {
             "in": "query",
-            "name": "userId",
+            "name": "irrWordType",
             "schema": {
-              "type": "integer",
-              "minimum": 1
+              "type": "string",
+              "enum": [
+                "ps",
+                "pp",
+                "mixed"
+              ]
             },
             "required": true,
-            "description": "The ID of the user."
+            "description": "The type of the words, only past simple, past participle ot both."
           }
         ],
         "responses": {
@@ -500,6 +524,11 @@
         ],
         "summary": "Get a list of irregular words",
         "description": "Retrieves a list of irregular words for the specified language.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -612,7 +641,12 @@
           "Progress"
         ],
         "summary": "Save user progress",
-        "description": "Saves the user's progress for a set of words.",
+        "description": "Saves the user's progress for a set of words. type can be \"ps\" or \"pp\". correct can be true or false.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -620,10 +654,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "userId": {
-                    "type": "integer",
-                    "description": "The ID of the user."
-                  },
                   "words": {
                     "type": "array",
                     "items": {
@@ -631,6 +661,7 @@
                       "properties": {
                         "wordId": {
                           "type": "integer",
+                          "example": 1,
                           "description": "The ID of the word."
                         },
                         "type": {
@@ -639,15 +670,17 @@
                             "ps",
                             "pp"
                           ],
+                          "example": "ps",
                           "description": "The type of the word (past simple or past participle)."
                         },
-                        "status": {
-                          "type": "string",
+                        "correct": {
+                          "type": "boolean",
                           "enum": [
-                            "correct",
-                            "incorrect"
+                            true,
+                            false
                           ],
-                          "description": "The status of the user's answer."
+                          "example": true,
+                          "description": "Is user correct anser the game question."
                         }
                       }
                     }
@@ -672,15 +705,9 @@
         ],
         "summary": "Get user progress",
         "description": "Retrieves the user's progress.",
-        "parameters": [
+        "security": [
           {
-            "in": "query",
-            "name": "userId",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "The ID of the user."
+            "BearerAuth": []
           }
         ],
         "responses": {
@@ -689,6 +716,136 @@
           },
           "400": {
             "description": "Invalid or missing parameters."
+          }
+        }
+      }
+    },
+    "/progress/short": {
+      "get": {
+        "tags": [
+          "Progress"
+        ],
+        "summary": "Get user progress short statistics",
+        "description": "Retrieves the user's progress statistics.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of the user's progress statistics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "general": {
+                          "type": "object",
+                          "properties": {
+                            "ps": {
+                              "type": "integer",
+                              "example": 3
+                            },
+                            "pp": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "total": {
+                              "type": "integer",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "easy": {
+                          "type": "object",
+                          "properties": {
+                            "ps": {
+                              "type": "integer",
+                              "example": 3
+                            },
+                            "pp": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "total": {
+                              "type": "integer",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "medium": {
+                          "type": "object",
+                          "properties": {
+                            "ps": {
+                              "type": "integer",
+                              "example": 0
+                            },
+                            "pp": {
+                              "type": "integer",
+                              "example": 0
+                            },
+                            "total": {
+                              "type": "integer",
+                              "example": 0
+                            }
+                          }
+                        },
+                        "hard": {
+                          "type": "object",
+                          "properties": {
+                            "ps": {
+                              "type": "integer",
+                              "example": 0
+                            },
+                            "pp": {
+                              "type": "integer",
+                              "example": 0
+                            },
+                            "total": {
+                              "type": "integer",
+                              "example": 0
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Example user progress stats",
+                    "value": {
+                      "data": {
+                        "general": {
+                          "ps": 3,
+                          "pp": 1,
+                          "total": 1
+                        },
+                        "easy": {
+                          "ps": 3,
+                          "pp": 1,
+                          "total": 1
+                        },
+                        "medium": {
+                          "ps": 0,
+                          "pp": 0,
+                          "total": 0
+                        },
+                        "hard": {
+                          "ps": 0,
+                          "pp": 0,
+                          "total": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -828,7 +985,7 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
+      "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"

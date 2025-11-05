@@ -14,6 +14,9 @@ tags:
 
 servers:
   - url: http://localhost:8000/api/v1
+    description: Local dev
+  - url: https://verbup-60d2d030ff70.herokuapp.com/api/v1
+    description: Production
 
 paths:
   /auth/register:
@@ -56,6 +59,9 @@ paths:
       $ref: './paths/progress/save.yaml'
     get:
       $ref: './paths/progress/list.yaml'
+  /progress/short:
+    get:
+      $ref: './paths/progress/short.yaml'
   /upload/image:
     post:
       $ref: './paths/upload.yaml'
@@ -65,7 +71,7 @@ components:
     User:
       $ref: './components/schemas/User.yaml'
   securitySchemes:
-    bearerAuth:
+    BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT

@@ -1,7 +1,7 @@
-import { Repository } from 'typeorm'
+import { InsertResult, Repository } from 'typeorm'
 import AppDataSource from '../../../config/app-data-source'
 import { ProgressPpEntity } from './progress-pp.entity'
-import { ProgressSaveParams } from '../progress.types'
+import { ProgressGetWordParams, ProgressSaveParams } from '../progress.types'
 import { IProgressRepository } from '../progress.interface'
 
 export class ProgressPpRepository implements IProgressRepository<ProgressPpEntity> {
@@ -20,7 +20,17 @@ export class ProgressPpRepository implements IProgressRepository<ProgressPpEntit
       .getMany()
   }
 
-  async saveProgress(params: ProgressSaveParams): Promise<ProgressPpEntity[]> {
+  async getProgressByStatus(userId: number, status: string): Promise<ProgressPpEntity[]> {
+    return this.repo
+      .createQueryBuilder('progressPp')
+      .where('progressPp.userId = :userId', { userId })
+      .andWhere('progressPp.status = :status', { status })
+      .innerJoin('progressPp.word', 'word')
+      .addSelect(['word.id', 'word.basic', 'word.level'])
+      .getMany()
+  }
+
+  async saveProgress(params: ProgressSaveParams): Promise<void> {
     const preparedWords = params.words.map((param) => {
       return {
         user: { id: params.userId },
@@ -28,7 +38,19 @@ export class ProgressPpRepository implements IProgressRepository<ProgressPpEntit
         status: param.status,
       }
     })
-    const progress = this.repo.create(preparedWords)
-    return this.repo.save(progress)
+
+    await this.repo.upsert(preparedWords, {
+      conflictPaths: ['user', 'word'],
+      skipUpdateIfNoValuesChanged: true,
+    })
   }
+
+    async getWordProgress(params: ProgressGetWordParams): Promise<ProgressPpEntity | null> {
+      const { userId, wordId } = params
+      return this.repo
+        .createQueryBuilder('progressPs')
+        .where('progressPs.userId = :userId', { userId })
+        .andWhere('progressPs.wordId = :wordId', { wordId })
+        .getOne()
+    }
 }
