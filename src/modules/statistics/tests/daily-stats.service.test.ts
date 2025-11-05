@@ -11,6 +11,7 @@ jest.mock('typeorm', () => ({
   ManyToOne: jest.fn(() => jest.fn()),
   JoinColumn: jest.fn(() => jest.fn()),
   DataSource: jest.fn(),
+  SelectQueryBuilder: jest.fn(),
 }))
 
 // Mock dependencies before imports
@@ -25,6 +26,9 @@ jest.mock('../../../config/app-data-source', () => ({
 import { DailyStatsService } from '../daily-stats.service'
 import { DailyStatsEntity } from '../daily-stats.entity'
 import { UserEntity } from '../../users/users.entity'
+import { ProgressPsEntity } from '../../progress/progress-ps/progress-ps.entity'
+import { ProgressPpEntity } from '../../progress/progress-pp/progress-pp.entity'
+import { IrrWordLevelEnum } from '../../irr-words/irr-words.types'
 import appDataSource from '../../../config/app-data-source'
 import { Between } from 'typeorm'
 import type { Repository } from 'typeorm'
@@ -33,8 +37,18 @@ describe('DailyStatsService', () => {
   let service: DailyStatsService
   let mockUserRepository: jest.Mocked<Repository<UserEntity>>
   let mockStatsRepository: jest.Mocked<Repository<DailyStatsEntity>>
+  let mockProgressPsRepository: jest.Mocked<any>
+  let mockProgressPpRepository: jest.Mocked<any>
 
   beforeEach(() => {
+    // Create mock query builder
+    const mockQueryBuilder = {
+      leftJoinAndSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getMany: jest.fn().mockResolvedValue([]),
+    }
+
     // Create mock repositories
     mockUserRepository = {
       count: jest.fn(),
@@ -46,10 +60,20 @@ describe('DailyStatsService', () => {
       save: jest.fn(),
     } as any
 
+    mockProgressPsRepository = {
+      createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
+    }
+
+    mockProgressPpRepository = {
+      createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
+    }
+
     // Mock appDataSource.getRepository to return our mocks
     ;(appDataSource.getRepository as jest.Mock) = jest.fn((entity: any) => {
       if (entity === UserEntity) return mockUserRepository
       if (entity === DailyStatsEntity) return mockStatsRepository
+      if (entity === ProgressPsEntity) return mockProgressPsRepository
+      if (entity === ProgressPpEntity) return mockProgressPpRepository
       return null
     })
 
@@ -139,10 +163,98 @@ describe('DailyStatsService', () => {
     })
   })
 
+  describe('collectProgressStats', () => {
+    it('should collect progress statistics correctly', async () => {
+      const startDate = new Date('2025-11-04T00:00:00Z')
+      const endDate = new Date('2025-11-05T00:00:00Z')
+
+      const mockPsRecords = [
+        { user: { id: 1 }, word: { level: IrrWordLevelEnum.EASY } },
+        { user: { id: 1 }, word: { level: IrrWordLevelEnum.MEDIUM } },
+        { user: { id: 2 }, word: { level: IrrWordLevelEnum.EASY } },
+      ]
+
+      const mockPpRecords = [
+        { user: { id: 2 }, word: { level: IrrWordLevelEnum.HARD } },
+        { user: { id: 3 }, word: { level: IrrWordLevelEnum.MEDIUM } },
+      ]
+
+      const mockQueryBuilderPs = {
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue(mockPsRecords),
+      }
+
+      const mockQueryBuilderPp = {
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue(mockPpRecords),
+      }
+
+      mockProgressPsRepository.createQueryBuilder.mockReturnValue(mockQueryBuilderPs)
+      mockProgressPpRepository.createQueryBuilder.mockReturnValue(mockQueryBuilderPp)
+
+      const result = await (service as any).collectProgressStats(startDate, endDate)
+
+      expect(result.totalWords).toBe(5)
+      expect(result.uniqueUsers).toBe(3)
+      expect(result.easy).toBe(2)
+      expect(result.medium).toBe(2)
+      expect(result.hard).toBe(1)
+    })
+
+    it('should return zeros when no progress found', async () => {
+      const startDate = new Date('2025-11-04T00:00:00Z')
+      const endDate = new Date('2025-11-05T00:00:00Z')
+
+      const result = await (service as any).collectProgressStats(startDate, endDate)
+
+      expect(result.totalWords).toBe(0)
+      expect(result.uniqueUsers).toBe(0)
+      expect(result.easy).toBe(0)
+      expect(result.medium).toBe(0)
+      expect(result.hard).toBe(0)
+    })
+
+    it('should handle records without word level', async () => {
+      const startDate = new Date('2025-11-04T00:00:00Z')
+      const endDate = new Date('2025-11-05T00:00:00Z')
+
+      const mockPsRecords = [
+        { user: { id: 1 }, word: {} },
+        { user: { id: 2 }, word: null },
+      ]
+
+      const mockQueryBuilder = {
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue(mockPsRecords),
+      }
+
+      mockProgressPsRepository.createQueryBuilder.mockReturnValue(mockQueryBuilder)
+      mockProgressPpRepository.createQueryBuilder.mockReturnValue({
+        ...mockQueryBuilder,
+        getMany: jest.fn().mockResolvedValue([]),
+      })
+
+      const result = await (service as any).collectProgressStats(startDate, endDate)
+
+      expect(result.totalWords).toBe(2)
+      expect(result.uniqueUsers).toBe(2)
+      expect(result.easy).toBe(0)
+      expect(result.medium).toBe(0)
+      expect(result.hard).toBe(0)
+    })
+  })
+
   describe('saveOrUpdateStats', () => {
     it('should update existing stats when record exists', async () => {
       const statDate = '2025-11-04'
       const registrations = 10
+      const progressStats = { totalWords: 50, uniqueUsers: 10, easy: 20, medium: 20, hard: 10 }
       const existingStats = {
         id: 1,
         stat_date: statDate,
@@ -153,18 +265,21 @@ describe('DailyStatsService', () => {
       mockStatsRepository.findOne.mockResolvedValue(existingStats)
       mockStatsRepository.save.mockResolvedValue(existingStats)
 
-      await (service as any).saveOrUpdateStats(statDate, registrations)
+      await (service as any).saveOrUpdateStats(statDate, registrations, progressStats)
 
       expect(mockStatsRepository.findOne).toHaveBeenCalledWith({
         where: { stat_date: statDate },
       })
       expect(existingStats.registrations).toBe(10)
+      expect(existingStats.words_progress_saved).toBe(50)
+      expect(existingStats.unique_users_progress).toBe(10)
       expect(mockStatsRepository.save).toHaveBeenCalledWith(existingStats)
     })
 
     it('should create new stats when record does not exist', async () => {
       const statDate = '2025-11-04'
       const registrations = 7
+      const progressStats = { totalWords: 30, uniqueUsers: 5, easy: 10, medium: 10, hard: 10 }
       const newStats = {
         id: 1,
         stat_date: statDate,
@@ -176,7 +291,7 @@ describe('DailyStatsService', () => {
       mockStatsRepository.create.mockReturnValue(newStats)
       mockStatsRepository.save.mockResolvedValue(newStats)
 
-      await (service as any).saveOrUpdateStats(statDate, registrations)
+      await (service as any).saveOrUpdateStats(statDate, registrations, progressStats)
 
       expect(mockStatsRepository.findOne).toHaveBeenCalledWith({
         where: { stat_date: statDate },
@@ -184,6 +299,11 @@ describe('DailyStatsService', () => {
       expect(mockStatsRepository.create).toHaveBeenCalledWith({
         stat_date: statDate,
         registrations,
+        words_progress_saved: 30,
+        unique_users_progress: 5,
+        words_progress_easy: 10,
+        words_progress_medium: 10,
+        words_progress_hard: 10,
         games_finished: 0,
         games_finished_easy: 0,
         games_finished_medium: 0,
@@ -195,27 +315,34 @@ describe('DailyStatsService', () => {
   })
 
   describe('updateExistingStats', () => {
-    it('should update registrations and save', async () => {
+    it('should update all statistics and save', async () => {
       const stats = {
         id: 1,
         stat_date: '2025-11-04',
         registrations: 5,
       } as DailyStatsEntity
       const registrations = 15
+      const progressStats = { totalWords: 40, uniqueUsers: 8, easy: 15, medium: 15, hard: 10 }
 
       mockStatsRepository.save.mockResolvedValue(stats)
 
-      await (service as any).updateExistingStats(stats, registrations, '2025-11-04')
+      await (service as any).updateExistingStats(stats, registrations, progressStats, '2025-11-04')
 
       expect(stats.registrations).toBe(15)
+      expect(stats.words_progress_saved).toBe(40)
+      expect(stats.unique_users_progress).toBe(8)
+      expect(stats.words_progress_easy).toBe(15)
+      expect(stats.words_progress_medium).toBe(15)
+      expect(stats.words_progress_hard).toBe(10)
       expect(mockStatsRepository.save).toHaveBeenCalledWith(stats)
     })
   })
 
   describe('createNewStats', () => {
-    it('should create stats with correct defaults', async () => {
+    it('should create stats with correct values and defaults', async () => {
       const statDate = '2025-11-04'
       const registrations = 3
+      const progressStats = { totalWords: 25, uniqueUsers: 4, easy: 8, medium: 9, hard: 8 }
       const newStats = {
         id: 1,
         stat_date: statDate,
@@ -225,11 +352,16 @@ describe('DailyStatsService', () => {
       mockStatsRepository.create.mockReturnValue(newStats)
       mockStatsRepository.save.mockResolvedValue(newStats)
 
-      await (service as any).createNewStats(statDate, registrations)
+      await (service as any).createNewStats(statDate, registrations, progressStats)
 
       expect(mockStatsRepository.create).toHaveBeenCalledWith({
         stat_date: statDate,
         registrations,
+        words_progress_saved: 25,
+        unique_users_progress: 4,
+        words_progress_easy: 8,
+        words_progress_medium: 9,
+        words_progress_hard: 8,
         games_finished: 0,
         games_finished_easy: 0,
         games_finished_medium: 0,
@@ -293,6 +425,24 @@ describe('DailyStatsService', () => {
 
       expect(appDataSource.getRepository).toHaveBeenCalledWith(DailyStatsEntity)
       expect(result).toBe(mockStatsRepository)
+    })
+  })
+
+  describe('getProgressPsRepository', () => {
+    it('should return ProgressPsEntity repository', () => {
+      const result = (service as any).getProgressPsRepository()
+
+      expect(appDataSource.getRepository).toHaveBeenCalledWith(ProgressPsEntity)
+      expect(result).toBe(mockProgressPsRepository)
+    })
+  })
+
+  describe('getProgressPpRepository', () => {
+    it('should return ProgressPpEntity repository', () => {
+      const result = (service as any).getProgressPpRepository()
+
+      expect(appDataSource.getRepository).toHaveBeenCalledWith(ProgressPpEntity)
+      expect(result).toBe(mockProgressPpRepository)
     })
   })
 

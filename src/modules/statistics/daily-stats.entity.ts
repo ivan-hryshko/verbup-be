@@ -13,6 +13,21 @@ export class DailyStatsEntity {
   registrations: number
 
   @Column({ type: 'int', default: 0 })
+  words_progress_saved: number
+
+  @Column({ type: 'int', default: 0 })
+  unique_users_progress: number
+
+  @Column({ type: 'int', default: 0 })
+  words_progress_easy: number
+
+  @Column({ type: 'int', default: 0 })
+  words_progress_medium: number
+
+  @Column({ type: 'int', default: 0 })
+  words_progress_hard: number
+
+  @Column({ type: 'int', default: 0 })
   games_finished: number
 
   @Column({ type: 'int', default: 0 })
