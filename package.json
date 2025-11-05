@@ -33,6 +33,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.828.0",
     "@aws-sdk/s3-request-presigner": "^3.828.0",
@@ -42,6 +46,7 @@
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.18",
     "@types/node": "^22.14.1",
+    "@types/node-cron": "^3.0.11",
     "@types/nodemailer": "^7.0.1",
     "@types/supertest": "^6.0.3",
     "concurrently": "^9.1.2",
@@ -54,6 +59,7 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "multer": "^2.0.1",
+    "node-cron": "^4.2.1",
     "nodemailer": "^7.0.6",
     "nodemon": "^3.1.9",
     "pg": "^8.16.0",

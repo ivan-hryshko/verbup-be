@@ -27,6 +27,10 @@
     {
       "name": "Feedbacks",
       "description": "Feedback management endpoints"
+    },
+    {
+      "name": "Statistics",
+      "description": "Daily statistics endpoints"
     }
   ],
   "paths": {
@@ -881,6 +885,126 @@
           }
         }
       }
+    },
+    "/statistics": {
+      "get": {
+        "tags": [
+          "Statistics"
+        ],
+        "summary": "Get daily statistics",
+        "description": "Retrieves paginated daily statistics including user registrations and word progress data. Results are ordered by date in descending order (most recent first).",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "required": false,
+            "description": "Number of records to skip for pagination (default is 0)",
+            "example": 0
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            },
+            "required": false,
+            "description": "Maximum number of records to return (1-100, default is 10)",
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved daily statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/DailyStats"
+                      },
+                      "description": "Array of daily statistics records"
+                    },
+                    "total": {
+                      "type": "integer",
+                      "description": "Total number of statistics records available",
+                      "example": 365
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Example response with statistics",
+                    "value": {
+                      "data": [
+                        {
+                          "id": 3,
+                          "stat_date": "2025-11-05",
+                          "registrations": 12,
+                          "words_progress_saved": 150,
+                          "unique_users_progress": 45,
+                          "words_progress_easy": 50,
+                          "words_progress_medium": 60,
+                          "words_progress_hard": 40,
+                          "games_finished": 0,
+                          "games_finished_easy": 0,
+                          "games_finished_medium": 0,
+                          "games_finished_hard": 0,
+                          "users_completed_platform": 0,
+                          "created_at": "2025-11-06T02:00:00.000Z"
+                        },
+                        {
+                          "id": 2,
+                          "stat_date": "2025-11-04",
+                          "registrations": 8,
+                          "words_progress_saved": 120,
+                          "unique_users_progress": 38,
+                          "words_progress_easy": 40,
+                          "words_progress_medium": 50,
+                          "words_progress_hard": 30,
+                          "games_finished": 0,
+                          "games_finished_easy": 0,
+                          "games_finished_medium": 0,
+                          "games_finished_hard": 0,
+                          "users_completed_platform": 0,
+                          "created_at": "2025-11-05T02:00:00.000Z"
+                        }
+                      ],
+                      "total": 365
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid pagination parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid pagination parameters. Offset must be >= 0, limit must be between 1 and 100"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -916,6 +1040,93 @@
             "format": "date-time"
           }
         }
+      },
+      "DailyStats": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the daily stats record",
+            "example": 1
+          },
+          "stat_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date for which statistics were collected (YYYY-MM-DD)",
+            "example": "2025-11-05"
+          },
+          "registrations": {
+            "type": "integer",
+            "description": "Number of new user registrations on this date",
+            "example": 12
+          },
+          "words_progress_saved": {
+            "type": "integer",
+            "description": "Total number of word progress records saved (ProgressPs + ProgressPp)",
+            "example": 150
+          },
+          "unique_users_progress": {
+            "type": "integer",
+            "description": "Number of unique users who saved progress on this date",
+            "example": 45
+          },
+          "words_progress_easy": {
+            "type": "integer",
+            "description": "Number of progress records for easy level words",
+            "example": 50
+          },
+          "words_progress_medium": {
+            "type": "integer",
+            "description": "Number of progress records for medium level words",
+            "example": 60
+          },
+          "words_progress_hard": {
+            "type": "integer",
+            "description": "Number of progress records for hard level words",
+            "example": 40
+          },
+          "games_finished": {
+            "type": "integer",
+            "description": "Total number of games finished on this date",
+            "example": 0
+          },
+          "games_finished_easy": {
+            "type": "integer",
+            "description": "Number of easy level games finished",
+            "example": 0
+          },
+          "games_finished_medium": {
+            "type": "integer",
+            "description": "Number of medium level games finished",
+            "example": 0
+          },
+          "games_finished_hard": {
+            "type": "integer",
+            "description": "Number of hard level games finished",
+            "example": 0
+          },
+          "users_completed_platform": {
+            "type": "integer",
+            "description": "Number of users who completed the entire platform",
+            "example": 0
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when this stats record was created",
+            "example": "2025-11-06T02:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "stat_date",
+          "registrations",
+          "words_progress_saved",
+          "unique_users_progress",
+          "words_progress_easy",
+          "words_progress_medium",
+          "words_progress_hard"
+        ]
       },
       "Feedback": {
         "type": "object",
