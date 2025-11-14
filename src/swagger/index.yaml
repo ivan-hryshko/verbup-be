@@ -27,6 +27,9 @@ paths:
   /auth/login:
     post:
       $ref: './paths/auth/login.yaml'
+  /auth/verify-email:
+    get:
+      $ref: './paths/auth/verify-email.yaml'
   /auth/refresh:
     post:
       $ref: './paths/auth/refresh.yaml'

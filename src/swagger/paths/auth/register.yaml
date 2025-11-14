@@ -3,9 +3,8 @@ tags:
 summary: Register user
 description: >
   Register a new user with email and password.  
-  Upon successful registration, the user is automatically logged in.  
-  Access Token is returned in the response body.  
-  Refresh Token is set in an HttpOnly cookie via the `Set Cookie` header.
+  Upon successful registration server send a verification email to the user with verification link.
+  Link live-time is 30 days.
 requestBody:
   required: true
   content:
@@ -28,19 +27,14 @@ requestBody:
 responses:
   '201':
     description: Successful registration
-    headers:
-      Set Cookie:
-        description: HttpOnly cookie with Refresh Token
-        schema:
-          type: string
-          example: Refresh Token - eyJhbGciJIUzI1NiIsInR5iOi...
     content:
       application/json:
         schema:
           type: object
           properties:
-            user:
-              $ref: ../../components/schemas/User.yaml
+            message:
+              type: string
+              example: User created. Please check email to verify account.
   '409':
     $ref: ../../components/responses/409.yaml
   '400':
