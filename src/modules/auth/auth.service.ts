@@ -91,4 +91,9 @@ export class AuthService implements IAuthService {
       user: publicUser,
     }
   }
+
+  async logout(refreshToken: string) {
+    await this.sessionService.deleteByRefreshToken(refreshToken)
+    return { message: 'Logout successful' }
+  }
 }

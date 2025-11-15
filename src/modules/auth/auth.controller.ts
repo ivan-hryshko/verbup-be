@@ -41,6 +41,13 @@ export class AuthController {
     res.status(200).json({ message: 'Login successfull', accessToken, user })
   }
 
+  logout = async (req: Request, res: Response): Promise<void> => {
+    const refreshToken = req.cookies?.refreshToken
+    const result = await this.authService.logout(refreshToken)
+    res.clearCookie('refreshToken')
+    res.status(200).json(result)
+  }
+
   refresh = async (req: Request, res: Response): Promise<void> => {
     const refreshToken = req.cookies?.refreshToken
     if (!refreshToken) {

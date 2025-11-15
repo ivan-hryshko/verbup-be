@@ -7,7 +7,8 @@ export interface ISessionRepository {
   findByRefreshToken(refreshToken: string): Promise<SessionEntity | null>
   findByUserId(userId: number): Promise<SessionEntity | null>
   save(session: SessionEntity): Promise<SessionEntity>
-  //   delete(expiresAt: Date): Promise<void>
+  delete(id: number): Promise<void>
+  //   deleteAll(expiresAt: Date): Promise<void>
 }
 
 export class SessionRepository implements ISessionRepository {
@@ -40,7 +41,11 @@ export class SessionRepository implements ISessionRepository {
     })
   }
 
-  //   async delete(expiresAt: Date): Promise<void> {
+  async delete(id: number): Promise<void> {
+    await this.sessionRepo.delete(id)
+  }
+
+  //   async deleteAll(expiresAt: Date): Promise<void> {
   //     return this.sessionRepo.delete({ expiresAt })
   //   }
 }
