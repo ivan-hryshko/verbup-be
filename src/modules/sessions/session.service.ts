@@ -8,6 +8,7 @@ import { SessionRepository } from './session.repository'
 export interface ISessionService {
   create(userId: number, currentRefreshToken?: string): Promise<SessionEntity>
   refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }>
+  deleteByRefreshToken(refreshToken: string): Promise<void>
   // cleanExpiredSessions(): Promise<void>
 }
 
@@ -57,6 +58,16 @@ export class SessionService implements ISessionService {
     }
   }
 
+  async deleteByRefreshToken(refreshToken: string): Promise<void> {
+    const session = await this.sessionRepo.findByRefreshToken(refreshToken)
+    if (session) {
+      await this.sessionRepo.delete(session.id)
+    }
+    if (!session) {
+      throw createHttpError(404, 'Session not found')
+    }
+    return
+  }
   //  async cleanExpiredSessions(): Promise<void> {
   //   await this.sessionRepo.delete({
   //     expiresAt: LessThan(new Date()),
