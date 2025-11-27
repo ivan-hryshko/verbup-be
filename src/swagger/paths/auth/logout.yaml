@@ -1,0 +1,21 @@
+tags:
+  - Auth
+summary: Logout user
+description: Logs out the user by invalidating the refresh token stored in an HttpOnly cookie. The refresh token cookie is automatically sent by the browser and cleared upon logout.
+responses:
+  '200':
+    description: Successful logout
+    headers:
+      Set Cookie:
+        description: Clears the refreshToken cookie
+        schema:
+          type: string
+          example: refreshToken=; Max-Age=0
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Logout successful
