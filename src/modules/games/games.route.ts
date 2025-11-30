@@ -8,5 +8,6 @@ const gamesController = new GamesController()
 
 router.get('/words', ctrlWrapper(gamesController.getWords))
 router.get('/start', ctrlWrapper(gamesController.startTraining))
+router.post('/end', ctrlWrapper(gamesController.endTraining))
 
 export default router

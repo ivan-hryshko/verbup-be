@@ -34,3 +34,20 @@ export interface ValidatedStartTrainingDto {
   mode: TrainingMode
   type: TrainingType
 }
+
+export interface EndTrainingWordDto {
+  wordId: number
+  correct: boolean
+}
+
+export interface EndTrainingDto {
+  trainingId?: string | number
+  userId?: number | null
+  words?: EndTrainingWordDto[]
+}
+
+export interface ValidatedEndTrainingDto {
+  trainingId: number
+  userId: number
+  words: EndTrainingWordDto[]
+}
