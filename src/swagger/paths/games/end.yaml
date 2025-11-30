@@ -1,0 +1,65 @@
+post:
+  summary: End a training session
+  description: Completes a training session by submitting the results for each word and updating user progress.
+  security:
+    - BearerAuth: []
+  tags:
+    - Games
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - trainingId
+            - words
+          properties:
+            trainingId:
+              type: integer
+              description: The unique identifier for the training session.
+              example: 123
+            words:
+              type: array
+              description: The list of words with their results.
+              items:
+                type: object
+                required:
+                  - wordId
+                  - correct
+                properties:
+                  wordId:
+                    type: integer
+                    description: The unique identifier of the word.
+                    example: 1
+                  correct:
+                    type: boolean
+                    description: Whether the user answered correctly for this word.
+                    example: true
+  responses:
+    '200':
+      description: Training session completed successfully.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates if the operation was successful.
+                    example: true
+                  progressUpdated:
+                    type: integer
+                    description: The number of progress records updated.
+                    example: 5
+    '400':
+      description: Invalid or missing parameters, or training already completed.
+    '401':
+      description: Unauthorized - Invalid or missing authentication token.
+    '403':
+      description: Forbidden - Training does not belong to this user.
+    '404':
+      description: Training or user not found.
