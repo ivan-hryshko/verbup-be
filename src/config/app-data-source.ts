@@ -7,6 +7,8 @@ import { ProgressPsEntity } from '../modules/progress/progress-ps/progress-ps.en
 import { ProgressPpEntity } from '../modules/progress/progress-pp/progress-pp.entity'
 import { FeedbackEntity } from '../modules/feedback/feedback.entity'
 import { DailyStatsEntity } from '../modules/statistics/daily-stats.entity'
+import { TrainingEntity } from '../modules/trainings/trainings.entity'
+import { TrainingWordEntity } from '../modules/trainings/training-words.entity'
 
 const entities = [
   UserEntity,
@@ -16,6 +18,8 @@ const entities = [
   ProgressPpEntity,
   FeedbackEntity,
   DailyStatsEntity,
+  TrainingEntity,
+  TrainingWordEntity,
 ]
 
 let appDataSource: DataSource

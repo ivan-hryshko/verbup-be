@@ -10,6 +10,7 @@ import {
 import { SessionEntity } from '../sessions/session.entity'
 import { ProgressPsEntity } from '../progress/progress-ps/progress-ps.entity'
 import { ProgressPpEntity } from '../progress/progress-pp/progress-pp.entity'
+import { TrainingEntity } from '../trainings/trainings.entity'
 
 @Entity({ name: 'users' })
 @Unique(['email'])
@@ -49,6 +50,9 @@ export class UserEntity {
 
   @OneToMany(() => ProgressPpEntity, (pp) => pp.user)
   progressPp: ProgressPpEntity[]
+
+  @OneToMany(() => TrainingEntity, (training) => training.user)
+  trainings: TrainingEntity[]
 
   @CreateDateColumn()
   created_at: Date
