@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Unique, Column, OneToMany } from 'typeorm'
 import { ProgressPsEntity } from '../progress/progress-ps/progress-ps.entity'
 import { ProgressPpEntity } from '../progress/progress-pp/progress-pp.entity'
+import { TrainingWordEntity } from '../trainings/training-words.entity'
 
 @Entity({ name: 'irr_words' })
 @Unique(['wordGroupId', 'basic']) // this enforces uniqueness; creates index automatically
@@ -43,4 +44,7 @@ export class IrrWordEntity {
 
   @OneToMany(() => ProgressPpEntity, (pp) => pp.word)
   progressPp: ProgressPpEntity[]
+
+  @OneToMany(() => TrainingWordEntity, (trainingWord) => trainingWord.irrWord)
+  trainingWords: TrainingWordEntity[]
 }

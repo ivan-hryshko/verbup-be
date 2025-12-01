@@ -608,7 +608,7 @@
               ]
             },
             "required": true,
-            "description": "The type of the words, only past simple, past participle ot both."
+            "description": "The type of the words, only past simple, past participle or both."
           }
         ],
         "responses": {
@@ -637,6 +637,228 @@
           },
           "400": {
             "description": "Invalid or missing parameters."
+          }
+        }
+      }
+    },
+    "/games/start": {
+      "get": {
+        "summary": "Start a training session",
+        "description": "Initiates a new training session and returns words for the user to practice.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "Games"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "level",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "easy",
+                "medium",
+                "hard"
+              ]
+            },
+            "required": true,
+            "description": "The difficulty level of the training."
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 5
+            },
+            "required": true,
+            "description": "The number of words for the training session."
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en",
+                "uk"
+              ]
+            },
+            "required": true,
+            "description": "The language of the training."
+          },
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ps",
+                "pp",
+                "mixed"
+              ]
+            },
+            "required": true,
+            "description": "The mode of the training (past simple, past participle, or mixed)."
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "verb_test",
+                "verb_spell",
+                "basic_words",
+                "verb_sentence"
+              ]
+            },
+            "required": true,
+            "description": "The type of the training game."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Training session started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "trainingId": {
+                          "type": "integer",
+                          "description": "The unique identifier for the training session.",
+                          "example": 123
+                        },
+                        "words": {
+                          "type": "array",
+                          "description": "The list of words for this training session.",
+                          "items": {
+                            "$ref": "#/components/schemas/GameWord"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing parameters."
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing authentication token."
+          },
+          "404": {
+            "description": "User not found."
+          }
+        }
+      }
+    },
+    "/games/end": {
+      "post": {
+        "summary": "End a training session",
+        "description": "Completes a training session by submitting the results for each word and updating user progress.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "Games"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "trainingId",
+                  "words"
+                ],
+                "properties": {
+                  "trainingId": {
+                    "type": "integer",
+                    "description": "The unique identifier for the training session.",
+                    "example": 123
+                  },
+                  "words": {
+                    "type": "array",
+                    "description": "The list of words with their results.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "wordId",
+                        "correct"
+                      ],
+                      "properties": {
+                        "wordId": {
+                          "type": "integer",
+                          "description": "The unique identifier of the word.",
+                          "example": 1
+                        },
+                        "correct": {
+                          "type": "boolean",
+                          "description": "Whether the user answered correctly for this word.",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Training session completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "description": "Indicates if the operation was successful.",
+                          "example": true
+                        },
+                        "progressUpdated": {
+                          "type": "integer",
+                          "description": "The number of progress records updated.",
+                          "example": 5
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing parameters, or training already completed."
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing authentication token."
+          },
+          "403": {
+            "description": "Forbidden - Training does not belong to this user."
+          },
+          "404": {
+            "description": "Training or user not found."
           }
         }
       }
