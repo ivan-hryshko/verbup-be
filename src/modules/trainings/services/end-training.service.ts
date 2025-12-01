@@ -69,6 +69,10 @@ export class EndTrainingService {
       throw createHttpError(404, `Training with id: ${trainingId} not found`)
     }
 
+    if (training.endTime) {
+      throw createHttpError(400, 'Training already completed')
+    }
+
     const endTime = new Date()
     await this.trainingsRepository.updateEndTime(trainingId, endTime)
 

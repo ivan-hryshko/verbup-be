@@ -411,6 +411,22 @@ describe('EndTrainingService', () => {
       expect(mockProgressService.save).toHaveBeenCalled()
     })
 
+    it('should throw error if training already completed in execute', async () => {
+      mockUsersRepo.findById.mockResolvedValue(mockUser)
+      mockTrainingsRepo.findById.mockResolvedValue({
+        ...mockTraining,
+        endTime: new Date(),
+      })
+
+      await expect(
+        service.execute({
+          trainingId: 1,
+          userId: 1,
+          words: [{ wordId: 1, correct: true }],
+        }),
+      ).rejects.toThrow('Training already completed')
+    })
+
     it('should check training exists before and after update', async () => {
       mockUsersRepo.findById.mockResolvedValue(mockUser)
       mockTrainingsRepo.findById.mockResolvedValue(mockTraining)
