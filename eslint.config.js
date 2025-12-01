@@ -27,6 +27,18 @@ module.exports = [
       prettier: prettierPlugin,
     },
     rules: {
+      // TypeScript
+      '@typescript-eslint/no-explicit-any': 'off',
+      // '@typescript-eslint/no-magic-numbers': [
+      //   'error',
+      //   {
+      //     ignore: [0, 1, -1],
+      //     ignoreArrayIndexes: true,
+      //     ignoreDefaultValues: true,
+      //     ignoreEnums: true,
+      //   },
+      // ],
+
       // Airbnb style rules
       'import/no-unresolved': 'error',
       'import/named': 'error',
