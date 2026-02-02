@@ -18,6 +18,10 @@ const startServer = async () => {
     dailyStatsService.startCollectStats('0 2 * * *')
     console.log('📊 Daily stats cron job initialized (runs at 2:00 AM)')
 
+    // Initialize daily statistics notification cron (runs at 9:00 AM)
+    dailyStatsService.startStatsNotification('0 9 * * *')
+    console.log('📤 Daily stats notification cron job initialized (runs at 9:00 AM)')
+
     app.listen(ENVS.PORT, () => {
       console.log(`VerbUp app listening at http://localhost:${ENVS.PORT}`)
     })

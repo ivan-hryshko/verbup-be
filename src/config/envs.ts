@@ -23,6 +23,7 @@ const FRONTEND_ORIGIN = getRequiredEnvVar('FRONTEND_ORIGIN', '')
 const SLACK_SIGNIN_SECRET = getRequiredEnvVar('SLACK_SIGNIN_SECRET', '')
 const SLACK_BOT_TOCKEN = getRequiredEnvVar('SLACK_BOT_TOCKEN', '')
 const SLACK_CHANNEL = getRequiredEnvVar('SLACK_CHANNEL', '')
+const SLACK_LOGS_CHANNEL = getRequiredEnvVar('SLACK_LOGS_CHANNEL', 'logs')
 const BREVO_SMTP_USER = getRequiredEnvVar('BREVO_SMTP_USER', '')
 const BREVO_SMTP_PASSWORD = getRequiredEnvVar('BREVO_SMTP_PASSWORD', '')
 
@@ -54,6 +55,7 @@ const ENVS = {
   SLACK_SIGNIN_SECRET,
   SLACK_BOT_TOCKEN,
   SLACK_CHANNEL,
+  SLACK_LOGS_CHANNEL,
 }
 
 export default ENVS

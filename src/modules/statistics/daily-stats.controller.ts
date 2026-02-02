@@ -25,4 +25,35 @@ export class DailyStatsController {
     const result = await this.service.getStats(offset, limit)
     res.status(200).json(result)
   }
+
+  collectStatsManual = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const stats = await this.service.collectStats()
+      res.status(200).json({
+        success: true,
+        message: 'Stats collection completed',
+        stats,
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      })
+    }
+  }
+
+  sendNotificationManual = async (req: Request, res: Response): Promise<void> => {
+    try {
+      await this.service.sendStatsNotification()
+      res.status(200).json({
+        success: true,
+        message: 'Notification sent successfully',
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      })
+    }
+  }
 }
