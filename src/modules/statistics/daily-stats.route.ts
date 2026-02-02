@@ -6,5 +6,7 @@ const router = Router()
 const dailyStatsController = new DailyStatsController()
 
 router.get('/', ctrlWrapper(dailyStatsController.getStats))
+// router.post('/collect', ctrlWrapper(dailyStatsController.collectStatsManual))
+// router.post('/notify', ctrlWrapper(dailyStatsController.sendNotificationManual))
 
 export default router
