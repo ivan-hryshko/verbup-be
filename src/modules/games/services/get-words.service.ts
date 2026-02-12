@@ -85,7 +85,7 @@ export class GetWordService {
     const finalWords = this.combineAndLimitWords(
       wordSelection.priorityWords,
       wordSelection.fillerWords,
-      validatedDto.count
+      validatedDto.count,
     )
 
     return this.formatWords(finalWords)
@@ -104,7 +104,7 @@ export class GetWordService {
       IrrWordType.PS,
       level,
       lang,
-      userId
+      userId,
     )
 
     let priorityWords = [...wordsWithPpProgress]
@@ -116,7 +116,7 @@ export class GetWordService {
         IrrWordType.PS,
         level,
         lang,
-        userId
+        userId,
       )
       priorityWords = this.mergeWithoutDuplicates(priorityWords, wordsWithPsProgress)
     }
@@ -128,7 +128,7 @@ export class GetWordService {
       level,
       lang,
       userId,
-      count
+      count,
     )
 
     return { priorityWords, fillerWords }
@@ -147,7 +147,7 @@ export class GetWordService {
       IrrWordType.PP,
       level,
       lang,
-      userId
+      userId,
     )
 
     let priorityWords = [...wordsWithPsProgress]
@@ -159,7 +159,7 @@ export class GetWordService {
         IrrWordType.PP,
         level,
         lang,
-        userId
+        userId,
       )
       priorityWords = this.mergeWithoutDuplicates(priorityWords, wordsWithPpProgress)
     }
@@ -171,7 +171,7 @@ export class GetWordService {
       level,
       lang,
       userId,
-      count
+      count,
     )
 
     return { priorityWords, fillerWords }
@@ -226,7 +226,7 @@ export class GetWordService {
     returnType: IrrWordType,
     level: IrrWordLevel,
     lang: IrrWordLang,
-    userId: number
+    userId: number,
   ): Promise<GameWord[]> {
     return this.irrWordRepo.getWordsByProgressStatus(
       progressType,
@@ -234,7 +234,7 @@ export class GetWordService {
       level,
       lang,
       userId,
-      this.PROGRESS_STATUSES
+      this.PROGRESS_STATUSES,
     )
   }
 
@@ -248,14 +248,19 @@ export class GetWordService {
     level: IrrWordLevel,
     lang: IrrWordLang,
     userId: number,
-    count: number
+    count: number,
   ): Promise<GameWord[]> {
     if (priorityWords.length >= count) {
       return []
     }
 
     // Try not learned words first
-    const notLearnedWords = await this.irrWordRepo.getNotLearnedWordsByType(type, level, lang, userId)
+    const notLearnedWords = await this.irrWordRepo.getNotLearnedWordsByType(
+      type,
+      level,
+      lang,
+      userId,
+    )
     const filtered = this.filterExistingWords(notLearnedWords, priorityWords)
 
     if (filtered.length > 0 || priorityWords.length > 0) {
@@ -272,7 +277,7 @@ export class GetWordService {
   private combineAndLimitWords(
     priorityWords: GameWord[],
     fillerWords: GameWord[],
-    count: number
+    count: number,
   ): GameWord[] {
     const remainingSlots = count - priorityWords.length
     const shuffledFillers = this.shuffleArray(fillerWords).slice(0, remainingSlots)
