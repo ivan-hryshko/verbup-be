@@ -60,7 +60,10 @@ export class ProgressService {
         throw createHttpError(400, `Invalid type: ${word.type} at word: ${word}`)
       }
       if (typeof word?.correct !== 'boolean') {
-        throw createHttpError(400, `Invalid param "correct": ${word?.correct} at word: ${JSON.stringify(word)}`)
+        throw createHttpError(
+          400,
+          `Invalid param "correct": ${word?.correct} at word: ${JSON.stringify(word)}`,
+        )
       }
     }
   }
@@ -83,7 +86,7 @@ export class ProgressService {
         words: [{ wordId: word.wordId, status: word.status }],
       }
       await this.progressRepository.saveProgress(word.type, saveParams)
-      return { wordId: word.wordId, status:  word.status, type: word.type }
+      return { wordId: word.wordId, status: word.status, type: word.type }
     })
     const result = await Promise.all(saveProgresPromises)
     return result
@@ -100,9 +103,9 @@ export class ProgressService {
       if (status === ProgressStatus.MISTAKE) {
         newStatus = ProgressStatus.IN_PROGRESS
       } else if (status === ProgressStatus.IN_PROGRESS) {
-        newStatus =  ProgressStatus.STUDIED
+        newStatus = ProgressStatus.STUDIED
       } else if (status === ProgressStatus.STUDIED) {
-        newStatus =  ProgressStatus.STUDIED
+        newStatus = ProgressStatus.STUDIED
       }
     } else {
       newStatus = ProgressStatus.MISTAKE
@@ -134,9 +137,15 @@ export class ProgressService {
     await this.validateList(dto)
     const { userId } = dto
 
-    const progressPs = await this.progressPsRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
-    const progressPp = await this.progressPpRepository.getProgressByStatus(userId, ProgressStatus.STUDIED)
-    
+    const progressPs = await this.progressPsRepository.getProgressByStatus(
+      userId,
+      ProgressStatus.STUDIED,
+    )
+    const progressPp = await this.progressPpRepository.getProgressByStatus(
+      userId,
+      ProgressStatus.STUDIED,
+    )
+
     return {
       general: this.calculateProgressByLevel(progressPs, progressPp),
       easy: this.calculateProgressByLevel(progressPs, progressPp, IrrWordLevelEnum.EASY),
@@ -145,21 +154,25 @@ export class ProgressService {
     }
   }
 
-  calculateProgressByLevel(progressPs: ProgressPsEntity[], progressPp: ProgressPpEntity[], level?: IrrWordLevelEnum) {
+  calculateProgressByLevel(
+    progressPs: ProgressPsEntity[],
+    progressPp: ProgressPpEntity[],
+    level?: IrrWordLevelEnum,
+  ) {
     let psWords = progressPs
     let ppWords = progressPp
 
     if (level) {
-      psWords = progressPs.filter(p => p.word.level === level)
-      ppWords = progressPp.filter(p => p.word.level === level)
+      psWords = progressPs.filter((p) => p.word.level === level)
+      ppWords = progressPp.filter((p) => p.word.level === level)
     }
 
     let generalTotal = 0
 
-    const psWordIds = psWords.map(p => p.word.id)
-    const ppWordIds = ppWords.map(p => p.word.id)
+    const psWordIds = psWords.map((p) => p.word.id)
+    const ppWordIds = ppWords.map((p) => p.word.id)
 
-    ppWordIds.forEach(id => {
+    ppWordIds.forEach((id) => {
       if (psWordIds.includes(id)) {
         generalTotal = generalTotal + 1
       }
@@ -168,7 +181,7 @@ export class ProgressService {
     return {
       ps: psWords.length,
       pp: ppWords.length,
-      total: generalTotal
+      total: generalTotal,
     }
   }
 }

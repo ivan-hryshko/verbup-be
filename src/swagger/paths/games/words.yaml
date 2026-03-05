@@ -34,7 +34,7 @@ get:
         type: string
         enum: [ps, pp, mixed]
       required: true
-      description: The type of the words, only past simple, past participle ot both.
+      description: The type of the words, only past simple, past participle or both.
   responses:
     '200':
       description: A list of words for the game.
@@ -49,6 +49,6 @@ get:
                   words:
                     type: array
                     items:
-                      $ref: '../components/schemas/GameWord.yaml'
+                      $ref: '../../components/schemas/GameWord.yaml'
     '400':
       description: Invalid or missing parameters.

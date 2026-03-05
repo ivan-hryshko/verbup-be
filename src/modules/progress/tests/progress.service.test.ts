@@ -34,6 +34,7 @@ describe('ProgressService', () => {
     sessions: [],
     progressPs: [],
     progressPp: [],
+    trainings: [],
     created_at: new Date(),
     updated_at: new Date(),
   }

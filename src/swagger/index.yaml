@@ -53,7 +53,11 @@ paths:
     # get:
     #   $ref: './patch/feedback/getAll.yaml'
   /games/words:
-    $ref: './paths/games.yaml'
+    $ref: './paths/games/words.yaml'
+  /games/start:
+    $ref: './paths/games/start.yaml'
+  /games/end:
+    $ref: './paths/games/end.yaml'
   /irr-words/{lang}/list:
     get:
       $ref: './paths/irr-words/list.yaml'
